@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "425957488645",
+    "firebase_url": "https://footprint-9c660.firebaseio.com",
+    "project_id": "footprint-9c660",
+    "storage_bucket": "footprint-9c660.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425957488645:android:9e347f1942faa123f0446c",
+        "android_client_info": {
+          "package_name": "com.gachon.footprint"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425957488645-4jv23ah9mlt08mee0mst3jalri763g8g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gachon.footprint",
+            "certificate_hash": "4a549f24e53843890cd0cfd4897e875a69dd1123"
+          }
+        },
+        {
+          "client_id": "425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABT8IEJas5EbevbO8ZgHhkDp7KRdY67uw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
