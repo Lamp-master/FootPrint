@@ -25,7 +25,7 @@
         </include>
 
         <TextView
-            android:id="@+id/find_password_button"
+            android:id="@+id/login_information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Log in with a different account"

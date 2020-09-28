@@ -63,7 +63,7 @@
             android:theme="@style/ButtonStyle" />
 
         <Button
-            android:id="@+id/other_email_login_button"
+            android:id="@+id/another_account_login_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
