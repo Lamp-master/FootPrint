@@ -1,5 +1,6 @@
 package com.gachon.footprint
 
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -36,6 +37,7 @@ class LoginActivity : AppCompatActivity() {
     private var callbackManager: CallbackManager? = null
     private var fbfirestore: FirebaseFirestore? = null
     var userInfo = ModelUser()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -46,14 +48,12 @@ class LoginActivity : AppCompatActivity() {
         email_login_button.setOnClickListener {
             signinAndSignup()
         }
-        google_sign_in_button.setOnClickListener {
-            //구글 첫번째
-            googleLogin()
+
+        account_login_button.setOnClickListener {
+            // 액티비티 팝업 창이 뜬다.
+            // 다른 레이아웃으로 넘어간다.
         }
-        facebook_login_button.setOnClickListener {
-            //페이스북 첫번째
-            facebookLogin()
-        }
+
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com")
             .requestEmail()
@@ -70,7 +70,6 @@ class LoginActivity : AppCompatActivity() {
             fbfirestore?.collection("User")?.document(auth?.uid.toString())?.set(userInfo)
         }
     }
-
 
     //region facebook hashkey
     fun printHashKey() {
@@ -141,6 +140,7 @@ class LoginActivity : AppCompatActivity() {
             }
     }
     //endregion
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

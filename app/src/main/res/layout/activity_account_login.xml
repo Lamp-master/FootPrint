@@ -28,7 +28,7 @@
             android:id="@+id/login_information"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Log in with a different account"
+            android:text="Login with a different account"
             android:layout_alignParentBottom="true"
             android:layout_gravity="center"
             android:layout_marginBottom="24dp"
