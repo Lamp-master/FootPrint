@@ -22,6 +22,7 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
 import timber.log.Timber
 import java.security.MessageDigest
@@ -33,7 +34,8 @@ class LoginActivity : AppCompatActivity() {
     private var googleSignInClient: GoogleSignInClient? = null
     private var GOOGLE_LOGIN_CODE = 9001
     private var callbackManager: CallbackManager? = null
-
+    private var fbfirestore: FirebaseFirestore? = null
+    var userInfo = ModelUser()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
@@ -59,7 +61,16 @@ class LoginActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
         // printHashKey()
         callbackManager = CallbackManager.Factory.create()
-    } // 페이스북 Hash 값 : ZNHQWY2e5GfJJWjgerEPCatjaTI=
+        // 페이스북 Hash 값 : ZNHQWY2e5GfJJWjgerEPCatjaTI=
+
+        //현근 - 구글/페북 이메일,uid 정보 Firestore 전송
+        if (true) {
+            userInfo.userId = auth?.uid
+            userInfo.userEmail = auth?.currentUser?.email
+            fbfirestore?.collection("User")?.document(auth?.uid.toString())?.set(userInfo)
+        }
+    }
+
 
     //region facebook hashkey
     fun printHashKey() {

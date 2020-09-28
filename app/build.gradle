@@ -6,6 +6,11 @@ apply plugin: 'com.google.gms.google-services'
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.2"
+    //ARCore Java 권한 설정
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 
     defaultConfig {
         applicationId "com.gachon.footprint"
@@ -61,4 +66,11 @@ dependencies {
     //Material Design
     //noinspection GradleCompatible
     implementation 'com.android.support:design:27.0.2'
+    //0928-현근
+    // ARCore 세션 제공 및 관련 리소스 제공
+    implementation 'com.google.ar:core:1.15.0'
+    // AR 프레그먼트 와 UX 디자인 소스 제공
+    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.15.0'
+    // UX dependency 없이 ArsceneView 제공
+    implementation 'com.google.ar.sceneform:core:1.15.0'
 }
