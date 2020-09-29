@@ -46,7 +46,7 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         email_login_button.setOnClickListener {
-            signinAndSignup()
+            loginEmail()
         }
 
         account_login_button.setOnClickListener {
@@ -174,42 +174,66 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    //region email login method
-    fun signinAndSignup() {
+    //0930현근-회원가입과 회원로그인 이분화함
+    //1. 이미 저장된 이메일을 이미 사용하고 있는 에러로 받아들임
+    //2. 로그인 화면 : 회원로그인만/회원가입레이아웃을 추가 : 회원가입이 자연스러울 듯
+    //연동 성공
+    fun signInWithEmailAndPassword() {
         auth?.createUserWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
         )?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                // 새 계정 만듬
+                //회원가입성공
+                val User = auth?.currentUser
+                Toast.makeText(this,"회원가입 성공",Toast.LENGTH_SHORT).show()
                 moveMainPage(task.result?.user)
             } else if (task.exception?.message.isNullOrEmpty()) {
-                // 에러 메세지 출력
+                // 에러 메세지 출력(양식오류/빈칸/DB내 ID 존재하지 않음)
                 Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
             } else {
-                signinEmail()
-                // login if you have account
+                createEmail()
+                // 회원가입
             }
         }
     }
-    //endregion
 
-    //region emaillogin
-    private fun signinEmail() {
+
+    //이메일 계정 생성
+    private fun createEmail() {
         auth?.createUserWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
         )?.addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                //login
+                //계정생성 완료 후 메인페이지
+                var user = auth?.currentUser
+                Toast.makeText(this,"회원가입 성공",Toast.LENGTH_SHORT).show()
                 moveMainPage(task.result?.user)
             } else {
-                //에러 메세지
+                //에러 메세지(중복 이메일/빈 칸/양식오류)
                 Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
             }
         }
     }
-    //endregion
+    //이메일 로그인
+    private fun loginEmail(){
+        auth?.signInWithEmailAndPassword(
+            email_edittext.text.toString(),
+            password_edittext.text.toString()
+        )?.addOnCompleteListener(this){
+                if(it.isSuccessful) {
+                    //인증 성공
+                    Toast.makeText(this, "인증성공", Toast.LENGTH_SHORT).show()
+                    var user = auth?.currentUser
+                    moveMainPage(it.result?.user)
+                }else{
+                    //인증 실패시
+                    Toast.makeText(this,"인증실패",Toast.LENGTH_SHORT).show()
+
+                }
+            }
+    }
 
     private fun moveMainPage(user: FirebaseUser?) {
         if (user != null) {
