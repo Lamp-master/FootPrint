@@ -13,7 +13,7 @@ class CashFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_cash,container,false)
+        var view = LayoutInflater.from(activity).inflate(R.layout.fragment_cash, container, false)
         return view
     }
 }

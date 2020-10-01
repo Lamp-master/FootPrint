@@ -1,6 +1,5 @@
 package com.gachon.footprint
 
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -14,6 +13,7 @@ import com.facebook.FacebookCallback
 import com.facebook.FacebookException
 import com.facebook.login.LoginManager
 import com.facebook.login.LoginResult
+import com.gachon.footprint.data.ModelUser
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
-import timber.log.Timber
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 import java.util.*
@@ -41,12 +40,10 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-
-        Timber.plant(Timber.DebugTree())
-
         auth = FirebaseAuth.getInstance()
         email_login_button.setOnClickListener {
-            loginEmail()
+            createEmail()
+            //loginEmail() 나중에 loginEmail()로 체인지
         }
 
         account_login_button.setOnClickListener {
@@ -186,7 +183,7 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 //회원가입성공
                 val User = auth?.currentUser
-                Toast.makeText(this,"회원가입 성공",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                 moveMainPage(task.result?.user)
             } else if (task.exception?.message.isNullOrEmpty()) {
                 // 에러 메세지 출력(양식오류/빈칸/DB내 ID 존재하지 않음)
@@ -208,7 +205,7 @@ class LoginActivity : AppCompatActivity() {
             if (task.isSuccessful) {
                 //계정생성 완료 후 메인페이지
                 var user = auth?.currentUser
-                Toast.makeText(this,"회원가입 성공",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
                 moveMainPage(task.result?.user)
             } else {
                 //에러 메세지(중복 이메일/빈 칸/양식오류)
@@ -216,23 +213,24 @@ class LoginActivity : AppCompatActivity() {
             }
         }
     }
+
     //이메일 로그인
-    private fun loginEmail(){
+    private fun loginEmail() {
         auth?.signInWithEmailAndPassword(
             email_edittext.text.toString(),
             password_edittext.text.toString()
-        )?.addOnCompleteListener(this){
-                if(it.isSuccessful) {
-                    //인증 성공
-                    Toast.makeText(this, "인증성공", Toast.LENGTH_SHORT).show()
-                    var user = auth?.currentUser
-                    moveMainPage(it.result?.user)
-                }else{
-                    //인증 실패시
-                    Toast.makeText(this,"인증실패",Toast.LENGTH_SHORT).show()
+        )?.addOnCompleteListener(this) {
+            if (it.isSuccessful) {
+                //인증 성공
+                Toast.makeText(this, "인증성공", Toast.LENGTH_SHORT).show()
+                var user = auth?.currentUser
+                moveMainPage(it.result?.user)
+            } else {
+                //인증 실패시
+                Toast.makeText(this, "인증실패", Toast.LENGTH_SHORT).show()
 
-                }
             }
+        }
     }
 
     private fun moveMainPage(user: FirebaseUser?) {

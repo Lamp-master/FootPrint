@@ -1,5 +1,6 @@
 package com.gachon.footprint
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
@@ -13,34 +14,42 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when(p0.itemId) {
-            R.id.action_home ->{
+        when (p0.itemId) {
+            R.id.action_home -> {
                 var detailViewFragment = DetailViewFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, detailViewFragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, detailViewFragment).commit()
                 return true
             }
-            R.id.action_user ->{
+            R.id.action_user -> {
                 var userFragment = UserFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment)
+                    .commit()
                 return true
             }
-            R.id.action_cash ->{
+            R.id.action_cash -> {
                 var cashFragment = CashFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, cashFragment).commit()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, cashFragment)
+                    .commit()
                 return true
             }
-            R.id.action_setting ->{
+            R.id.action_setting -> {
                 var settingFragment = SettingFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, settingFragment).commit()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, settingFragment).commit()
                 return true
             }
         }
         return false
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bottom_navigation.setOnNavigationItemSelectedListener(this)
+        ar_test.setOnClickListener {
+            startActivity(Intent(this, CameraActivity::class.java))
+        }
     }
 
 }
