@@ -10,6 +10,7 @@ import com.gachon.footprint.navigation.SettingFragment
 import com.gachon.footprint.navigation.UserFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(p0: MenuItem): Boolean {
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         bottom_navigation.setOnNavigationItemSelectedListener(this)
+
+        bottom_navigation.selectedItemId=R.id.action_home
 
         google_map_start.setOnClickListener {
             startActivity(Intent(this, MapActivity::class.java))
