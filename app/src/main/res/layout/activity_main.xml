@@ -21,11 +21,22 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <Button
+        <!--발자취 남기기 시작 버튼-->
+        <!-- <Button
             android:id="@+id/ar_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ar테스트" />
+            android:text="Ar테스트" />-->
+
+        <Button
+            android:id="@+id/google_map_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="구글맵 테스트"
+            tools:layout_editor_absoluteX="174dp"
+            tools:layout_editor_absoluteY="228dp" />
+
+
     </FrameLayout>
 
     <LinearLayout
