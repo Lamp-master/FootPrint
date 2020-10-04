@@ -48,10 +48,49 @@
 
     <!-- Toolbar -->
     <string name="back">Back</string>
+    <string name="add_footprint">add footprint</string>
+    <string name="find_footprint">find footprint</string>
+    <string name="footprint_menu">FOOTPRINT MENU</string>
+    <string name="near_footprint">near footprint</string>
+    <string name="my_diary">my diary</string>
+    <string name="goods">goods</string>
+    <string name="profile_picture">profile picture</string>
+    <string name="nickname">Nickname</string>
+    <string name="nickname_cannot_be_empty">Nickname cannot be empty</string>
+    <string name="email">Email</string>
+    <string name="please_enter_your_e_mail">Please enter your e-mail</string>
+    <string name="password">Password</string>
+    <string name="please_enter_your_password">Please enter your password</string>
+    <string name="password">Password</string>
+    <string name="please_enter_your_password_again">please enter your password again</string>
 
     <!-- etc -->
     <item name="visible" type="id" />
     <item name="masked" type="id" />
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+<<<<<<< HEAD
+=======
+    <string name="nearest_footprint_xxm">Nearest Footprint XXm</string>
+    <string name="recommend">recommend</string>
+    <string name="report">report</string>
+    <string name="title">Title</string>
+    <string name="enter_a_title">enter a title</string>
+    <string name="photos_or_videos">Photos or Videos</string>
+    <string name="location">Location</string>
+    <string name="location_will_be_added_automatically">location will be added automatically</string>
+    <string name="content">Content</string>
+    <string name="enter_a_content">enter a content</string>
+    <string name="choose_icon">Choose Icon</string>
+    <string name="login_by_email_account">login by email account</string>
+    <string name="login_by_other_email_account">login by other email account</string>
+    <string name="forgot_password">FORGOT PASSWORD?</string>
+    <string name="profile_pic">Profile Pic</string>
+    <string name="setting">setting</string>
+    <string name="account_info">account info</string>
+    <string name="modify_info">modify info</string>
+    <string name="change_account">change account 계정 변경</string>
+    <string name="withdrawal_account">withdrawal account</string>
+    <string name="account_setting">Account Setting</string>
+>>>>>>> bb85d01edaadcf03b785d01b21fd2d53f85e27eb
 </resources>

@@ -7,6 +7,8 @@
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDivision">#e0e0e0</color>
     <color name="colorNavIcon">#1d1d1d</color>
+    //회색추가함
+    <color name="colorMainGray">#737373</color>
 
     <color name="colorGoogleSignIn">#d34836</color>
     <color name="colorGoogleSignInPressed">#b02513</color>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activity_footprint_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <ScrollView
+        android:id="@+id/scroll_footprint"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16sp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24sp"
+                android:text="제목"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_footprint_title"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_round"
+                android:hint="제목을 입력하세요"
+                android:padding="8dp"
+                android:inputType="text" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48sp"
+                android:text="사진/동영상"
+                android:textSize="16sp" />
+
+            <!--일단 형태 때문에 이미지 넣었음-->
+
+            <ImageView
+                android:id="@+id/footprint"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="10dp"
+                app:srcCompat="@drawable/footprint_mainlogo" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24sp"
+                android:text="위치"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_footprint_location"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_round"
+                android:hint="위치는 자동으로 등록됩니다"
+                android:padding="8dp"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48sp"
+                android:text="내용"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/add_footprint_context"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_round"
+                android:hint="남길 발자취의 내용을 입력하세요"
+                android:padding="8dp"
+                android:gravity="top"
+                android:inputType="textImeMultiLine" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48sp"
+                android:text="아이콘 선택"
+                android:textSize="16sp" />
+
+            <TableLayout
+                android:id="@+id/ic_table"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TableRow>
+                    <include
+                        android:id="@+id/main_screen_icon"
+                        layout="@layout/fragment_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center">
+                    </include>
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
+
