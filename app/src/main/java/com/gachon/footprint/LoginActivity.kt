@@ -2,9 +2,11 @@ package com.gachon.footprint
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.AccessToken
@@ -40,15 +42,38 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        setMainPage()
+
         auth = FirebaseAuth.getInstance()
+
         email_login_button.setOnClickListener {
+
+            //메인 화면에서 버튼 두개를 안 보이게 함
+            facebook_login_button.visibility = View.GONE
+            google_sign_in_button.visibility = View.GONE
+
+            email_edittext.visibility = View.VISIBLE
+            password_edittext.visibility = View.VISIBLE
+
             createEmail()
             //loginEmail() 나중에 loginEmail()로 체인지
         }
 
         account_login_button.setOnClickListener {
-            // 액티비티 팝업 창이 뜬다.
-            // 다른 레이아웃으로 넘어간다.
+            //입력 화면을 안 보이게 함
+            email_edittext.visibility = View.GONE
+            password_edittext.visibility = View.GONE
+
+            facebook_login_button.visibility = View.VISIBLE
+            google_sign_in_button.visibility = View.VISIBLE
+        }
+
+        facebook_login_button.setOnClickListener {
+            facebookLogin()
+        }
+
+        google_sign_in_button.setOnClickListener {
+            googleLogin()
         }
 
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -237,5 +262,14 @@ class LoginActivity : AppCompatActivity() {
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))
         }
+    }
+
+    fun setMainPage() {
+        //메인 화면에서 버튼 두개를 안 보이게 함
+        facebook_login_button.visibility = View.GONE
+        google_sign_in_button.visibility = View.GONE
+        //입력 화면을 안 보이게 함
+        email_edittext.visibility = View.GONE
+        password_edittext.visibility = View.GONE
     }
 }
