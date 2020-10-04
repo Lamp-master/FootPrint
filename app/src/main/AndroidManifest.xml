@@ -37,6 +37,7 @@
         <activity android:name=".CameraActivity"/>
         <activity android:name=".MainActivity"/>
         <activity android:name=".MapActivity"/>
+        <activity android:name=".UserEnterActivity"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"

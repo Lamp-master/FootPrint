@@ -50,6 +50,9 @@ class LoginActivity : AppCompatActivity() {
             // 액티비티 팝업 창이 뜬다.
             // 다른 레이아웃으로 넘어간다.
         }
+        test_account_add.setOnClickListener {
+            startActivity(Intent(this, UserEnterActivity::class.java))
+        }
 
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com")
@@ -61,11 +64,12 @@ class LoginActivity : AppCompatActivity() {
         // 페이스북 Hash 값 : ZNHQWY2e5GfJJWjgerEPCatjaTI=
 
         //현근 - 구글/페북 이메일,uid 정보 Firestore 전송
-        if (true) {
-            userInfo.userId = auth?.uid
+
+        /*if (true) {
+           *//* userInfo.userId = auth?.uid*//*
             userInfo.userEmail = auth?.currentUser?.email
             fbfirestore?.collection("User")?.document(auth?.uid.toString())?.set(userInfo)
-        }
+        }*/
     }
 
     //region facebook hashkey

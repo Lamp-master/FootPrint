@@ -75,6 +75,19 @@
             android:text="use email account"
             android:theme="@style/ButtonStyle" />
 
+        <!--테스트용 버튼 나중에 삭제-->
+        <Button
+            android:id="@+id/test_account_add"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="30dp"
+            android:text="use email account"
+            android:theme="@style/ButtonStyle"
+            />
+
     </LinearLayout>
     <TextView
         android:id="@+id/find_password_button"
