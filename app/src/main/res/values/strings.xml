@@ -69,8 +69,6 @@
     <item name="masked" type="id" />
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-<<<<<<< HEAD
-=======
     <string name="nearest_footprint_xxm">Nearest Footprint XXm</string>
     <string name="recommend">recommend</string>
     <string name="report">report</string>
@@ -92,5 +90,4 @@
     <string name="change_account">change account 계정 변경</string>
     <string name="withdrawal_account">withdrawal account</string>
     <string name="account_setting">Account Setting</string>
->>>>>>> bb85d01edaadcf03b785d01b21fd2d53f85e27eb
 </resources>
