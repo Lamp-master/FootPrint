@@ -75,9 +75,9 @@ class LoginActivity : AppCompatActivity() {
         google_sign_in_button.setOnClickListener {
             googleLogin()
         }
-        test_account_add.setOnClickListener {
+       /* test_account_add.setOnClickListener {
             startActivity(Intent(this, UserEnterActivity::class.java))
-        }
+        }*/
 
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com")

@@ -57,11 +57,11 @@
     <string name="profile_picture">profile picture</string>
     <string name="nickname">Nickname</string>
     <string name="nickname_cannot_be_empty">Nickname cannot be empty</string>
-    <string name="email">Email</string>
+
     <string name="please_enter_your_e_mail">Please enter your e-mail</string>
-    <string name="password">Password</string>
+
     <string name="please_enter_your_password">Please enter your password</string>
-    <string name="password">Password</string>
+
     <string name="please_enter_your_password_again">please enter your password again</string>
 
     <!-- etc -->
