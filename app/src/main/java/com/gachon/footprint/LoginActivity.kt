@@ -36,92 +36,97 @@ class LoginActivity : AppCompatActivity() {
     private var googleSignInClient: GoogleSignInClient? = null
     private var GOOGLE_LOGIN_CODE = 9001
     private var callbackManager: CallbackManager? = null
-    private var fbfirestore: FirebaseFirestore? = null
-    var userInfo = ModelUser()
+    private val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
-        setMainPage()
-
         auth = FirebaseAuth.getInstance()
-
-        email_login_button.setOnClickListener {
-
-            //메인 화면에서 버튼 두개를 안 보이게 함
-            facebook_login_button.visibility = View.GONE
-            google_sign_in_button.visibility = View.GONE
-
-            email_edittext.visibility = View.VISIBLE
-            password_edittext.visibility = View.VISIBLE
-
-            createEmail()
-            //loginEmail() 나중에 loginEmail()로 체인지
-        }
-
-        account_login_button.setOnClickListener {
-            //입력 화면을 안 보이게 함
-            email_edittext.visibility = View.GONE
-            password_edittext.visibility = View.GONE
-
-            facebook_login_button.visibility = View.VISIBLE
-            google_sign_in_button.visibility = View.VISIBLE
-        }
-
-        facebook_login_button.setOnClickListener {
-            facebookLogin()
-        }
-
-        google_sign_in_button.setOnClickListener {
-            googleLogin()
-        }
-       /* test_account_add.setOnClickListener {
-            startActivity(Intent(this, UserEnterActivity::class.java))
-        }*/
-
+        // configure Google Sign In
         var gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com")
             .requestEmail()
             .build()
         googleSignInClient = GoogleSignIn.getClient(this, gso)
-        // printHashKey()
+
+        email_login_button.setOnClickListener {
+            loginEmail()
+        }
+
+        sign_up_bun.setOnClickListener {
+            startActivity(Intent(this, UserEnterActivity::class.java))
+        }
+
+        //구글 버튼 클릭시 구글 계정 인증 Activity 보여짐
+        google_sign_in_button.setOnClickListener {
+            var signInIntent = googleSignInClient?.signInIntent
+            startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+        }
+
+        facebook_login_button.setOnClickListener {
+            facebookLogin()
+        }
         callbackManager = CallbackManager.Factory.create()
-        // 페이스북 Hash 값 : ZNHQWY2e5GfJJWjgerEPCatjaTI=
-
-        //현근 - 구글/페북 이메일,uid 정보 Firestore 전송
-
-        /*if (true) {
-           *//* userInfo.userId = auth?.uid*//*
-            userInfo.userEmail = auth?.currentUser?.email
-            fbfirestore?.collection("User")?.document(auth?.uid.toString())?.set(userInfo)
-        }*/
     }
 
-    //region facebook hashkey
-    fun printHashKey() {
-        try {
-            val info = packageManager.getPackageInfo(
-                packageName,
-                PackageManager.GET_SIGNING_CERTIFICATES
-            )
-            for (signature in info.signatures) {
-                val md = MessageDigest.getInstance("SHA")
-                md.update(signature.toByteArray())
-                val hashKey = String(Base64.encode(md.digest(), 0))
-                Log.i("TAG", "printHashKey() Hash Key: $hashKey")
+    private fun addFireStore() {
+        var userInfo = ModelUser()
+        userInfo.uid = auth?.uid
+        userInfo.userEmail = auth?.currentUser?.email
+        db.collection("User").document(auth?.uid.toString()).set(userInfo)
+            .addOnSuccessListener { void: Void? ->
+                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show() }
+    }
+
+    //이메일 로그인
+    private fun loginEmail() {
+        auth?.signInWithEmailAndPassword(
+            email_edittext.text.toString(),
+            password_edittext.text.toString()
+        )?.addOnCompleteListener(this) {
+            if (it.isSuccessful) {
+                //인증 성공
+                Toast.makeText(this, "로그인성공", Toast.LENGTH_SHORT).show()
+                moveMainPage(it.result?.user)
+            } else {
+                //인증 실패시
+                Toast.makeText(this, "로그인실패", Toast.LENGTH_SHORT).show()
+
             }
-        } catch (e: NoSuchAlgorithmException) {
-            Log.e("TAG", "printHashKey()", e)
-        } catch (e: Exception) {
-            Log.e("TAG", "printHashKey()", e)
         }
     }
-    //endregion
 
-    //region google login method
-    fun googleLogin() {
-        var signInIntent = googleSignInClient?.signInIntent
-        startActivityForResult(signInIntent, GOOGLE_LOGIN_CODE)
+    //region Google Login
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == GOOGLE_LOGIN_CODE) {
+            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
+            if (result?.isSuccess!!) {
+                var account = result?.signInAccount
+                firebaseAuthWithGoogle(account)
+            } else {
+                Toast.makeText(this, "로그인 실패", Toast.LENGTH_LONG).show()
+
+            }
+        }
+    }
+
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+        // account 안에 있는 토큰 아이디 넘김
+        var credential = GoogleAuthProvider.getCredential(account?.idToken, null)
+        auth?.signInWithCredential(credential)
+            ?.addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    addFireStore()
+                    moveMainPage(task.result?.user)
+                } else {
+                    //에러 메세지
+                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+
+                }
+            }
     }
     //endregion
 
@@ -166,114 +171,18 @@ class LoginActivity : AppCompatActivity() {
             }
     }
     //endregion
-
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        callbackManager?.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == GOOGLE_LOGIN_CODE) {
-            var result = Auth.GoogleSignInApi.getSignInResultFromIntent(data)
-            if (result?.isSuccess!!) {
-                var account = result?.signInAccount
-                // 두번째
-                firebaseAuthWithGoogle(account)
-            } else {
-                Toast.makeText(this, "로그인 실패", Toast.LENGTH_LONG).show()
-
-            }
-        }
-    }
-
-    fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
-        // account 안에 있는 토큰 아이디 넘김
-        var credential = GoogleAuthProvider.getCredential(account?.idToken, null)
-        auth?.signInWithCredential(credential)
-            ?.addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    //login
-                    moveMainPage(task.result?.user)
-                } else {
-                    //에러 메세지
-                    Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-
-                }
-            }
-    }
-
-    //0930현근-회원가입과 회원로그인 이분화함
-    //1. 이미 저장된 이메일을 이미 사용하고 있는 에러로 받아들임
-    //2. 로그인 화면 : 회원로그인만/회원가입레이아웃을 추가 : 회원가입이 자연스러울 듯
-    //연동 성공
-    fun signInWithEmailAndPassword() {
-        auth?.createUserWithEmailAndPassword(
-            email_edittext.text.toString(),
-            password_edittext.text.toString()
-        )?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                //회원가입성공
-                val User = auth?.currentUser
-                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                moveMainPage(task.result?.user)
-            } else if (task.exception?.message.isNullOrEmpty()) {
-                // 에러 메세지 출력(양식오류/빈칸/DB내 ID 존재하지 않음)
-                Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-            } else {
-                createEmail()
-                // 회원가입
-            }
-        }
-    }
-
-
-    //이메일 계정 생성
-    private fun createEmail() {
-        auth?.createUserWithEmailAndPassword(
-            email_edittext.text.toString(),
-            password_edittext.text.toString()
-        )?.addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                //계정생성 완료 후 메인페이지
-                var user = auth?.currentUser
-                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_SHORT).show()
-                moveMainPage(task.result?.user)
-            } else {
-                //에러 메세지(중복 이메일/빈 칸/양식오류)
-                Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-            }
-        }
-    }
-
-    //이메일 로그인
-    private fun loginEmail() {
-        auth?.signInWithEmailAndPassword(
-            email_edittext.text.toString(),
-            password_edittext.text.toString()
-        )?.addOnCompleteListener(this) {
-            if (it.isSuccessful) {
-                //인증 성공
-                Toast.makeText(this, "인증성공", Toast.LENGTH_SHORT).show()
-                var user = auth?.currentUser
-                moveMainPage(it.result?.user)
-            } else {
-                //인증 실패시
-                Toast.makeText(this, "인증실패", Toast.LENGTH_SHORT).show()
-
-            }
-        }
-    }
+    // start on_start_check_user 유저가 앱에 이미 구글 로그인을 했는지 확인
+    /* override fun onStart() {
+         super.onStart()
+         val account = GoogleSignIn.getLastSignedInAccount(this)
+         if(account !==null){ // 이미 로그인 되어있을시 바로 메인 액티비티 이동
+             startActivity(Intent(this, MainActivity::class.java))
+         }
+     }*/
 
     private fun moveMainPage(user: FirebaseUser?) {
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))
         }
-    }
-
-    fun setMainPage() {
-        //메인 화면에서 버튼 두개를 안 보이게 함
-        facebook_login_button.visibility = View.GONE
-        google_sign_in_button.visibility = View.GONE
-        //입력 화면을 안 보이게 함
-        email_edittext.visibility = View.GONE
-        password_edittext.visibility = View.GONE
     }
 }

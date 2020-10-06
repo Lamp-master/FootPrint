@@ -71,7 +71,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         ActivityCompat.requestPermissions(this, permissions, 0)
 
         google_map_start.setOnClickListener {
-            startActivity(Intent(this, CameraActivity::class.java))
+            startActivity(Intent(this, MapActivity::class.java))
         }
 
         fun getLastLocationNewMethod() {
