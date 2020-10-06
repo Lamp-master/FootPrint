@@ -75,7 +75,7 @@ class LoginActivity : AppCompatActivity() {
         userInfo.userEmail = auth?.currentUser?.email
         db.collection("User").document(auth?.uid.toString()).set(userInfo)
             .addOnSuccessListener { void: Void? ->
-                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show() }
+                Toast.makeText(this, "로그인 성공", Toast.LENGTH_LONG).show() }
     }
 
     //이메일 로그인
@@ -113,7 +113,7 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
+    fun firebaseAuthWithGoogle(account: GoogleSignInAccount?) {
         // account 안에 있는 토큰 아이디 넘김
         var credential = GoogleAuthProvider.getCredential(account?.idToken, null)
         auth?.signInWithCredential(credential)
@@ -179,7 +179,6 @@ class LoginActivity : AppCompatActivity() {
              startActivity(Intent(this, MainActivity::class.java))
          }
      }*/
-
     private fun moveMainPage(user: FirebaseUser?) {
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))
