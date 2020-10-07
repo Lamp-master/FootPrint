@@ -56,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:padding="4dp"
                 android:layout_marginEnd="8dp"
-                android:text="발자취 남기기"
+                android:text="댓글 달기"
                 android:background="@drawable/edittext_round"
                 android:layout_weight="1"
                 android:textSize="16sp" />
