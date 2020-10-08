@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.gachon.footprint.UserEnterActivity
 import com.gachon.footprint.data.UserDB.Companion.INSTANCE as INSTANCE1
 
-@Database(entities = [EnterUSer::class], version = 1)
+@Database(entities = [CurrentUser::class], version = 1)
 abstract class UserDB : RoomDatabase() {
     abstract fun userDao() : UserDao
 
@@ -18,7 +18,7 @@ abstract class UserDB : RoomDatabase() {
                 synchronized(UserDB::class) {
                     INSTANCE1 = Room.databaseBuilder(
                         context.applicationContext,
-                    UserDB::class.java, "enter_user.db")
+                    UserDB::class.java, "user.db")
                         .fallbackToDestructiveMigration()
                         .build()
                 }

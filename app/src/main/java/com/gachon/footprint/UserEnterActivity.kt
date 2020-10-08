@@ -14,15 +14,7 @@ import timber.log.Timber
 
 class UserEnterActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
-    /*private var userDb: UserDB? = null*/
     private val db = FirebaseFirestore.getInstance()
-    /*var userInfo = ModelUser()*/
-   /* private val addRunnable = Runnable {
-        userInfo.uid = auth?.uid
-        userInfo.userEmail = user_in_email.text.toString()
-        userInfo.password = user_in_password.text.toString()
-        userInfo.nickname = user_in_nickname.text.toString()
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +43,7 @@ class UserEnterActivity : AppCompatActivity() {
     private fun addFireStore() {
         var userInfo = ModelUser()
         userInfo.uid = auth?.uid
-        userInfo.userEmail = user_in_email.text.toString()
+        userInfo.email = user_in_email.text.toString()
         userInfo.password = user_in_password.text.toString()
         userInfo.nickname = user_in_nickname.text.toString()
 
@@ -61,6 +53,3 @@ class UserEnterActivity : AppCompatActivity() {
                 startActivity(Intent(this, LoginActivity::class.java))}
     }
 }
-
-
-

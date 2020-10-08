@@ -72,7 +72,7 @@ class LoginActivity : AppCompatActivity() {
     private fun addFireStore() {
         var userInfo = ModelUser()
         userInfo.uid = auth?.uid
-        userInfo.userEmail = auth?.currentUser?.email
+        userInfo.email = auth?.currentUser?.email
         db.collection("User").document(auth?.uid.toString()).set(userInfo)
             .addOnSuccessListener { void: Void? ->
                 Toast.makeText(this, "로그인 성공", Toast.LENGTH_LONG).show() }
