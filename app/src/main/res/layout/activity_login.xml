@@ -9,90 +9,85 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <include
-            android:id="@+id/main_screen_icon"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginBottom="16dp"
+        <TextView
+            android:layout_marginTop="36dp"
+            android:id="@+id/intro_info_first"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Footprint를 시작합니다"
             android:layout_gravity="center"
-            android:layout_weight="1"
-            layout="@layout/main_screen">
-        </include>
+            android:textSize="24sp"/>
+
+        <TextView
+            android:layout_marginTop="36dp"
+            android:id="@+id/intro_info_second"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            android:text="사용중인 계정이 있다면\n사용하는 계정으로 로그인해 주세요"
+            android:layout_gravity="center"
+            android:textSize="14sp"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp">
 
             <EditText
                 android:id="@+id/email_edittext"
                 android:singleLine="true"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext_round"
+                android:layout_height="wrap_content"
                 android:hint="Email"
-                android:padding="8dp"
-                android:inputType="textEmailAddress"
-                android:visibility="visible"/>
+                android:layout_weight="1"
+                android:inputType="textPersonName" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp">
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp">
 
             <EditText
                 android:id="@+id/password_edittext"
+                android:singleLine="true"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:background="@drawable/edittext_round"
+                android:layout_height="wrap_content"
                 android:hint="Password"
-                android:padding="8dp"
-                android:inputType="textPassword"
-                android:visibility="visible"/>
+                android:layout_weight="1"
+                android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/sign_up_bun"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="회원가입"
-                android:textSize="15sp"/>
-
-            <TextView
-                android:id="@+id/find_id_and_password"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="아이디/비밀번호 찾기"
-                android:textSize="15sp"/>
-        </LinearLayout>
-
 
         <Button
             android:id="@+id/email_login_button"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="8dp"
             android:layout_gravity="center"
-            android:text="로그인"
+            android:text="입력한 계정으로 로그인 하기"
             android:theme="@style/ButtonStyle" />
 
+
         <Button
+            android:id="@+id/other_email_login_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="center"
+            android:text="다른 계정으로 로그인 하기"
+            android:theme="@style/ButtonStyle" />
+
+        <!--<Button
             android:id="@+id/email_sign_button"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -102,7 +97,7 @@
             android:layout_gravity="center"
             android:text="회원가입"
             android:theme="@style/ButtonStyle"
-            android:visibility="gone"/>
+            android:visibility="gone"/>-->
 
         <Button
             android:id="@+id/facebook_login_button"
@@ -110,10 +105,11 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/btn_signin_facebook"
             android:text="@string/signin_facebook"
-            android:textColor="@color/colorWhite" />
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/google_sign_in_button"
@@ -121,12 +117,20 @@
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="80dp"
+            android:layout_marginTop="12dp"
             android:background="@drawable/btn_signin_google"
             android:text="@string/signin_google"
-            android:textColor="@color/colorWhite" />
-
-
-
+            android:textColor="@color/colorWhite"
+            android:visibility="gone"/>
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/sign_up_bun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="계정이 없으신가요? 새로 만들기"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="true"
+        android:textSize="12sp"/>
 </RelativeLayout>

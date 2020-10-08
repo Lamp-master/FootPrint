@@ -3,7 +3,8 @@
     <color name="colorPrimary">#ededed</color>
     <color name="colorPrimaryDark">#e1e1e1</color>
     <color name="colorLightGray">#f1f1f1</color>
-    <color name="colorAccent">#FF4081</color>
+    //Accent 컬러 바꿨음
+    <color name="colorAccent">#67D8E9</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDivision">#e0e0e0</color>
     <color name="colorNavIcon">#1d1d1d</color>
@@ -14,4 +15,5 @@
     <color name="colorGoogleSignInPressed">#b02513</color>
     <color name="colorEmailSignIn">#009688</color>
     <color name="colorEmailSignInPressed">#004D40</color>
+    <color name="colorComplementary">#FD9788</color>
 </resources>
