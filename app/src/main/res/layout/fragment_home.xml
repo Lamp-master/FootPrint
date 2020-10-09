@@ -1,7 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-</RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="28dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/menu_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="36dp"
+                android:gravity="center"
+                android:text="MENU"
+                android:textSize="26sp" />
+
+            <Button
+                android:id="@+id/add_footprint"
+                android:drawableBottom="@drawable/ic_postadd"
+                android:drawablePadding="10dp"
+                android:text="@string/add_footprint"
+                android:textSize="16sp"
+                android:background="#00FF0000"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:gravity="top|center"
+                android:layout_below="@+id/menu_text"
+                android:layout_marginTop="50dp"
+                android:layout_marginStart="16dp"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:id="@+id/find_footprint"
+                android:drawableBottom="@drawable/ic_search"
+                android:drawablePadding="10dp"
+                android:text="@string/find_footprint"
+                android:textSize="16sp"
+                android:background="#00FF0000"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:gravity="top|center"
+                android:layout_below="@+id/menu_text"
+                android:layout_marginTop="50dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+                android:id="@+id/near_footprint"
+                android:drawableBottom="@drawable/ic_near_footprint"
+                android:drawablePadding="10dp"
+                android:text="@string/near_footprint"
+                android:textSize="16sp"
+                android:background="#00FF0000"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:gravity="top|center"
+                android:layout_below="@+id/add_footprint"
+                android:layout_marginTop="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:id="@+id/my_diary"
+                android:drawableBottom="@drawable/ic_diary"
+                android:drawablePadding="10dp"
+                android:text="@string/my_diary"
+                android:textSize="16sp"
+                android:background="#00FF0000"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:gravity="top|center"
+                android:layout_below="@+id/find_footprint"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true" />
+
+            <Button
+
+                android:id="@+id/buy_goods"
+                android:drawableBottom="@drawable/ic_star"
+                android:drawablePadding="10dp"
+                android:text="@string/goods"
+                android:textSize="16sp"
+                android:background="#00FF0000"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:gravity="top|center"
+                android:layout_below="@+id/near_footprint"
+                android:layout_marginTop="36dp"
+                android:layout_marginStart="16dp"
+                android:layout_alignParentStart="true" />
+
+            <Button
+                android:id="@+id/setting"
+                android:drawableBottom="@drawable/ic_setting"
+                android:drawablePadding="10dp"
+                android:text="@string/setting"
+                android:textSize="16sp"
+                android:background="#00FF0000"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:gravity="top|center"
+                android:layout_below="@+id/my_diary"
+                android:layout_marginTop="36dp"
+                android:layout_marginEnd="16dp"
+                android:layout_alignParentEnd="true" />
+
+        </RelativeLayout>
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

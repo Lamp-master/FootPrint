@@ -4,15 +4,16 @@ import androidx.room.*
 
 @Dao
 public interface UserDao  {
-    @Query("SELECT * FROM ModelUser")
-    fun getAll(): List<ModelUser>
+    @Query("SELECT * FROM EnterUSer")
+    fun getAll(): List<EnterUSer>
 
     @Insert
-    fun insert( user: ModelUser)
+    fun insert(user: EnterUSer)
 
     @Update
-    fun update( user: ModelUser)
+    fun update( user: EnterUSer)
 
     @Delete
-    fun delete( user: ModelUser)
+    fun delete( user: EnterUSer)
+
 }

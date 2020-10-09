@@ -11,12 +11,10 @@ import androidx.core.content.ContextCompat
 import com.gachon.footprint.navigation.CashFragment
 import com.gachon.footprint.navigation.HomeFragment
 import com.gachon.footprint.navigation.SettingFragment
-import com.gachon.footprint.navigation.UserFragment
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -33,12 +31,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .replace(R.id.main_content, homeFragment).commit()
                 return true
             }
-            R.id.action_user -> {
-                var userFragment = UserFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, userFragment)
-                    .commit()
-                return true
-            }
+
             R.id.action_cash -> {
                 var cashFragment = CashFragment()
                 supportFragmentManager.beginTransaction().replace(R.id.main_content, cashFragment)
@@ -58,8 +51,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Timber.plant(Timber.DebugTree())
-
         bottom_navigation.setOnNavigationItemSelectedListener(this)
         bottom_navigation.selectedItemId=R.id.action_home
 
@@ -69,10 +60,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
         val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
         ActivityCompat.requestPermissions(this, permissions, 0)
-
-        google_map_start.setOnClickListener {
-            startActivity(Intent(this, CameraActivity::class.java))
-        }
 
         fun getLastLocationNewMethod() {
             val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -103,8 +90,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     e.printStackTrace()
                 }
         }
-        /*ar_test.setOnClickListener {
-            startActivity(Intent(this, CameraActivity::class.java))*/
     }
 }
 
