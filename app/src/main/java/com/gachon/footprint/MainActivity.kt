@@ -25,7 +25,7 @@ import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity() {
 
     var user = CurrentUser()
 
@@ -35,7 +35,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     private val db = FirebaseFirestore.getInstance()
 
-    override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+
+
+
+
+    /*override fun onNavigationItemSelected(p0: MenuItem): Boolean {
         when (p0.itemId) {
             R.id.action_home -> {
                 var homeFragment = HomeFragment()
@@ -58,13 +62,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             }
         }
         return false
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        bottom_navigation.setOnNavigationItemSelectedListener(this)
-        bottom_navigation.selectedItemId=R.id.action_home
+        /*bottom_navigation.setOnNavigationItemSelectedListener(this)
+        bottom_navigation.selectedItemId=R.id.action_home*/
         getUserInfo()
 
         if (ContextCompat.checkSelfPermission(this , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
@@ -119,10 +123,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }
     }
 }
-
-
-
-
 
 
 

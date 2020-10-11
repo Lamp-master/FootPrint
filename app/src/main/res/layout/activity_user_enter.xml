@@ -7,13 +7,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_footprint_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+    <include
+        layout="@layout/toolbar"
+        android:id="@+id/user_in_toolbar">
+    </include>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -23,12 +20,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:padding="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30sp"
+                android:layout_marginTop="8dp"
                 android:text="프로필 사진"
                 android:textSize="16sp" />
 
@@ -100,14 +97,6 @@
                 android:hint="비밀번호를 다시 한 번 입력하세요"
                 android:inputType="textPassword" />
 
-            <Button
-                android:id="@+id/btn_in_user_db"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center"
-                android:text="회원가입"
-                android:background="@color/colorAccent"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
