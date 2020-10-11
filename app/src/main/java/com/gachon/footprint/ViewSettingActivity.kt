@@ -9,11 +9,12 @@ import kotlinx.android.synthetic.main.activity_viewsetting.*
 class ViewSettingActivity : AppCompatActivity() {
 
     var user = CurrentUser()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewsetting)
 
-        test4.text = user.uid
+        //test4.text = user.uid
 
         if(intent.hasExtra("setting")){
             var value = intent.getStringExtra("setting")

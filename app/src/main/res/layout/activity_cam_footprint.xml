@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingTop="8dp">
+
+    <!--이 텍뷰는 액티비티에서 출력할 텍뷰입니다
+        예시문 : 가장 가까운 발자취 여기서 ( ) m-->
+
+    <TextView
+        android:id="@+id/camera_show_meters"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"
+        android:padding="8dp"
+        android:gravity="end"/>
+
+    <fragment
+        android:id="@+id/arFragment"
+        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </fragment>
+
+    <Button
+        android:id="@+id/btn_message_touch"
+        android:clickable="false"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="발자취를 등록하고 싶은 곳을 터치하세요"
+        android:layout_gravity="center"
+        android:background="@color/colorPrimary"
+        android:textSize="16sp" />
+</LinearLayout>
+

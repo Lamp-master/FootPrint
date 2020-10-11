@@ -45,7 +45,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:layout_weight="1"
-                android:inputType="textPersonName" />
+                android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,18 +86,6 @@
             android:layout_gravity="center"
             android:text="다른 계정으로 로그인 하기"
             android:theme="@style/ButtonStyle" />
-
-        <!--<Button
-            android:id="@+id/email_sign_button"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginRight="20dp"
-            android:layout_gravity="center"
-            android:text="회원가입"
-            android:theme="@style/ButtonStyle"
-            android:visibility="gone"/>-->
 
         <Button
             android:id="@+id/facebook_login_button"

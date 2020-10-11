@@ -5,71 +5,73 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingTop="8dp">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_footprint_toolbar"
+    <!--이 텍뷰는 액티비티에서 출력할 텍뷰입니다
+        예시문 : 가장 가까운 발자취 여기서 ( ) m-->
+
+    <TextView
+        android:id="@+id/camera_show_meters"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="4dp"
+        android:padding="8dp"
+        android:gravity="end"/>
+
+    <fragment
+        android:id="@+id/arFragment"
+        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+    </fragment>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="16sp"
-        android:orientation="vertical">
-        <TextView
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_see_footprint"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="가장 가까운 발자취 여기서 xxm"
-            android:textSize="16sp"
-            android:layout_marginBottom="4dp"
-            android:gravity="end"/>
-        <fragment
-            android:id="@+id/arFragment"
-            android:name="com.google.ar.sceneform.ux.ArFragment"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </fragment>
+            android:text="보기"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textSize="16sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <Button
+            android:id="@+id/btn_leave_footprint"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="4dp">
+            android:text="발자취 남기기"
+            android:background="@color/colorAccent"
+            android:layout_weight="1"
+            android:textSize="16sp" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:layout_marginEnd="8dp"
-                android:text="추천"
-                android:background="@drawable/edittext_round"
-                android:layout_weight="1"
-                android:textSize="16sp" />
+        <Button
+            android:id="@+id/btn_report_footprint"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            android:text="신고"
+            android:layout_weight="1"
+            android:textSize="16sp" />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:layout_marginEnd="8dp"
-                android:text="댓글 달기"
-                android:background="@drawable/edittext_round"
-                android:layout_weight="1"
-                android:textSize="16sp" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="4dp"
-                android:background="@drawable/edittext_round"
-                android:text="신고"
-                android:layout_weight="1"
-                android:textSize="16sp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btn_message_search"
+            android:clickable="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="발자취를 발견하세요"
+            android:background="@color/colorPrimary"
+            android:layout_weight="1"
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>
-

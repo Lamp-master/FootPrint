@@ -1,16 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/layout_main"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/activity_footprint_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"/>
 
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:id="@+id/map"
         tools:context=".MapActivity"
         android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <!--액티비티에서 버튼 텍스트 출력
+        예시 : 내 주변 발자취 xx개-->
+
+        <Button
+            android:clickable="false"
+            android:id="@+id/btn_map_footprint"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_round"
+            android:layout_weight="7"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_map_scale"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="배율"
+            android:background="@drawable/edittext_round"
+            android:layout_weight="3"
+            android:textSize="16sp" />
+    </LinearLayout>
 </LinearLayout>
+
