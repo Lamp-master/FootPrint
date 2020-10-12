@@ -121,7 +121,7 @@ class FootMsgActivity : AppCompatActivity() {
         intent.type = MediaStore.Images.Media.CONTENT_TYPE
         ActivityCompat.startActivityForResult(intent, FLAG_REQ_STORAGE)
     }
-
+    //사진 촬영이 완료되면 Result메소드로 결과값 전달(새사진:data)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if(resultCode == Activity.RESULT_OK) {
