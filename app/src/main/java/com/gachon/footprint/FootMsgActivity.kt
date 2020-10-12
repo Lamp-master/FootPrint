@@ -37,11 +37,13 @@ class FootMsgActivity : AppCompatActivity() {
    var selectedPhotoUri : Uri? =null
 
     var user = FirebaseAuth.getInstance().currentUser
+    var uid =   user?.uid
     val db = FirebaseFirestore.getInstance()
     var footmsgInfo = ModelFoot()
     val footMsgRef = db.collection("FootMsg")
+   // val userRef = db.collection("User")
 
-    var uid =   user?.uid
+
 
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
@@ -73,9 +75,16 @@ class FootMsgActivity : AppCompatActivity() {
         confirm_button.setOnClickListener {
             footmsgInfo.title = add_footprint_title.text.toString()
             footmsgInfo.msgText = add_footprint_context.text.toString()
-            //사용자 이미지 등록
+            //사용자 이미지 업로드
             upLoadImageToCloud()
+            footmsgInfo.nickname =user?.email
+            footmsgInfo.msgImg=selectedPhotoUri.toString()
+            footmsgInfo.timestamp=System.currentTimeMillis()
+            //firestore에 push
+            footMsgRef?.document()?.set(footmsgInfo)
+            //해당 User.uid.footlist(collection)에 만들어진 footMsgId 추가.
 
+            setResult(Activity.RESULT_OK)
         }
     }
 
@@ -160,7 +169,7 @@ class FootMsgActivity : AppCompatActivity() {
         }
         return uri
     }
-
+    //사진촬영시 사진 제목을 timestamp로 하여 query 용이하게
     private fun newFileName(): String {
         val sdf = SimpleDateFormat("yyyyMMdd_HHmmss")
         val filename = sdf.format(System.currentTimeMillis())
@@ -216,7 +225,7 @@ class FootMsgActivity : AppCompatActivity() {
             }
         }
     }
-    //현재 사용자의 uid폴더에 이미지를 업로드한다.
+    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.
     private fun upLoadImageToCloud(){
         if(selectedPhotoUri==null) return
         val filename = UUID.randomUUID().toString()
@@ -228,7 +237,7 @@ class FootMsgActivity : AppCompatActivity() {
 
     }
 
-
+// 할 것 timestamp/location/동영상버튼 만들어지면 동영상 처리/armarkerlist/mapmarker/
 
 /*    private fun getCurrentTime() {
         val timestamp = it["time"] as com.google.firebase.Timestamp

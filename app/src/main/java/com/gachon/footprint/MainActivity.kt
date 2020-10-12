@@ -23,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -70,6 +71,33 @@ class MainActivity : AppCompatActivity() {
         /*bottom_navigation.setOnNavigationItemSelectedListener(this)
         bottom_navigation.selectedItemId=R.id.action_home*/
         getUserInfo()
+        //액티비티 전환 버튼 추가
+        add_footprint.setOnClickListener {
+            val intent = Intent(this, FootMsgActivity::class.java)
+            startActivity(intent)
+        }
+        find_footprint.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
+        near_footprint.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        }
+   /*     my_diary.setOnClickListener {
+            val intent = Intent(this, DiaryActivity::class.java)
+            startActivity(intent)
+        }*/
+    /*    buy_goods.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
+        setting.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }*/
+
+
 
         if (ContextCompat.checkSelfPermission(this , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)

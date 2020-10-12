@@ -9,8 +9,9 @@ data class ModelFoot(
     var nickname:String?=null,
     var timestamp:Long?=null,
     var msgText: String?=null,
-    var msgImg: MediaStore.Images.Media?=null,
-    var msgMedia: MediaStore.Video.Media? =null,
+    //이미지 및 동영상 uri 경로 저장
+    var msgImg: String?=null,
+    var msgMedia: String?=null,
     var location: Location?=null,//받는 거 어케 받지
     var arMarker: String?=null){
 
