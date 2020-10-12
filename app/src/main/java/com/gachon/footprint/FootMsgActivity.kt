@@ -109,14 +109,14 @@ class FootMsgActivity : AppCompatActivity() {
         }
     }
     //카메라로 찍기
-    fun openCamera() {
+    private fun openCamera() {
         if (checkPermission(CAMERA_PERMISSION, FLAG_PERM_CAMERA)) {
             val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
             ActivityCompat.startActivityForResult(intent, FLAG_REQ_CAMERA)
         }
     }
     //개인 저장소 개인 갤러리 열기
-    fun openGallery() {
+    private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
         intent.type = MediaStore.Images.Media.CONTENT_TYPE
         ActivityCompat.startActivityForResult(intent, FLAG_REQ_STORAGE)
