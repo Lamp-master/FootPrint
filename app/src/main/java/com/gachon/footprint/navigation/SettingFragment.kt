@@ -8,13 +8,18 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.gachon.footprint.R
 import com.gachon.footprint.ViewSettingActivity
+import com.gachon.footprint.data.CurrentUser
 import kotlinx.android.synthetic.main.fragment_setting.*
+import kotlinx.android.synthetic.main.s_modify_info.*
 
 class SettingFragment : Fragment() {
     var fragmentVIew : View ? = null
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)}
+        super.onCreate(savedInstanceState)
+
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         fragmentVIew = LayoutInflater.from(activity).inflate(R.layout.fragment_setting,container,false)
@@ -35,6 +40,7 @@ class SettingFragment : Fragment() {
             activity?.let {
                 val intent = Intent(context,ViewSettingActivity::class.java)
                 intent.putExtra("setting","1")
+
                 startActivity(intent)
             }
         }
