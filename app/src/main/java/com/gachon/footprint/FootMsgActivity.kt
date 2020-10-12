@@ -40,7 +40,7 @@ class FootMsgActivity : AppCompatActivity() {
     var uid =   user?.uid
     val db = FirebaseFirestore.getInstance()
     var footmsgInfo = ModelFoot()
-    val footMsgRef = db.collection("FootMsg")
+    private val footMsgRef = db.collection("FootMsg")
    // val userRef = db.collection("User")
 
 
@@ -225,7 +225,7 @@ class FootMsgActivity : AppCompatActivity() {
             }
         }
     }
-    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.
+    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.(나중에 timestamp형식으로 고치기)
     private fun upLoadImageToCloud(){
         if(selectedPhotoUri==null) return
         val filename = UUID.randomUUID().toString()
