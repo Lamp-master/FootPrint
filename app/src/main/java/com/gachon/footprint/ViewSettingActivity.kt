@@ -13,8 +13,6 @@ class ViewSettingActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewsetting)
 
-        test4.text = user.uid
-
         if(intent.hasExtra("setting")){
             var value = intent.getStringExtra("setting")
 
