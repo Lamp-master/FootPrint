@@ -6,14 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-    <FrameLayout
-        android:id="@+id/main_content"
+    <fragment
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:layout_marginBottom="0dp">
-    </FrameLayout>
+        android:id="@+id/fragment_menu"
+        android:name="com.gachon.footprint.navigation.HomeFragment"/>
 
 </RelativeLayout>
+
+
+
 

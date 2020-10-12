@@ -9,58 +9,63 @@ import kotlinx.android.synthetic.main.activity_viewsetting.*
 class ViewSettingActivity : AppCompatActivity() {
 
     var user = CurrentUser()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_viewsetting)
 
+        //test4.text = user.uid
+
         if(intent.hasExtra("setting")){
             var value = intent.getStringExtra("setting")
+
+            //아니이게 왜안이어질까요?
 
             when(value){
                 "0" -> {
                     var accountinfo = AccountInfo()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, accountinfo).commit()
+                        .replace(R.id.account_info, accountinfo).commit()
                 }
                 "1" -> {
                     var modifyinfo = UserInfoModify()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, modifyinfo).commit()
+                        .replace(R.id.modify_info, modifyinfo).commit()
                 }
                 "2" -> {
                     var changeaccount = ChangeAccount()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, changeaccount).commit()
+                        .replace(R.id.change_account, changeaccount).commit()
                 }
                 "3" -> {
                     var withdrawaccount = WithdrawAccount()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, withdrawaccount).commit()
+                        .replace(R.id.withdraw_account, withdrawaccount).commit()
                 }
                 "4" -> {
                     var setlocation = SetLocationInfo()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, setlocation).commit()
+                        .replace(R.id.set_location_info, setlocation).commit()
                 }
                 "5" -> {
                     var accountreport = AccountReport()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, accountreport).commit()
+                        .replace(R.id.account_info, accountreport).commit()
                 }
                 "6" -> {
                     var appinfo = AppInfo()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, appinfo).commit()
+                        .replace(R.id.app_info, appinfo).commit()
                 }
                 "7" -> {
                     var licence = Licence()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, licence).commit()
+                        .replace(R.id.licence, licence).commit()
                 }
                 "8" -> {
                     var contact = Contact()
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.setting_fragment, contact).commit()
+                        .replace(R.id.contact_us, contact).commit()
                 }
             }
         }

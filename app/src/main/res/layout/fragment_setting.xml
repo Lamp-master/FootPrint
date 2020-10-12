@@ -54,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60sp"
                 android:background="#00FF0000"
-                android:text="로그아웃"
+                android:text="계정 변경"
                 android:gravity="start|center_vertical" />
 
             <Button
