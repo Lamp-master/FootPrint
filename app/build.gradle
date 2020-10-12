@@ -86,7 +86,7 @@ dependencies {
     // UX dependency 없이 ArsceneView 제공
     implementation 'com.google.ar.sceneform:core:1.17.1'
     kapt 'com.android.databinding:compiler:3.5.3'
-
+    implementation 'com.google.firebase:firebase-database-ktx:19.2.0'
     //database debug 용 나중에 지울것.
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
 }

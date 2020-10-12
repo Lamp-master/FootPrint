@@ -9,7 +9,7 @@ data class ModelFoot(
     var nickname:String?=null,
     var timestamp:Long?=null,
     var msgText: String?=null,
-    var msgImg: MediaStore.Audio.Media?=null,
+    var msgImg: MediaStore.Images.Media?=null,
     var msgMedia: MediaStore.Video.Media? =null,
     var location: Location?=null,//받는 거 어케 받지
     var arMarker: String?=null){
