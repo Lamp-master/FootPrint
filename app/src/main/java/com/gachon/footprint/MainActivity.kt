@@ -13,7 +13,6 @@ import com.gachon.footprint.data.CurrentUser
 import com.gachon.footprint.navigation.CashFragment
 import com.gachon.footprint.navigation.HomeFragment
 import com.gachon.footprint.navigation.SettingFragment
-import com.gachon.footprint.settingfragment.AccountInfo
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.tasks.OnCompleteListener
@@ -37,10 +36,66 @@ class MainActivity : AppCompatActivity() {
 
     private val db = FirebaseFirestore.getInstance()
 
+
+
+
+
+    /*override fun onNavigationItemSelected(p0: MenuItem): Boolean {
+        when (p0.itemId) {
+            R.id.action_home -> {
+                var homeFragment = HomeFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, homeFragment).commit()
+                return true
+            }
+
+            R.id.action_cash -> {
+                var cashFragment = CashFragment()
+                supportFragmentManager.beginTransaction().replace(R.id.main_content, cashFragment)
+                    .commit()
+                return true
+            }
+            R.id.action_setting -> {
+                var settingFragment = SettingFragment()
+                supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_content, settingFragment).commit()
+                return true
+            }
+        }
+        return false
+    }*/
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        /*bottom_navigation.setOnNavigationItemSelectedListener(this)
+        bottom_navigation.selectedItemId=R.id.action_home*/
         getUserInfo()
+        //액티비티 전환 버튼 추가
+        add_footprint.setOnClickListener {
+            val intent = Intent(this, FootMsgActivity::class.java)
+            startActivity(intent)
+        }
+        find_footprint.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
+        near_footprint.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        }
+   /*     my_diary.setOnClickListener {
+            val intent = Intent(this, DiaryActivity::class.java)
+            startActivity(intent)
+        }*/
+    /*    buy_goods.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
+        setting.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }*/
 
 
 
@@ -50,6 +105,7 @@ class MainActivity : AppCompatActivity() {
         }
         val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
         ActivityCompat.requestPermissions(this, permissions, 0)
+
         fun getLastLocationNewMethod() {
             val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
             if (ActivityCompat.checkSelfPermission(
@@ -69,7 +125,6 @@ class MainActivity : AppCompatActivity() {
                 // for ActivityCompat#requestPermissions for more details.
                 return
             }
-
             mFusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.apply {
