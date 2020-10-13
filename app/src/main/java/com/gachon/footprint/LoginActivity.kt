@@ -47,6 +47,7 @@ class LoginActivity : AppCompatActivity() {
             .requestIdToken("425957488645-nea69jaa49iv007nkcv4qs7co6pmv3ue.apps.googleusercontent.com")
             .requestEmail()
             .build()
+
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         email_login_button.setOnClickListener {

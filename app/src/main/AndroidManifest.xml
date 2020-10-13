@@ -6,6 +6,8 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyAmyaioAZEltlE2iSreIZSDnCcGAyYdLPg" />
 
+
+
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.CAMERA"/>

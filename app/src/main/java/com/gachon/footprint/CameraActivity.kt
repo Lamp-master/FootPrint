@@ -11,6 +11,8 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 
+
+//AR이미지를 선택하고 정렬/위치정보를 MsgFoot으로 전달/
 class CameraActivity : AppCompatActivity() {
     private lateinit var arFragment : ArFragment
 
