@@ -1,6 +1,7 @@
 package com.gachon.footprint
 
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import com.gachon.footprint.data.CurrentUser
 import com.gachon.footprint.settingfragment.*
@@ -70,4 +71,16 @@ class ViewSettingActivity : AppCompatActivity() {
             }
         }
     }
+
+
+/*이걸 여기로 꺼내도될까? 하튼이걸로 뒤로가기가되긴되는데
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }*/
 }
