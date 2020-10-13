@@ -29,10 +29,11 @@ class UserEnterActivity : AppCompatActivity() {
         val userinbar = findViewById<Toolbar>(R.id.user_in_toolbar)
         setSupportActionBar(userinbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
         ab?.title = "회원가입"
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+   override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
         return true
     }
@@ -41,6 +42,10 @@ class UserEnterActivity : AppCompatActivity() {
         when(item?.itemId) {
             R.id.btn_sign_in -> {
                 createEmail()
+                return true
+            }
+            android.R.id.home -> {
+                finish()
                 return true
             }
         }

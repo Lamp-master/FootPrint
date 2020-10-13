@@ -7,10 +7,14 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include
-        layout="@layout/toolbar"
-        android:id="@+id/user_in_toolbar">
-    </include>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/user_in_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="4dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
 
     <ScrollView
         android:layout_width="match_parent"

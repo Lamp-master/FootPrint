@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         getUserInfo()
 
+
+
         if (ContextCompat.checkSelfPermission(this , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
             val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
             ActivityCompat.requestPermissions(this, permissions,0)
@@ -94,3 +96,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+
+
+
+
+/*  db.collection("User").document(auth?.uid.toString()).set(userInfo)
+  .addOnSuccessListener { void: Void? ->
+
+*/

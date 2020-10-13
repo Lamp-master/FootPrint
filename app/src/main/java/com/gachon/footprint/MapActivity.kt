@@ -7,7 +7,10 @@ import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.widget.Toast
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -42,6 +45,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
 
+
         latlngdata.add(LatLngData(1, LatLng(37.5082, 126.8433)))
         latlngdata.add(LatLngData(2, LatLng(37.5109, 126.8411)))
         latlngdata.add(LatLngData(3, LatLng(37.5166, 126.8414)))
@@ -49,6 +53,28 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         latlngdata.add(LatLngData(5, LatLng(37.5119, 126.8583)))
         latlngdata.add(LatLngData(6, LatLng(37.5202, 126.8473)))
         latlngdata.add(LatLngData(7, LatLng(37.5164, 126.8543)))
+        
+        val mapbar = findViewById<Toolbar>(R.id.map_toolbar)
+        setSupportActionBar(mapbar)
+        val ab: androidx.appcompat.app.ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
+        ab?.title = "내 주변 발자취"
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.map_toolbar, menu)
+
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
