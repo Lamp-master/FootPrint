@@ -20,7 +20,6 @@ class ViewSettingActivity : AppCompatActivity() {
             var value = intent.getStringExtra("setting")
 
             //아니이게 왜안이어질까요?
-
             when(value){
                 "0" -> {
                     var accountinfo = AccountInfo()

@@ -61,6 +61,7 @@ dependencies {
     //구글 맵 API
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.maps.android:android-maps-utils:0.5'
     //파이어베이스 SDK
     implementation 'com.google.android.gms:play-services-auth:18.1.0'
     implementation 'com.google.firebase:firebase-core:17.5.0'
@@ -78,7 +79,6 @@ dependencies {
     //Material Design
     //noinspection GradleCompatible
     implementation 'com.android.support:design:27.0.2'
-    //0928-현근
     // ARCore 세션 제공 및 관련 리소스 제공
     implementation 'com.google.ar:core:1.19.0'
     // AR 프레그먼트 와 UX 디자인 소스 제공
