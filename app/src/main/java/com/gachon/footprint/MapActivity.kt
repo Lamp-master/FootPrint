@@ -49,6 +49,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        Timber.plant(Timber.DebugTree())
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_map)
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
@@ -71,16 +72,22 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.map_toolbar, menu)
-
+        //맵 툴바를 가져옴
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item?.itemId) {
+            //뒤로가기 버튼
             android.R.id.home -> {
                 finish()
                 return true
             }
+            R.id.my_location -> {
+                //툴바의 아이콘이 눌리면 중괄호 안을 하겠다..
+            }
         }
+
+
         return super.onOptionsItemSelected(item)
     }
     override fun onMapReady(googleMap: GoogleMap) {
@@ -122,6 +129,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         for (i in latlngdata.indices) {
             distance = SphericalUtil.computeDistanceBetween(cur, latlngdata[i].latLng) / 1000
             if (distance!! < 1) {
+                Timber.d("Test $distance")
                 addMarker(latlngdata[i])
                 Toast.makeText(this, "km" + distance!!, Toast.LENGTH_SHORT).show()
             }
