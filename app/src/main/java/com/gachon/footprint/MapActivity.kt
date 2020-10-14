@@ -87,7 +87,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             }
         }
 
-
         return super.onOptionsItemSelected(item)
     }
     override fun onMapReady(googleMap: GoogleMap) {
