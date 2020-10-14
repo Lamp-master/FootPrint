@@ -24,11 +24,11 @@ class ViewSettingActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, modifyinfo).commit()
                 }
-                "2" -> {
+                /*"2" -> {
                     var changeaccount = ChangeAccount()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, changeaccount).commit()
-                }
+                }*/
                 "3" -> {
                     var setlocation = SetLocationInfo()
                     supportFragmentManager.beginTransaction()
@@ -49,7 +49,7 @@ class ViewSettingActivity : AppCompatActivity() {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, contact).commit()
                 }
-                "7" -> {
+/*                "7" -> {
                     var logOut = LogOut()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, logOut).commit()
@@ -58,7 +58,7 @@ class ViewSettingActivity : AppCompatActivity() {
                     var withdrawaccount = WithdrawAccount()
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.fragment, withdrawaccount).commit()
-                }
+                }*/
             }
         }
     }

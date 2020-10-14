@@ -80,7 +80,7 @@ class LoginActivity : AppCompatActivity() {
         userInfo.email = auth?.currentUser?.email
         db.collection("User").document(auth?.uid.toString()).set(userInfo)
             .addOnSuccessListener { void: Void? ->
-                Toast.makeText(this, "로그인 성공", Toast.LENGTH_LONG).show() }
+                Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_LONG).show() }
     }
 
     //이메일 로그인
@@ -91,11 +91,11 @@ class LoginActivity : AppCompatActivity() {
         )?.addOnCompleteListener(this) {
             if (it.isSuccessful) {
                 //인증 성공
-                Toast.makeText(this, "로그인성공", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "로그인 성공", Toast.LENGTH_SHORT).show()
                 moveMainPage(it.result?.user)
             } else {
                 //인증 실패시
-                Toast.makeText(this, "로그인실패", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "로그인 실패", Toast.LENGTH_SHORT).show()
 
             }
         }
