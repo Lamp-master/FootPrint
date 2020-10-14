@@ -15,17 +15,64 @@
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16sp"
-        android:text="연락처"
-        android:textSize="20sp"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16sp"
-        android:text="elnath@naver.com"
-        android:textSize="16sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CONTACT US"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorNavIcon"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="애플리케이션을 사용하면서 발생한 \n오류, 문제점, 의견 제보 등을 받습니다.\n\n오류의 경우 화면 사진을 캡처하여 보내주시면\n더욱 빠른 처리가 가능합니다."
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textColor="@color/colorNavIcon"/>
+
+        <EditText
+            android:id="@+id/account_report_reason"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:background="@drawable/edittext_round"
+            android:hint="전달할 내용을 입력해주세요"
+            android:scrollHorizontally="false"
+            android:lines="4"
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:gravity="top"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"/>
+
+        <EditText
+            android:id="@+id/account_report_nickname"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/edittext_round"
+            android:hint="답변 받을 이메일 주소를 입력하세요"
+            android:textSize="14sp"
+            android:padding="8dp"
+            android:inputType="text" />
+
+        <Button
+            android:id="@+id/account_report_report"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center"
+            android:background="@color/colorAccent"
+            android:text="문의하기" />
+    </LinearLayout>
 </LinearLayout>

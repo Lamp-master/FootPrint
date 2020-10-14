@@ -87,13 +87,14 @@
             <EditText
                 android:id="@+id/add_footprint_context"
                 android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/edittext_round"
                 android:hint="남길 발자취의 내용을 입력하세요"
+                android:lines="6"
                 android:padding="8dp"
                 android:gravity="top"
-                android:inputType="textImeMultiLine" />
+                android:inputType="textMultiLine" />
 
             <TextView
                 android:layout_width="match_parent"

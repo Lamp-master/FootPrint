@@ -18,10 +18,18 @@ class AccountReport : Fragment() {
 
    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
        val view = inflater.inflate(R.layout.s_account_report, container, false)
-       return view
+       val arbar = view.findViewById(R.id.account_report_toolbar) as Toolbar
+       val activity = activity as AppCompatActivity?
 
+       activity?.setSupportActionBar(arbar)
+       activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+       activity?.supportActionBar?.title = "계정 신고"
+
+       return view
     }
 }
+
+
 
 
 

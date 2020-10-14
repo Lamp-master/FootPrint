@@ -2,7 +2,9 @@ package com.gachon.footprint
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import com.gachon.footprint.data.CurrentUser
 import com.gachon.footprint.settingfragment.*
 import kotlinx.android.synthetic.main.activity_setting.*
@@ -19,7 +21,13 @@ class SettingActivity : AppCompatActivity() {
         setContentView(R.layout.activity_setting)
         Timber.plant(Timber.DebugTree())
 
-        account_info.setOnClickListener {
+        val settingbar = findViewById<Toolbar>(R.id.setting_toolbar)
+        setSupportActionBar(settingbar)
+        val ab: androidx.appcompat.app.ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
+        ab?.title = "설정"
+
+        app_info.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "0")
             startActivity(intent)
@@ -34,37 +42,47 @@ class SettingActivity : AppCompatActivity() {
             intent.putExtra("setting", "2")
             startActivity(intent)
         }
-        withdraw_account.setOnClickListener {
+        set_location_info.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "3")
             startActivity(intent)
         }
-        set_location_info.setOnClickListener {
+        account_report.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "4")
             startActivity(intent)
         }
-        account_report.setOnClickListener {
+        licence.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "5")
             startActivity(intent)
         }
-        app_info.setOnClickListener {
+        contact_us.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "6")
             startActivity(intent)
-
         }
-        licence.setOnClickListener {
+        log_out.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "7")
             startActivity(intent)
+
         }
-        contact_us.setOnClickListener {
+        withdraw_account.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
             intent.putExtra("setting", "8")
             startActivity(intent)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
 

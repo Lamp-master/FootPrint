@@ -4,26 +4,17 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
-import android.view.MenuItem
+import android.widget.GridLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.firebase.ui.auth.data.model.User
 import com.gachon.footprint.data.CurrentUser
-import com.gachon.footprint.navigation.CashFragment
-import com.gachon.footprint.navigation.HomeFragment
-import com.gachon.footprint.navigation.SettingFragment
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.toObject
+import com.google.firebase.firestore.SetOptions
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_home.*
 import timber.log.Timber
 
 class MainActivity : AppCompatActivity() {
@@ -35,90 +26,79 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val db = FirebaseFirestore.getInstance()
+    private var auth: FirebaseAuth? = null
 
-    /*override fun onNavigationItemSelected(p0: MenuItem): Boolean {
-        when (p0.itemId) {
-            R.id.action_home -> {
-                var homeFragment = HomeFragment()
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, homeFragment).commit()
-                return true
-            }
-
-            R.id.action_cash -> {
-                var cashFragment = CashFragment()
-                supportFragmentManager.beginTransaction().replace(R.id.main_content, cashFragment)
-                    .commit()
-                return true
-            }
-            R.id.action_setting -> {
-                var settingFragment = SettingFragment()
-                supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_content, settingFragment).commit()
-                return true
-            }
-        }
-        return false
-    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*bottom_navigation.setOnNavigationItemSelectedListener(this)
-        bottom_navigation.selectedItemId=R.id.action_home*/
-        getUserInfo()
-        //액티비티 전환 버튼 추가
+        Timber.plant(Timber.DebugTree())
+        auth = FirebaseAuth.getInstance()
+        getLastLocationNewMethod()
 
-        if (ContextCompat.checkSelfPermission(this , Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION)
-            ActivityCompat.requestPermissions(this, permissions,0)
-        }
-        val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION)
+        //권한 설정
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.CAMERA, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_EXTERNAL_STORAGE)
+            ActivityCompat.requestPermissions(this, permissions, 0) }
+
+        val permissions = arrayOf(android.Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION)
         ActivityCompat.requestPermissions(this, permissions, 0)
 
-        fun getLastLocationNewMethod() {
-            val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-            if (ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return
-            }
+        //액티비티 전환 버튼 추가
+        //발자취 추가하기
+        add_footprint.setOnClickListener {
+            val intent = Intent(this, FootMsgActivity::class.java)
+            startActivity(intent)
+        }
+        // 발자취 찾기
+        find_footprint.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }
+        //근처 발자취 보기 (Google map)
+        near_footprint.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        }
+        // 다이어리 보기
+        /*my_diary.setOnClickListener {
+            val intent = Intent(this, DiaryActivity::class.java)
+            startActivity(intent)
+        }*/
+        //상품 구매하기
+        /*buy_goods.setOnClickListener {
+            val intent = Intent(this, CameraActivity::class.java)
+            startActivity(intent)
+        }*/
+        //설정 보기
+        setting.setOnClickListener {
+            val intent = Intent(this, SettingActivity::class.java)
+            startActivity(intent)
+        }
+    }
+
+    // 실행시 첫 메인화면에서 gps값을 가져오는 건지 모르겠음. 확인해봐야함
+    // firestore 에는 gps값 등록이 됨.
+    fun getLastLocationNewMethod() {
+        val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED)
             mFusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     location?.apply {
                         sydney = LatLng(this.latitude, this.longitude)
+                        /*Timber.d("Test ${sydney!!.latitude} ${sydney!!.longitude}")*/
+                        db.collection("User").document(auth?.uid.toString()).set(sydney!!, SetOptions.merge())
+                            .addOnSuccessListener { void: Void? ->
+                            }
                     }
                 }
                 .addOnFailureListener { e ->
                     e.printStackTrace()
                 }
-        }
-    }
-
-    private fun getUserInfo(){
-        var cuser = FirebaseAuth.getInstance().currentUser
-        if(cuser!=null) {
-            user.uid = cuser.uid
-            db.collection("User").document(user.uid!!).get().addOnSuccessListener { documentSnapshot ->
-                var map: Map<String, Any> = documentSnapshot.data as Map<String, Any>
-                user.nickname = map["nickname"].toString()
-                user.email = map["userEmail"].toString()
-                user.password = map["password"].toString()
-                user.Img = map["userImg"].toString()
-            }
-        }
     }
 }
 
@@ -126,7 +106,21 @@ class MainActivity : AppCompatActivity() {
 
 
 
+
 /*  db.collection("User").document(auth?.uid.toString()).set(userInfo)
   .addOnSuccessListener { void: Void? ->
-
 */
+// firestore 로부터 유저 정보 받아옴. 이 Activity에선 필요없음
+/*private fun getUserInfo(){
+    var cuser = FirebaseAuth.getInstance().currentUser
+    if(cuser!=null) {
+        user.uid = cuser.uid
+        db.collection("User").document(user.uid!!).get().addOnSuccessListener { documentSnapshot ->
+            var map: Map<String, Any> = documentSnapshot.data as Map<String, Any>
+            user.nickname = map["nickname"].toString()
+            user.email = map["userEmail"].toString()
+            user.password = map["password"].toString()
+            user.Img = map["userImg"].toString()
+        }
+    }
+}*/
