@@ -6,13 +6,11 @@
         android:name="com.google.android.geo.API_KEY"
         android:value="AIzaSyAmyaioAZEltlE2iSreIZSDnCcGAyYdLPg" />
 
-
-
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
     <uses-feature android:glEsVersion="0x00030000" android:required="true" />
     <uses-feature android:name="android.hardware.camera.ar" android:required="true"/>
 
@@ -42,6 +40,8 @@
         <activity android:name=".FootMsgActivity"/>
         <activity android:name=".UserEnterActivity"/>
         <activity android:name=".ViewSettingActivity"/>
+        <activity android:name=".SettingActivity"/>
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
