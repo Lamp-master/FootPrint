@@ -3,15 +3,12 @@ package com.gachon.footprint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.gachon.footprint.data.CurrentUser
-import com.gachon.footprint.settingfragment.*
 import kotlinx.android.synthetic.main.activity_setting.*
-
 import timber.log.Timber
 
 class SettingActivity : AppCompatActivity() {
 
-    var user = CurrentUser()
+
     val ft = supportFragmentManager.beginTransaction()
 
     override fun onCreate(savedInstanceState: Bundle?) {

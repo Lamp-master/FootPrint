@@ -1,5 +1,7 @@
 package com.gachon.footprint.data
 
+import com.google.android.gms.maps.model.LatLng
+
 data class ModelUser(
     var email: String? = null,
     var uid: String? = null,
@@ -7,5 +9,6 @@ data class ModelUser(
     var Img: String? = null,
     var nickname: String? = null,
     // 유저 패스워드 변수 추가했음
-    var password: String? = null
+    var password: String? = null,
+    var latLng: LatLng? = null
 )
