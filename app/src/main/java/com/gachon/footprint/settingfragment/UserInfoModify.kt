@@ -18,7 +18,7 @@ class UserInfoModify : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.s_modify_info, container, false)
 
-        val uimbar = view.findViewById(R.id.set_location_toolbar) as Toolbar
+        val uimbar = view.findViewById(R.id.modify_info_toolbar) as Toolbar
         val activity = activity as AppCompatActivity?
 
         activity?.setSupportActionBar(uimbar)

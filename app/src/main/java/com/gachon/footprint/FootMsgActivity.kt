@@ -1,4 +1,6 @@
 package com.gachon.footprint
+
+
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
@@ -10,38 +12,42 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.gachon.footprint.data.ModelFoot
-import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.UploadTask
+import io.grpc.Context
 import kotlinx.android.synthetic.main.activity_footprint.*
-import timber.log.Timber
+
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
 
 //10.12해야할 것 : 이미지 받아서 사용자 uid로 새폴더 생성 후, 이미지 파일 저장
-//파이어 스토어 footmsg저장경로 -> collection("FootMsg").document("랜덤uid")
-// 파이어 스토어 저장시 위치정보 무조건 같이 저장 null값될시 앱다운 제일중요
-
 class FootMsgActivity : AppCompatActivity() {
 
-    var selectedPhotoUri: Uri? = null
+   var selectedPhotoUri : Uri? =null
     private var auth: FirebaseAuth? = null
     private val db = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
-    var uid = user?.uid
-    var lat: String? = null
-    var lon: String? = null
+    var uid =   user?.uid
 
-    var footmsgInfo : ModelFoot? = ModelFoot()
+    var footmsgInfo = ModelFoot()
     private val footMsgRef = db.collection("FootMsg")
-    // val userRef = db.collection("User")
+   // val userRef = db.collection("User")
+
+
 
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
@@ -59,59 +65,73 @@ class FootMsgActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_footprint)
         auth = FirebaseAuth.getInstance()
-        getUserInfo()
-        Timber.plant(Timber.DebugTree())
-        if(intent.hasExtra("LAT") && intent.hasExtra("LON")) {
-            lat = intent.getStringExtra("LAT")
-            lon = intent.getStringExtra("LON")
-            Timber.d("Test $lat $lon")
-            footmsgInfo?.latitude = lat?.toDouble()
-            footmsgInfo?.longitude = lon?.toDouble()
-        }
+
+        val footprintbar = findViewById<Toolbar>(R.id.activity_footprint_toolbar)
+        setSupportActionBar(footprintbar)
+        val ab: androidx.appcompat.app.ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
+        ab?.title = "발자취 남기기"
+
+
 
         //제목 : add_footprint_title -Title, 사진 : footprintImg - FootMedia,
         // add_footprint_location - Location : 위치정보, 내용 : add_footprint_context
         //내장실행->남긴시간(Timestamp-WrittenTime),
+
         //전 액티비티에서 위치정보 받고 이를 위도 경도로 표시해 주기
+
         //setView->openGallery->
         //권한을 받고 이미지뷰(footPrintImg)클릭해서 이미지 저장소에서 가져오기
-        if (checkPermission(STORAGE_PERMISSION, FLAG_PERM_STORAGE)) { setViews()}
-
-        //modeldata access후, firestore에 upload
+        if (checkPermission(STORAGE_PERMISSION, FLAG_PERM_STORAGE)) {
+            setViews()
+        }
+        //툴바 버튼을 만들어서 그대로 복붙해서 옮겼습니다
+        /*//modeldata access후, firestore에 upload
         confirm_button.setOnClickListener {
-            Timber.d("Test GPS $lat $lon")
-            if(lat !=null && lon !=null) {
-                footmsgInfo?.title = add_footprint_title.text.toString()
-                //사용자 이미지 업로드
-                footmsgInfo?.msgImg = selectedPhotoUri.toString()
-                upLoadImageToCloud()
-                footmsgInfo?.msgText = add_footprint_context.text.toString()
-                footmsgInfo?.timestamp = System.currentTimeMillis()
-                //firestore에 push
-                footmsgInfo?.let { it1 ->
-                    db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
-                        Log.d("Put", "발자취 등록 성공")
-                    }
-                }
-            }
-
-/*
-            footmsgInfo?.uid?.let { it -> db.collection("FootMsg").add(footmsgInfo!!).addOnSuccessListener { documentReference ->
-                Log.d("Put", "발자취 등록 성공")
-            }
-*/
-
-                //해당 User.uid.footlist(collection)에 만들어진 footMsgId 추가.
+            footmsgInfo.title = add_footprint_title.text.toString()
+            footmsgInfo.msgText = add_footprint_context.text.toString()
+            //사용자 이미지 업로드
+            upLoadImageToCloud()
+            footmsgInfo.nickname =user?.email
+            footmsgInfo.msgImg=selectedPhotoUri.toString()
+            footmsgInfo.timestamp=System.currentTimeMillis()
+            //firestore에 push
+            footMsgRef?.document(auth?.uid.toString()).set(footmsgInfo)
+            //해당 User.uid.footlist(collection)에 만들어진 footMsgId 추가.
 
             setResult(Activity.RESULT_OK)
-/*
-            db.collection("User").document(auth?.uid.toString()).set(userInfo)
-                .addOnSuccessListener { void: Void? ->
-                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this, LoginActivity::class.java))}*/
-        }
+        }*/
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.footprint_toolbar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.btn_save_footprint -> {
+                //만들어진 내용을 저장한다
+                footmsgInfo.title = add_footprint_title.text.toString()
+                footmsgInfo.msgText = add_footprint_context.text.toString()
+                //사용자 이미지 업로드
+                upLoadImageToCloud()
+                footmsgInfo.nickname =user?.email
+                footmsgInfo.msgImg=selectedPhotoUri.toString()
+                footmsgInfo.timestamp=System.currentTimeMillis()
+                //firestore에 push
+                footMsgRef?.document(auth?.uid.toString()).set(footmsgInfo)
+                //해당 User.uid.footlist(collection)에 만들어진 footMsgId 추가.
+
+                setResult(Activity.RESULT_OK)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     //이미지 저장소에서 불러오기
     private fun setViews() {
@@ -156,7 +176,7 @@ class FootMsgActivity : AppCompatActivity() {
                 FLAG_REQ_STORAGE -> {
                     val uri = data?.data
                     footprintImg.setImageURI(uri)
-                    selectedPhotoUri = uri
+                    selectedPhotoUri=uri
                 }
             }
         }
@@ -193,7 +213,6 @@ class FootMsgActivity : AppCompatActivity() {
         }
         return uri
     }
-
     //사진촬영시 사진 제목을 timestamp로 하여 query 용이하게
     private fun newFileName(): String {
         val sdf = SimpleDateFormat("yyyyMMdd_HHmmss")
@@ -202,32 +221,9 @@ class FootMsgActivity : AppCompatActivity() {
         return "$filename.jpg"
     }
 
-
-    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.(나중에 timestamp형식으로 고치기)
-    private fun upLoadImageToCloud() {
-        if (selectedPhotoUri == null) return
-        val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$uid/$filename")
-        ref.putFile(selectedPhotoUri!!)
-            .addOnSuccessListener {
-                Log.d("Register", "이미지 업로드 성공 : ${it.metadata?.path}")
-            }
-    }
-
-    // 현재 사용자 정보 가져오는 함수
-    private fun getUserInfo(){
-        if(user!=null) {
-            db.collection("User").document(user!!.uid).get().addOnSuccessListener { documentSnapshot ->
-                var map: Map<String, Any> = documentSnapshot.data as Map<String, Any>
-                footmsgInfo?.uid = map["uid"].toString()
-                footmsgInfo?.nickname = map["nickname"].toString()
-                footmsgInfo?.email = map["userEmail"].toString()
-            }
-        }
-    }
-
-
-    //권한 처리 함수
+    /*
+    * 여기서 부터 권한처리 관련 함수
+    */
     private fun checkPermission(permissions: Array<out String>, flag: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             for (permission in permissions) {
@@ -244,7 +240,6 @@ class FootMsgActivity : AppCompatActivity() {
         return true
     }
 
-    //스토리지/카메라 퍼미션
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -254,7 +249,7 @@ class FootMsgActivity : AppCompatActivity() {
             FLAG_PERM_STORAGE -> {
                 for (grant in grantResults) {
                     if (grant != PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "저장소 권한을 승인해야지만 앱을 사용할 수 있습니다.", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "저장소 권한을 승인해야만 앱을 사용할 수 있습니다.", Toast.LENGTH_LONG)
                             .show()
                         finish()
                         return
@@ -265,7 +260,7 @@ class FootMsgActivity : AppCompatActivity() {
             FLAG_PERM_CAMERA -> {
                 for (grant in grantResults) {
                     if (grant != PackageManager.PERMISSION_GRANTED) {
-                        Toast.makeText(this, "카메라 권한을 승인해야지만 카메라를 사용할 수 있습니다.", Toast.LENGTH_LONG)
+                        Toast.makeText(this, "카메라 권한을 승인해야만 카메라를 사용할 수 있습니다.", Toast.LENGTH_LONG)
                             .show()
                         return
                     }
@@ -274,7 +269,17 @@ class FootMsgActivity : AppCompatActivity() {
             }
         }
     }
-}
+    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.(나중에 timestamp형식으로 고치기)
+    private fun upLoadImageToCloud(){
+        if(selectedPhotoUri==null) return
+        val filename = UUID.randomUUID().toString()
+        val ref = FirebaseStorage.getInstance().getReference("/images/$uid/$filename")
+        ref.putFile(selectedPhotoUri!!)
+            .addOnSuccessListener {
+                Log.d("Register","이미지 업로드 성공 : ${it.metadata?.path}")
+            }
+
+    }
 
 // 할 것 timestamp/location/동영상버튼 만들어지면 동영상 처리/armarkerlist/mapmarker/
 
@@ -287,7 +292,7 @@ class FootMsgActivity : AppCompatActivity() {
         Log.d("TAG170", date)
     }*/
 
-
+}
 
 
 
