@@ -1,22 +1,17 @@
 package com.gachon.footprint
 
-import android.app.PendingIntent.getActivity
 import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
-import com.gachon.footprint.data.CurrentUser
-import com.gachon.footprint.settingfragment.*
 import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_setting.*
-
 import timber.log.Timber
 
 class SettingActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
-    var user = CurrentUser()
     val ft = supportFragmentManager.beginTransaction()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,7 +83,7 @@ class SettingActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true
@@ -105,7 +100,6 @@ class SettingActivity : AppCompatActivity() {
         auth?.currentUser?.delete()
     }
 }
-
 
 
 /*이걸 여기로 꺼내도될까? 하튼이걸로 뒤로가기가되긴되는데
