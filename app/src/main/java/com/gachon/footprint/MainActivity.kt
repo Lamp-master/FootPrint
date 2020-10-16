@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
         }
         // 다이어리 보기
         my_diary.setOnClickListener {
-            val intent = Intent(this, RecyclerView_ViewFootMsg::class.java)
+            val intent = Intent(this, DiaryActivity::class.java)
             startActivity(intent)
         }
         //상품 구매하기

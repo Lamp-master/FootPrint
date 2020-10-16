@@ -13,6 +13,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.footprint_dialog.*
 import kotlinx.android.synthetic.main.footprint_dialog.view.*
 import org.w3c.dom.Text
@@ -27,9 +28,14 @@ class FootDialog : DialogFragment() {
     var profilePic : String? = null
     var nickname : String? = null
 
+    var btnRecommend : String? = null
+    var recommendCount : Int = 0
+    var btnComment : String? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.footprint_dialog, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return view.rootView
 
     }
 
@@ -37,19 +43,27 @@ class FootDialog : DialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         view?.apply {
-            findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title
-/*            findViewById<ImageView>(R.id.dialog_image)?.text = contentPic*/
-            findViewById<TextView>(R.id.dialog_title)?.text = title
-            findViewById<TextView>(R.id.dialog_content)?.text = content
-            findViewById<TextView>(R.id.dialog_location)?.text = location
-/*            findViewById<ImageView>(R.id.dialog_profilepic)?.text = profilePic*/
-            findViewById<TextView>(R.id.dialog_nickname)?.text = nickname
+            /*findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title*/
+            footprint_dialog.text = main_Title
+            /*dialog_image.text = contentPic*/
+            dialog_title.text = title
+            dialog_content.text = content
+            dialog_location.text = location
+            /*dialog_profilepic.text = profilePic*/
+            dialog_nickname.text = nickname
 
+            dialog_recommend.text = btnRecommend
+            dialog_recommend.setOnClickListener() {
+                //버튼이 눌려지면 추천수가 1 오르고 더 클릭할 수 없다.
+                recommendCount += 1
+                dialog_recommend.isClickable=false
+            }
+            dialog_comment.text = btnComment
         }
     }
 
     class FootDialogBuild() {
-
+        //setString
         val dialog = FootDialog()
 
         fun setDialogTitle(dialog_title: String): FootDialogBuild {
@@ -84,6 +98,16 @@ class FootDialog : DialogFragment() {
 
         fun setNickname(nickname: String): FootDialogBuild {
             dialog.nickname= nickname
+            return this
+        }
+
+        fun setRecommend(recommend : String) : FootDialogBuild {
+            dialog.btnRecommend = recommend
+            return this
+        }
+
+        fun setComment(comment : String) : FootDialogBuild {
+            dialog.btnComment = comment
             return this
         }
 

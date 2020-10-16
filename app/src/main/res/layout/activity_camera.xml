@@ -37,7 +37,7 @@
 
         <Button
             android:id="@+id/btn_see_footprint"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="보기"
@@ -47,7 +47,7 @@
 
         <Button
             android:id="@+id/btn_leave_footprint"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="발자취 남기기"
@@ -57,7 +57,7 @@
 
         <Button
             android:id="@+id/btn_report_footprint"
-            android:visibility="gone"
+            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
@@ -67,6 +67,7 @@
 
         <Button
             android:id="@+id/btn_message_search"
+            android:visibility="gone"
             android:clickable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

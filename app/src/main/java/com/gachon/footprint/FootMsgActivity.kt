@@ -10,8 +10,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.gachon.footprint.data.ModelFoot
@@ -56,6 +59,13 @@ class FootMsgActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_footprint)
+
+        val fmbar = findViewById<Toolbar>(R.id.activity_footprint_toolbar)
+        setSupportActionBar(fmbar)
+        val ab: androidx.appcompat.app.ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
+        ab?.title = "발자취 등록"
+
         Timber.plant(Timber.DebugTree())
         auth = FirebaseAuth.getInstance()
         getUserInfo()
@@ -112,6 +122,59 @@ class FootMsgActivity : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        //툴바를 가져옵니다
+        menuInflater.inflate(R.menu.footprint_toolbar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            //뒤로가기 버튼
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.btn_save_footprint -> {
+                //저장하기 버튼
+
+                Timber.d("Test GPS $lat $lon")
+                if(lat !=null && lon !=null) {
+                    footmsgInfo?.title = add_footprint_title.text.toString()
+                    //사용자 이미지 업로드
+                    footmsgInfo?.msgImg = selectedPhotoUri.toString()
+                    upLoadImageToCloud()
+                    footmsgInfo?.msgText = add_footprint_context.text.toString()
+                    footmsgInfo?.timestamp = System.currentTimeMillis()
+                    Timber.d("Testinbtn ${footmsgInfo?.nickname.toString()}")
+                    //firestore에 push
+                    footmsgInfo?.let { it1 ->
+                        db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
+                            Log.d("Put", "발자취 등록 성공")
+                        }
+                    }
+                }
+
+/*
+            footmsgInfo?.uid?.let { it -> db.collection("FootMsg").add(footmsgInfo!!).addOnSuccessListener { documentReference ->
+                Log.d("Put", "발자취 등록 성공")
+            }
+*/
+
+                //해당 User.uid.footlist(collection)에 만들어진 footMsgId 추가.
+
+                setResult(Activity.RESULT_OK)
+/*
+            db.collection("User").document(auth?.uid.toString()).set(userInfo)
+                .addOnSuccessListener { void: Void? ->
+                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show()
+                    startActivity(Intent(this, LoginActivity::class.java))}*/
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     //이미지 저장소에서 불러오기
     private fun setViews() {
