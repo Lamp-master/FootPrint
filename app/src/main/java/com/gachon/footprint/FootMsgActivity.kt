@@ -59,10 +59,10 @@ class FootMsgActivity : AppCompatActivity() {
         Timber.plant(Timber.DebugTree())
         auth = FirebaseAuth.getInstance()
         getUserInfo()
-        Timber.d("Testoncreate ${footmsgInfo?.nickname.toString()}")
         if(intent.hasExtra("LAT") && intent.hasExtra("LON")) {
             lat = intent.getStringExtra("LAT")
             lon = intent.getStringExtra("LON")
+            Timber.d("TestGps $lat $lon")
             footmsgInfo?.latitude = lat?.toDouble()
             footmsgInfo?.longitude = lon?.toDouble()
         }
