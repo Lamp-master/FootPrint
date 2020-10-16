@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/home_background"
+    android:orientation="vertical"
     tools:context=".MainActivity">
+
     <TextView
         android:id="@+id/menu_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="16dp"
         android:text="MENU HOME"
         android:textStyle="bold"
@@ -21,8 +25,9 @@
         android:id="@+id/menu_text_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/menu_text"
-        android:layout_centerHorizontal="true"
+        app:layout_constraintTop_toBottomOf="@+id/menu_text"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
         android:text="Welcome to Footprint"
         android:textSize="16sp" />
@@ -30,8 +35,10 @@
     <!--id : addfootprint-->
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/menu_text_welcome"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/menu_text_welcome"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
         android:rowCount="3"
         android:columnCount="2"
         android:layout_margin="24dp">
@@ -41,9 +48,10 @@
             android:id="@+id/add_footprint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingTop="16dp"
+            android:paddingBottom="16dp"
             app:layout_column="0"
             app:layout_row="0"
-            android:layout_gravity="fill"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp"
             android:layout_columnWeight="1"
@@ -54,6 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
 
@@ -80,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="0"
-            app:layout_row="0"
+            app:layout_row="1"
             android:layout_gravity="fill"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp"
@@ -91,6 +101,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
@@ -116,7 +128,7 @@
             android:id="@+id/near_footprint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_column="0"
+            app:layout_column="1"
             app:layout_row="0"
             android:layout_gravity="fill"
             app:cardElevation="8dp"
@@ -128,6 +140,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
@@ -151,8 +165,8 @@
             android:id="@+id/my_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_column="0"
-            app:layout_row="0"
+            app:layout_column="1"
+            app:layout_row="1"
             android:layout_gravity="fill"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp"
@@ -163,6 +177,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
@@ -188,7 +204,7 @@
             android:id="@+id/buy_goods"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_column="0"
+            app:layout_column="2"
             app:layout_row="0"
             android:layout_gravity="fill"
             app:cardElevation="8dp"
@@ -200,6 +216,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
@@ -224,7 +242,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="0"
-            app:layout_row="0"
+            app:layout_row="2"
             android:layout_gravity="fill"
             app:cardElevation="8dp"
             app:cardCornerRadius="8dp"
@@ -235,6 +253,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingTop="16dp"
+                android:paddingBottom="16dp"
                 android:orientation="vertical"
                 android:gravity="center"
                 android:layout_gravity="center_vertical|center_horizontal">
@@ -252,10 +272,8 @@
                     android:textAlignment="center"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
-
     </GridLayout>
-
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
 
 

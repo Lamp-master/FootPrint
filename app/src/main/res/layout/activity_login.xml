@@ -29,7 +29,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:text="사용중인 계정이 있다면\n사용하는 계정으로 로그인해 주세요"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
             android:textSize="14sp"/>
 
         <com.google.android.material.textfield.TextInputLayout

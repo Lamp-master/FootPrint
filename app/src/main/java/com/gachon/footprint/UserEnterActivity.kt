@@ -75,7 +75,7 @@ class UserEnterActivity : AppCompatActivity() {
 
         db.collection("User").document(auth?.uid.toString()).set(userInfo)
             .addOnSuccessListener { void: Void? ->
-                Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show()
+                Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_LONG).show()
                 startActivity(Intent(this, LoginActivity::class.java))}
     }
 }

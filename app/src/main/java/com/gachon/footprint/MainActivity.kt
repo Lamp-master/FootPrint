@@ -102,10 +102,10 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         //근처 발자취 보기 (Google map)
-         near_footprint.setOnClickListener {
-             val intent = Intent(this, MapActivity::class.java)
-             startActivity(intent)
-            }
+        near_footprint.setOnClickListener {
+            val intent = Intent(this, MapActivity::class.java)
+            startActivity(intent)
+        }
         // 다이어리 보기
         /*my_diary.setOnClickListener {
             val intent = Intent(this, DiaryActivity::class.java)
@@ -164,7 +164,6 @@ class MainActivity : AppCompatActivity() {
 /*
   db.collection("User").document(auth?.uid.toString()).set(userInfo)
   .addOnSuccessListener { void: Void? ->
-
 */
 // firestore 로부터 유저 정보 받아옴. 이 Activity에선 필요없음
 /*

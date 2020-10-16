@@ -5,11 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/fragment_setting_toolbar"
+        android:id="@+id/setting_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="4dp"
@@ -26,27 +25,19 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:orientation="vertical">
-            <TextView
-                android:id="@+id/account_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16sp"
-                android:text="계정 설정"
-                android:textSize="20sp"/>
 
             <Button
-                android:id="@+id/account_info"
+                android:id="@+id/app_info"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:layout_marginTop="16sp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="계정 정보"
+                android:text="앱 정보"
                 android:gravity="start|center_vertical" />
 
             <Button
                 android:id="@+id/modify_info"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
                 android:text="프로필 수정"
                 android:gravity="start|center_vertical" />
@@ -54,31 +45,15 @@
             <Button
                 android:id="@+id/change_account"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
                 android:text="계정 변경"
                 android:gravity="start|center_vertical" />
 
             <Button
-                android:id="@+id/withdraw_account"
-                android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:background="#00FF0000"
-                android:text="계정 탈퇴"
-                android:gravity="start|center_vertical" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24sp"
-                android:text="기타 설정"
-                android:textSize="20sp" />
-
-            <Button
                 android:id="@+id/set_location_info"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:layout_marginTop="24sp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
                 android:text="위치 정보 설정"
                 android:gravity="start|center_vertical" />
@@ -86,23 +61,15 @@
             <Button
                 android:id="@+id/account_report"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
                 android:text="계정 신고"
                 android:gravity="start|center_vertical" />
 
             <Button
-                android:id="@+id/app_info"
-                android:layout_width="match_parent"
-                android:layout_height="60sp"
-                android:background="#00FF0000"
-                android:text="앱 정보"
-                android:gravity="start|center_vertical" />
-
-            <Button
                 android:id="@+id/licence"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
                 android:text="라이선스"
                 android:gravity="start|center_vertical" />
@@ -110,11 +77,26 @@
             <Button
                 android:id="@+id/contact_us"
                 android:layout_width="match_parent"
-                android:layout_height="60sp"
+                android:layout_height="52dp"
                 android:background="#00FF0000"
                 android:text="문의하기"
                 android:gravity="start|center_vertical" />
 
+            <Button
+                android:id="@+id/log_out"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#00FF0000"
+                android:text="로그아웃"
+                android:gravity="start|center_vertical" />
+
+            <Button
+                android:id="@+id/withdraw_account"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="#00FF0000"
+                android:text="계정 탈퇴"
+                android:gravity="start|center_vertical" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
