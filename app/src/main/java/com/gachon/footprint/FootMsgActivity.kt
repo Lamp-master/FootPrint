@@ -15,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.gachon.footprint.data.ModelFoot
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -40,34 +39,34 @@ class FootMsgActivity : AppCompatActivity() {
     var lon: String? = null
 
     var footmsgInfo : ModelFoot? = ModelFoot()
-    private val footMsgRef = db.collection("FootMsg")
-    // val userRef = db.collection("User")
 
+    private val footMsgRef = db.collection("FootMsg")
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     val STORAGE_PERMISSION = arrayOf(
         Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
     )
+
     val FLAG_PERM_CAMERA = 98
     val FLAG_PERM_STORAGE = 99
 
     val FLAG_REQ_CAMERA = 101
     val FLAG_REQ_STORAGE = 102
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_footprint)
+        Timber.plant(Timber.DebugTree())
         auth = FirebaseAuth.getInstance()
         getUserInfo()
-        Timber.plant(Timber.DebugTree())
+        Timber.d("Testoncreate ${footmsgInfo?.nickname.toString()}")
         if(intent.hasExtra("LAT") && intent.hasExtra("LON")) {
             lat = intent.getStringExtra("LAT")
             lon = intent.getStringExtra("LON")
-            Timber.d("Test $lat $lon")
             footmsgInfo?.latitude = lat?.toDouble()
             footmsgInfo?.longitude = lon?.toDouble()
         }
+
 
         //제목 : add_footprint_title -Title, 사진 : footprintImg - FootMedia,
         // add_footprint_location - Location : 위치정보, 내용 : add_footprint_context
@@ -87,6 +86,7 @@ class FootMsgActivity : AppCompatActivity() {
                 upLoadImageToCloud()
                 footmsgInfo?.msgText = add_footprint_context.text.toString()
                 footmsgInfo?.timestamp = System.currentTimeMillis()
+                Timber.d("Testinbtn ${footmsgInfo?.nickname.toString()}")
                 //firestore에 push
                 footmsgInfo?.let { it1 ->
                     db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
@@ -222,6 +222,7 @@ class FootMsgActivity : AppCompatActivity() {
                 footmsgInfo?.uid = map["uid"].toString()
                 footmsgInfo?.nickname = map["nickname"].toString()
                 footmsgInfo?.email = map["userEmail"].toString()
+                Timber.d("Testuserinfo ${footmsgInfo?.nickname.toString()}")
             }
         }
     }

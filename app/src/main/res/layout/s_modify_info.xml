@@ -45,7 +45,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="8자 이하의 닉네임을 입력하세요"
                 android:inputType="text" />
 
             <TextView
@@ -61,7 +60,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="이메일을 입력하세요"
                 android:inputType="textEmailAddress" />
 
             <TextView
@@ -77,7 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="비밀번호를 입력하세요"
+                android:hint="비밀번호를 입력하세요 "
                 android:inputType="textPassword" />
 
             <TextView
@@ -93,8 +91,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="비밀번호를 다시 한 번 입력하세요"
+                android:hint="보안성이 없어요 "
                 android:inputType="textPassword" />
+
+            <Button
+                android:id="@+id/btn_modify"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="변경" />
+
 
         </LinearLayout>
     </ScrollView>
