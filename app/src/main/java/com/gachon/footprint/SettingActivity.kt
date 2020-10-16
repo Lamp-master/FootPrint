@@ -81,7 +81,6 @@ class SettingActivity : AppCompatActivity() {
         withdraw_account.setOnClickListener {
             withdraw()
             Toast.makeText(this, "계정 탈퇴 되었습니다", Toast.LENGTH_SHORT).show()
-
             //로그인 화면으로
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)

@@ -33,5 +33,3 @@ class AppInfo : Fragment() {
 
 }
 
-
-
