@@ -1,6 +1,7 @@
 package com.gachon.footprint
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -21,6 +22,7 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil
+import kotlinx.android.synthetic.main.activity_map.*
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
@@ -55,6 +57,14 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
         ab?.title = "내 주변 발자취"
+
+        btn_map_footprint.setOnClickListener {
+            val intent = Intent(this, RecyclerView_ViewFootMsg::class.java)
+            intent.putExtra("LAT", "$lat")
+            intent.putExtra("LON", "$lon")
+            Timber.d("Test $lat $lon")
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,6 +81,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return true
             }
             R.id.my_location -> {
+                mMap?.moveCamera(CameraUpdateFactory.newLatLng(lat?.let { lon?.let { it1 -> LatLng(it, it1) } }))
+                mMap?.animateCamera(CameraUpdateFactory.zoomTo(16f))
                 //툴바의 아이콘이 눌리면 중괄호 안을 하겠다..
             }
         }

@@ -11,11 +11,13 @@ data class ModelFoot(
     var nickname: String? = null,
     var timestamp: Long? = null,
     var msgText: String? = null,
+    //위치저장변수 , 거리변수
+    var latitude : Double? = null,
+    var longitude : Double?= null,
+    var distance: Double?=null,
     //이미지 및 동영상 uri 경로 저장
     var msgImg: String? = null,
     var msgMedia: String? = null,
-    var latitude : Double? = null,
-    var longitude : Double?= null,
     var arMarker: String? = null
 ) {
 
