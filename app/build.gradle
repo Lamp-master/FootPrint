@@ -89,4 +89,5 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:19.2.0'
     //database debug 용 나중에 지울것.
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    implementation 'io.nlopez.smartlocation:library:3.3.3'
 }
