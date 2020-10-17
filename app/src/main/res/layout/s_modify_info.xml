@@ -26,6 +26,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필 사진"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="36sp"/>
+
+
             <ImageView
                 android:id="@+id/pic_profile"
                 android:layout_width="100dp"
@@ -91,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="보안성이 없어요 "
+                android:hint="비빌번호를 재입력하세요 "
                 android:inputType="textPassword" />
         </LinearLayout>
     </ScrollView>

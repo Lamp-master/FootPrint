@@ -11,6 +11,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import com.gachon.footprint.data.ModelFoot
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,6 +27,7 @@ import kotlinx.android.synthetic.main.activity_map.*
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
@@ -35,8 +37,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     var lon: Double? = 0.0
     var currentLocation: String = ""
     var sydney: LatLng? = null
-
-
     class LatLngData(
         val latLng: LatLng,
         val title: String
@@ -60,7 +60,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         ab?.title = "내 주변 발자취"
 
         btn_map_footprint.setOnClickListener {
-            val intent = Intent(this, RecyclerView_ViewFootMsg::class.java)
+            val intent = Intent(this, FootMsgRecyclerActivity::class.java)
             intent.putExtra("LAT", "$lat")
             intent.putExtra("LON", "$lon")
             Timber.d("Test $lat $lon")
