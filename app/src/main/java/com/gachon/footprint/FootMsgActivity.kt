@@ -142,7 +142,7 @@ class FootMsgActivity : AppCompatActivity() {
                 if(lat !=null && lon !=null) {
                     footmsgInfo?.title = add_footprint_title.text.toString()
                     //사용자 이미지 업로드
-                    footmsgInfo?.msgImg = selectedPhotoUri.toString()
+                    footmsgInfo?.imageUrl = selectedPhotoUri.toString()
                     upLoadImageToCloud()
                     footmsgInfo?.msgText = add_footprint_context.text.toString()
                     footmsgInfo?.timestamp = System.currentTimeMillis()
