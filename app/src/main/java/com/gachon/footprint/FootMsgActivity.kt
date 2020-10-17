@@ -109,38 +109,7 @@ class FootMsgActivity : AppCompatActivity() {
             }
             R.id.btn_save_footprint -> {
                 //저장하기 버튼
-
-                Timber.d("Test GPS $lat $lon")
-                if(lat !=null && lon !=null) {
-                    footmsgInfo?.title = add_footprint_title.text.toString()
-                    //사용자 이미지 업로드
-                    footmsgInfo?.imageUrl = selectedPhotoUri.toString()
-                    upLoadImageToCloud()
-                    footmsgInfo?.msgText = add_footprint_context.text.toString()
-                    footmsgInfo?.timestamp = System.currentTimeMillis()
-                    Timber.d("Testinbtn ${footmsgInfo?.nickname.toString()}")
-                    //firestore에 push
-                    footmsgInfo?.let { it1 ->
-                        db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
-                            Log.d("Put", "발자취 등록 성공")
-                        }
-                    }
-                }
-
-/*
-            footmsgInfo?.uid?.let { it -> db.collection("FootMsg").add(footmsgInfo!!).addOnSuccessListener { documentReference ->
-                Log.d("Put", "발자취 등록 성공")
-            }
-*/
-
-                //해당 User.uid.footlist(collection)에 만들어진 footMsgId 추가.
-
-                setResult(Activity.RESULT_OK)
-/*
-            db.collection("User").document(auth?.uid.toString()).set(userInfo)
-                .addOnSuccessListener { void: Void? ->
-                    Toast.makeText(this, "회원가입 성공", Toast.LENGTH_LONG).show()
-                    startActivity(Intent(this, LoginActivity::class.java))}*/
+                upLoadImageToCloud()
 
             }
         }
