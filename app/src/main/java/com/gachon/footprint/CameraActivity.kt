@@ -11,6 +11,7 @@ import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
 import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.android.synthetic.main.footprint_dialog.*
 
 
 //AR이미지를 선택하고 정렬/위치정보를 MsgFoot으로 전달/
@@ -38,6 +39,32 @@ class CameraActivity : AppCompatActivity() {
                     return@exceptionally null
                 }
         })
+
+        btn_see_footprint.setOnClickListener() {
+            val dialg = FootDialog.FootDialogBuild()
+
+            val dialog = FootDialog.FootDialogBuild()
+
+                .setDialogTitle("발자취 보기")
+                .setTitle("이건 발자취 제목")
+                .setLocation("이건 발자취 위치")
+                .setContent("이건 발자취 내용")
+                .setNickname("발자취 쓴 사람 닉네임")
+                .setFirstBtnText("댓글")
+                .setSecondBtnText("추천")
+                .setButtonClick(object : FootDialog.customClickListener {
+                    override fun onFirstBtnClick() {
+                        //댓글버튼
+                    }
+
+                    override fun onSecondBtnClick() {
+                        //추천버튼
+                    }
+                })
+
+                .create()
+            dialog.show(supportFragmentManager, dialog.tag)
+        }
     }
 
     //오브젝트를 추가

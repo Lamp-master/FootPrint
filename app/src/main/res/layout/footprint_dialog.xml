@@ -64,7 +64,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_round"
                 android:scrollHorizontally="false"
                 android:lines="6"
                 android:textSize="12sp"
@@ -76,6 +75,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:paddingStart="8dp"
                 android:textSize="12sp" />
 
         </LinearLayout>
@@ -91,7 +91,7 @@
             android:id="@+id/dialog_profilepic"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/dialog_comment"
+            app:layout_constraintLeft_toRightOf="@id/dialog_btn_first"
             android:layout_width="70dp"
             android:layout_height="70dp" />
 
@@ -107,7 +107,7 @@
             app:layout_constraintLeft_toRightOf="@+id/dialog_profilepic"/>
 
         <Button
-            android:id="@+id/dialog_comment"
+            android:id="@+id/dialog_btn_first"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             android:layout_marginTop="8dp"
@@ -119,11 +119,11 @@
             android:background="@drawable/edittext_round"/>
 
         <Button
-            android:id="@+id/dialog_recommend"
+            android:id="@+id/dialog_btn_second"
             android:layout_width="wrap_content"
             android:layout_height="44dp"
             app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@+id/dialog_comment"
+            app:layout_constraintLeft_toRightOf="@+id/dialog_btn_first"
             app:layout_constraintTop_toBottomOf="@+id/dialog_nickname"
             android:layout_marginTop="8dp"
             tools:text="추천(7)"

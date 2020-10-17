@@ -93,14 +93,6 @@
                 android:textSize="14sp"
                 android:hint="보안성이 없어요 "
                 android:inputType="textPassword" />
-
-            <Button
-                android:id="@+id/btn_modify"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="변경" />
-
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

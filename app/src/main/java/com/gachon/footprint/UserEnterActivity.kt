@@ -15,6 +15,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_user_enter.*
+import kotlinx.android.synthetic.main.activity_user_enter.pic_profile
+import kotlinx.android.synthetic.main.activity_user_enter.user_in_email
+import kotlinx.android.synthetic.main.activity_user_enter.user_in_nickname
+import kotlinx.android.synthetic.main.activity_user_enter.user_in_password
+import kotlinx.android.synthetic.main.s_modify_info.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
 import java.util.*
@@ -47,7 +52,13 @@ class UserEnterActivity : AppCompatActivity() {
         ab?.title = "회원가입"
         //이미지 버튼 클릭 리스너
         btn_upload_image.setOnClickListener {
-            startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM) } }
+            startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
+        }
+        pic_profile.setOnClickListener() {
+            startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
+        }
+
+    }
 
    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.menu_toolbar, menu)
