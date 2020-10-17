@@ -5,19 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
-import com.gachon.footprint.MainActivity
 import com.gachon.footprint.R
 import com.gachon.footprint.SettingActivity
-import com.gachon.footprint.ViewSettingActivity
 import com.gachon.footprint.data.ModelFoot
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.s_modify_info.*
 import timber.log.Timber
 
@@ -27,6 +24,9 @@ class UserInfoModify : Fragment() {
     private var auth: FirebaseAuth? = null
     var user = FirebaseAuth.getInstance().currentUser
     var footmsgInfo: ModelFoot? = ModelFoot()
+    var storage : FirebaseStorage?=  FirebaseStorage.getInstance()
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,8 +73,10 @@ class UserInfoModify : Fragment() {
                     footmsgInfo?.uid = map["uid"].toString()
                     footmsgInfo?.nickname = map["nickname"].toString()
                     footmsgInfo?.email = map["email"].toString()
+                    footmsgInfo?.imageUrl = map["msgImg"].toString()
                     Timber.d("Testemail ${footmsgInfo?.email}")
                     Timber.d("Testuid ${footmsgInfo?.uid}")
+
                     setContent()
 
                 }
@@ -85,6 +87,10 @@ class UserInfoModify : Fragment() {
         Timber.d("Test4 ${footmsgInfo?.nickname}")
         user_in_email.setText(footmsgInfo?.email)
         user_in_nickname.setText(footmsgInfo?.nickname)
+
+
+
+
     }
 }
 /*

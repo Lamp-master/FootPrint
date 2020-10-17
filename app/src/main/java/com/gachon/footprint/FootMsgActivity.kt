@@ -43,13 +43,9 @@ class FootMsgActivity : AppCompatActivity() {
     private val footMsgRef = db.collection("FootMsg")
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
-    val STORAGE_PERMISSION = arrayOf(
-        Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-    )
-
+    val STORAGE_PERMISSION = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     val FLAG_PERM_CAMERA = 98
     val FLAG_PERM_STORAGE = 99
-
     val FLAG_REQ_CAMERA = 101
     val FLAG_REQ_STORAGE = 102
 
@@ -82,7 +78,7 @@ class FootMsgActivity : AppCompatActivity() {
             if(lat !=null && lon !=null) {
                 footmsgInfo?.title = add_footprint_title.text.toString()
                 //사용자 이미지 업로드
-                footmsgInfo?.msgImg = selectedPhotoUri.toString()
+                footmsgInfo?.imageUrl = selectedPhotoUri.toString()
                 upLoadImageToCloud()
                 footmsgInfo?.msgText = add_footprint_context.text.toString()
                 footmsgInfo?.timestamp = System.currentTimeMillis()
@@ -93,6 +89,9 @@ class FootMsgActivity : AppCompatActivity() {
                         Log.d("Put", "발자취 등록 성공")
                     }
                 }
+                upLoadImageToCloud()
+                startActivity(Intent(this, MainActivity::class.java))
+
             }
 
 /*
@@ -150,19 +149,20 @@ class FootMsgActivity : AppCompatActivity() {
                         val uri = saveImageFile(newFileName(), "image/jpg", bitmap)
                         footprintImg.setImageURI(uri)
                         //modelFoot과 바인딩 하기
-
+                        footmsgInfo?.imageUrl = uri.toString()
                     }
                 }
                 FLAG_REQ_STORAGE -> {
                     val uri = data?.data
                     footprintImg.setImageURI(uri)
                     selectedPhotoUri = uri
+                    footmsgInfo?.imageUrl = uri.toString()
                 }
             }
         }
     }
 
-    //이미지를 저장시키고 uri->savedPhotoUri에 할당
+    //이미지를 저장시키고 uri->savedPhotoUri에 할당 ????????????
     private fun saveImageFile(filename: String, mimeType: String, bitmap: Bitmap): Uri? {
         var values = ContentValues()
         values.put(MediaStore.Images.Media.DISPLAY_NAME, filename)
@@ -207,13 +207,12 @@ class FootMsgActivity : AppCompatActivity() {
     private fun upLoadImageToCloud() {
         if (selectedPhotoUri == null) return
         val filename = UUID.randomUUID().toString()
-        val ref = FirebaseStorage.getInstance().getReference("/images/$uid/$filename")
+        val ref = FirebaseStorage.getInstance().getReference("/FootMsgImage/$uid/$filename")
         ref.putFile(selectedPhotoUri!!)
             .addOnSuccessListener {
                 Log.d("Register", "이미지 업로드 성공 : ${it.metadata?.path}")
             }
     }
-
     // 현재 사용자 정보 가져오는 함수
     private fun getUserInfo(){
         if(user!=null) {
@@ -221,13 +220,11 @@ class FootMsgActivity : AppCompatActivity() {
                 var map: Map<String, Any> = documentSnapshot.data as Map<String, Any>
                 footmsgInfo?.uid = map["uid"].toString()
                 footmsgInfo?.nickname = map["nickname"].toString()
-                footmsgInfo?.email = map["userEmail"].toString()
+                footmsgInfo?.email = map["email"].toString()
                 Timber.d("Testuserinfo ${footmsgInfo?.nickname.toString()}")
             }
         }
     }
-
-
     //권한 처리 함수
     private fun checkPermission(permissions: Array<out String>, flag: Int): Boolean {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

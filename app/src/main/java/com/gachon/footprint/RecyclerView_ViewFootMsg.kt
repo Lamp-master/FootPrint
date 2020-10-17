@@ -1,16 +1,15 @@
 package com.gachon.footprint
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.gachon.footprint.data.ModelFoot
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
 import com.google.maps.android.SphericalUtil
 import kotlinx.android.synthetic.main.activity_recycler_view__view_foot_msg.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.*

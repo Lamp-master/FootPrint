@@ -8,6 +8,7 @@ data class ModelFoot(
     var title: String? = null,
     var email: String? = null,
     var uid: String? = null,
+    var password: String? = null,
     var nickname: String? = null,
     var timestamp: Long? = null,
     var msgText: String? = null,
@@ -16,7 +17,7 @@ data class ModelFoot(
     var longitude : Double?= null,
     var distance: Double?=null,
     //이미지 및 동영상 uri 경로 저장
-    var msgImg: String? = null,
+    var imageUrl: String? = null,
     var msgMedia: String? = null,
     var arMarker: String? = null
 ) {
