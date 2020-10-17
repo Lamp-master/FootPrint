@@ -10,6 +10,7 @@ import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.ux.ArFragment
 import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
+import kotlinx.android.synthetic.main.activity_camera.*
 
 
 //AR이미지를 선택하고 정렬/위치정보를 MsgFoot으로 전달/
@@ -48,4 +49,7 @@ class CameraActivity : AppCompatActivity() {
         arFragment.arSceneView.scene.addChild(anchorNode)
         transform.select()
     }
+
+
+
 }

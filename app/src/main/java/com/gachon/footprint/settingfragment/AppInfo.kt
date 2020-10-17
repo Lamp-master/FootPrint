@@ -7,12 +7,16 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import com.gachon.footprint.FootDialog
 import com.gachon.footprint.R
+import kotlinx.android.synthetic.main.s_app_info.*
 
 class AppInfo : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -26,5 +30,6 @@ class AppInfo : Fragment() {
 
         return view
     }
+
 }
 
