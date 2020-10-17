@@ -23,6 +23,7 @@
         android:required="true" />
 
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="footprint"
@@ -60,6 +61,7 @@
         <activity android:name=".ViewSettingActivity" />
         <activity android:name=".SettingActivity" />
         <activity android:name=".DiaryActivity"/>
+        <activity android:name=".FootMsgRecyclerActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
