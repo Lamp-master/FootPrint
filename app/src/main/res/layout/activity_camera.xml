@@ -23,8 +23,8 @@
         android:gravity="end"/>
 
     <fragment
-        android:id="@+id/arFragment"
-        android:name="com.google.ar.sceneform.ux.ArFragment"
+        android:id="@+id/sceneform_fragment"
+        android:name="com.gachon.footprint.settingfragment.CloudAnchorFragment"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
@@ -37,7 +37,7 @@
 
         <Button
             android:id="@+id/btn_see_footprint"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="보기"
@@ -47,7 +47,7 @@
 
         <Button
             android:id="@+id/btn_leave_footprint"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="발자취 남기기"
@@ -57,7 +57,7 @@
 
         <Button
             android:id="@+id/btn_report_footprint"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
@@ -66,14 +66,34 @@
             android:textSize="16sp" />
 
         <Button
-            android:id="@+id/btn_message_search"
-            android:visibility="gone"
-            android:clickable="false"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_message_edit"
+            android:layout_width="186dp"
             android:layout_height="wrap_content"
-            android:text="발자취를 발견하세요"
-            android:background="@color/colorPrimary"
             android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:clickable="false"
+            android:text="발자취 등록"
             android:textSize="16sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="발자취 초기화" />
+
+            <Button
+                android:id="@+id/btn_resolve"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="발자취 확인" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

@@ -32,12 +32,18 @@
 
     <Button
         android:id="@+id/btn_message_touch"
-        android:clickable="false"
-        android:layout_width="wrap_content"
+        android:layout_width="411dp"
         android:layout_height="wrap_content"
-        android:text="발자취를 등록하고 싶은 곳을 터치하세요"
         android:layout_gravity="center"
         android:background="@color/colorPrimary"
+        android:clickable="false"
+        android:text="발자취를 등록하고 싶은 곳을 터치하세요"
         android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/choose_marker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
 </LinearLayout>
 

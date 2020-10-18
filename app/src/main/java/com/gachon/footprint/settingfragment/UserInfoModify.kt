@@ -4,9 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -15,12 +13,10 @@ import com.bumptech.glide.Glide
 import com.gachon.footprint.R
 import com.gachon.footprint.SettingActivity
 import com.gachon.footprint.data.ModelFoot
-import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 import com.google.firebase.storage.FirebaseStorage
-import com.google.maps.android.SphericalUtil
 import kotlinx.android.synthetic.main.s_modify_info.*
 import timber.log.Timber
 import java.text.SimpleDateFormat
@@ -40,6 +36,8 @@ class UserInfoModify : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        //프레그먼트에서 메뉴를 사용
+        setHasOptionsMenu(true)
         Timber.plant(Timber.DebugTree())
         storage = FirebaseStorage.getInstance()
     }
@@ -48,14 +46,31 @@ class UserInfoModify : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.s_modify_info, container, false)
+
         val uimbar = view.findViewById(R.id.modify_info_toolbar) as Toolbar
         val activity = activity as AppCompatActivity?
         activity?.setSupportActionBar(uimbar)
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
         activity?.supportActionBar?.title = "프로필 수정"
+
         getUserInfo()
         Timber.d("Test1 ${footmsgInfo?.nickname}")
         return view
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.modify_toolbar, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.btn_modify -> {
+                if (cnt == 1) contentUpload()
+                else addFireStore()
+            }
+        }
+        return true
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -64,10 +79,6 @@ class UserInfoModify : Fragment() {
         photoPickerIntent.type = "image/*"
         pic_profile.setOnClickListener {
             startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
-        }
-        btn_modify.setOnClickListener {
-            if (cnt == 1) contentUpload()
-            else addFireStore()
         }
     }
     //프로필 수정에서 사진을 수정할시 호출

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,9 +29,10 @@ class FootDialog : DialogFragment() {
     var profilePic : String? = null
     var nickname : String? = null
 
-    var btnRecommend : String? = null
+    var btnFirst : String? = null
     var recommendCount : Int = 0
-    var btnComment : String? = null
+    var btnSecond : String? = null
+    var listener : customClickListener? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
@@ -41,7 +43,6 @@ class FootDialog : DialogFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         view?.apply {
             /*findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title*/
             footprint_dialog.text = main_Title
@@ -52,13 +53,18 @@ class FootDialog : DialogFragment() {
             /*dialog_profilepic.text = profilePic*/
             dialog_nickname.text = nickname
 
-            dialog_recommend.text = btnRecommend
-            dialog_recommend.setOnClickListener() {
-                //버튼이 눌려지면 추천수가 1 오르고 더 클릭할 수 없다.
-                recommendCount += 1
-                dialog_recommend.isClickable=false
+            dialog_btn_first.text = btnFirst
+            dialog_btn_first.setOnClickListener() {
+                dismiss() //다이얼로그 꺼짐
+                listener?.onFirstBtnClick()
             }
-            dialog_comment.text = btnComment
+            dialog_btn_second.text = btnSecond
+            dialog_btn_second.setOnClickListener() {
+                //버튼색이 노란색이 되는데 노란색이고싶진않으니까 다른색할꺼에요
+                dialog_btn_second.setBackgroundColor(Color.parseColor("#FFF000"))
+/*                dismiss()*/
+                listener?.onSecondBtnClick()
+            }
         }
     }
 
@@ -101,18 +107,28 @@ class FootDialog : DialogFragment() {
             return this
         }
 
-        fun setRecommend(recommend : String) : FootDialogBuild {
-            dialog.btnRecommend = recommend
+        fun setFirstBtnText(first : String) : FootDialogBuild {
+            dialog.btnFirst = first
             return this
         }
 
-        fun setComment(comment : String) : FootDialogBuild {
-            dialog.btnComment = comment
+        fun setSecondBtnText(second : String) : FootDialogBuild {
+            dialog.btnSecond = second
+            return this
+        }
+
+        fun setButtonClick(listener : customClickListener) : FootDialogBuild {
+            dialog.listener = listener
             return this
         }
 
         fun create() : FootDialog {
             return dialog
         }
+    }
+
+    interface customClickListener {
+        fun onFirstBtnClick()
+        fun onSecondBtnClick()
     }
 }
