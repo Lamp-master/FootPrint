@@ -1,6 +1,7 @@
 package com.gachon.footprint
 
 import android.Manifest
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
@@ -10,6 +11,7 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import com.gachon.footprint.data.ModelFoot
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -21,9 +23,11 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil
+import kotlinx.android.synthetic.main.activity_map.*
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
+import kotlin.collections.ArrayList
 
 class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private var mMap: GoogleMap? = null
@@ -33,8 +37,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     var lon: Double? = 0.0
     var currentLocation: String = ""
     var sydney: LatLng? = null
-
-
     class LatLngData(
         val latLng: LatLng,
         val title: String
@@ -50,17 +52,26 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         auth = FirebaseAuth.getInstance()
+
         val mapbar = findViewById<Toolbar>(R.id.map_toolbar)
         setSupportActionBar(mapbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
         ab?.title = "내 주변 발자취"
+
+        btn_map_footprint.setOnClickListener {
+            val intent = Intent(this, FootMsgRecyclerActivity::class.java)
+            intent.putExtra("LAT", "$lat")
+            intent.putExtra("LON", "$lon")
+            Timber.d("Test $lat $lon")
+            startActivity(intent)
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.map_toolbar, menu)
         //맵 툴바를 가져옴
-        return super.onCreateOptionsMenu(menu)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -71,7 +82,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return true
             }
             R.id.my_location -> {
-                //툴바의 아이콘이 눌리면 중괄호 안을 하겠다..
+                mMap?.moveCamera(CameraUpdateFactory.newLatLng(lat?.let { lon?.let { it1 -> LatLng(it, it1) } }))
+                mMap?.animateCamera(CameraUpdateFactory.zoomTo(16f))
             }
         }
         return super.onOptionsItemSelected(item)

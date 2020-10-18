@@ -20,18 +20,20 @@
             android:layout_height="wrap_content"
             android:text="Footprint를 시작합니다"
             android:layout_gravity="center"
-            android:textSize="24sp"/>
+            android:textSize="20sp"
+            android:textColor="@color/colorNavIcon"/>
 
         <TextView
             android:layout_marginTop="36dp"
             android:id="@+id/intro_info_second"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="36dp"
             android:text="사용중인 계정이 있다면\n사용하는 계정으로 로그인해 주세요"
             android:layout_gravity="center_horizontal"
             android:gravity="center"
-            android:textSize="14sp"/>
+            android:textSize="14sp"
+            android:textColor="@color/colorNavIcon"/>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -46,6 +48,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Email"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:inputType="textEmailAddress" />
 
         </com.google.android.material.textfield.TextInputLayout>
@@ -63,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:hint="Password"
                 android:layout_weight="1"
+                android:textSize="14sp"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -121,5 +125,6 @@
         android:text="계정이 없으신가요? 새로 만들기"
         android:layout_alignParentBottom="true"
         android:layout_centerInParent="true"
-        android:textSize="12sp"/>
+        android:textSize="12sp"
+        android:textColor="@color/colorNavIcon"/>
 </RelativeLayout>

@@ -26,6 +26,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="프로필 사진"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:layout_marginTop="36sp"/>
+
+
             <ImageView
                 android:id="@+id/pic_profile"
                 android:layout_width="100dp"
@@ -45,7 +54,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="8자 이하의 닉네임을 입력하세요"
                 android:inputType="text" />
 
             <TextView
@@ -61,7 +69,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="이메일을 입력하세요"
                 android:inputType="textEmailAddress" />
 
             <TextView
@@ -77,7 +84,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="비밀번호를 입력하세요"
+                android:hint="비밀번호를 입력하세요 "
                 android:inputType="textPassword" />
 
             <TextView
@@ -93,9 +100,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
-                android:hint="비밀번호를 다시 한 번 입력하세요"
+                android:hint="비빌번호를 재입력하세요 "
                 android:inputType="textPassword" />
-
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -34,6 +34,11 @@
                 android:text="앱 정보"
                 android:gravity="start|center_vertical" />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+
             <Button
                 android:id="@+id/modify_info"
                 android:layout_width="match_parent"
@@ -41,6 +46,11 @@
                 android:background="#00FF0000"
                 android:text="프로필 수정"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="#000000" />
 
             <Button
                 android:id="@+id/change_account"

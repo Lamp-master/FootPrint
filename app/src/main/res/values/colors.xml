@@ -12,6 +12,7 @@
     <color name="colorMainGray">#737373</color>
     <color name="colorAccentDark">#48acb8</color>
     <color name="colorAccentLight">#b2ffff</color>
+    <color name="colorAccentLightDark">#90D3E4</color>
 
     <color name="colorGoogleSignIn">#d34836</color>
     <color name="colorGoogleSignInPressed">#b02513</color>

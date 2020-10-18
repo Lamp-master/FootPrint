@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.fragment.app.DialogFragment
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.footprint_dialog.*
 import kotlinx.android.synthetic.main.footprint_dialog.view.*
 import org.w3c.dom.Text
@@ -27,29 +29,47 @@ class FootDialog : DialogFragment() {
     var profilePic : String? = null
     var nickname : String? = null
 
+    var btnFirst : String? = null
+    var recommendCount : Int = 0
+    var btnSecond : String? = null
+    var listener : customClickListener? = null
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.footprint_dialog, container, false)
-        return super.onCreateView(inflater, container, savedInstanceState)
+        return view.rootView
 
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         view?.apply {
-            findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title
-/*            findViewById<ImageView>(R.id.dialog_image)?.text = contentPic*/
-            findViewById<TextView>(R.id.dialog_title)?.text = title
-            findViewById<TextView>(R.id.dialog_content)?.text = content
-            findViewById<TextView>(R.id.dialog_location)?.text = location
-/*            findViewById<ImageView>(R.id.dialog_profilepic)?.text = profilePic*/
-            findViewById<TextView>(R.id.dialog_nickname)?.text = nickname
+            /*findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title*/
+            footprint_dialog.text = main_Title
+            /*dialog_image.text = contentPic*/
+            dialog_title.text = title
+            dialog_content.text = content
+            dialog_location.text = location
+            /*dialog_profilepic.text = profilePic*/
+            dialog_nickname.text = nickname
 
+            dialog_btn_first.text = btnFirst
+            dialog_btn_first.setOnClickListener() {
+                dismiss() //다이얼로그 꺼짐
+                listener?.onFirstBtnClick()
+            }
+            dialog_btn_second.text = btnSecond
+            dialog_btn_second.setOnClickListener() {
+                //버튼색이 노란색이 되는데 노란색이고싶진않으니까 다른색할꺼에요
+                dialog_btn_second.setBackgroundColor(Color.parseColor("#FFF000"))
+/*                dismiss()*/
+                listener?.onSecondBtnClick()
+            }
         }
     }
 
     class FootDialogBuild() {
-
+        //setString
         val dialog = FootDialog()
 
         fun setDialogTitle(dialog_title: String): FootDialogBuild {
@@ -87,8 +107,28 @@ class FootDialog : DialogFragment() {
             return this
         }
 
+        fun setFirstBtnText(first : String) : FootDialogBuild {
+            dialog.btnFirst = first
+            return this
+        }
+
+        fun setSecondBtnText(second : String) : FootDialogBuild {
+            dialog.btnSecond = second
+            return this
+        }
+
+        fun setButtonClick(listener : customClickListener) : FootDialogBuild {
+            dialog.listener = listener
+            return this
+        }
+
         fun create() : FootDialog {
             return dialog
         }
+    }
+
+    interface customClickListener {
+        fun onFirstBtnClick()
+        fun onSecondBtnClick()
     }
 }
