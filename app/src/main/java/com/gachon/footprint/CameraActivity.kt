@@ -1,103 +1,100 @@
 package com.gachon.footprint
-import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
-import android.location.Location
-import android.os.Build
+
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import android.os.Handler
-import android.util.Log
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import com.google.android.gms.maps.model.LatLng
-import com.google.ar.core.Anchor
 import com.google.ar.sceneform.AnchorNode
-import com.google.ar.sceneform.Camera
-import com.google.ar.sceneform.Scene
-import com.google.ar.sceneform.math.Quaternion
-import com.google.ar.sceneform.math.Vector3
+import com.google.ar.sceneform.rendering.ModelRenderable
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
 import com.google.ar.sceneform.ux.ArFragment
+import com.google.ar.sceneform.ux.BaseArFragment
 import com.google.ar.sceneform.ux.TransformableNode
-import io.nlopez.smartlocation.SmartLocation
 import kotlinx.android.synthetic.main.activity_camera.*
-import kotlinx.android.synthetic.main.activity_view_setting.*
-import kotlin.math.*
-
-@RequiresApi(Build.VERSION_CODES.N) class CameraActivity : AppCompatActivity(), SensorEventListener {
-
-    private lateinit var camera: Camera
-    private lateinit var scene: Scene
-    private var azimuth: Int = 0
-    private var sensorManager: SensorManager? = null
-    private var rotationV: Sensor? = null
-    private var accelerometer: Sensor? = null
-    private var magnetometer: Sensor? = null
-    private var rMat = FloatArray(9)
-    private var orientation = FloatArray(3)
-    private val lastAccelerometer = FloatArray(3)
-    private val lastMagnetometer = FloatArray(3)
-    private var lastAccelerometerSet = false
-    private var lastMagnetometerSet = false
-    private var isArPlaced = false
-
-    //발자취 메세지 리사이클러뷰를 클릭시 보여준다.
-    //
+import android.view.MotionEvent
+import androidx.databinding.DataBindingUtil.setContentView
+import com.gachon.footprint.data.ModelAnchor
+import com.gachon.footprint.settingfragment.CloudAnchorFragment
+import com.gachon.footprint.settingfragment.ResolveDialogFragment
+import com.gachon.footprint.settingfragment.SnackbarHelper
+import com.google.ar.core.*
+import com.google.ar.sceneform.FrameTime
+import kotlinx.android.synthetic.main.activity_main.*
 
 
-    override fun onAccuracyChanged(p0: Sensor?, p1: Int) {}
-    override fun onSensorChanged(event: SensorEvent) {
-        if (event.sensor.type == Sensor.TYPE_ROTATION_VECTOR) {
-            SensorManager.getRotationMatrixFromVector(rMat, event.values)
-            azimuth = (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[0].toDouble()) + 360).toInt() % 360
+
+//AR이미지를 선택하고 정렬/위치정보를 MsgFoot으로 전달/
+class CameraActivity : AppCompatActivity() {
+    lateinit var arFragment: CloudAnchorFragment
+    var cloudAnchor: Anchor? = null
+    enum class AppAnchorState {
+        NONE,
+        HOSTING,
+        HOSTED,
+        RESOLVING,
+        RESOLVED
+    }
+    var appAnchorState = AppAnchorState.NONE
+    var snackbarHelper = SnackbarHelper()
+    var ModelAnchor = ModelAnchor()
+    //cloud anchor 활성화
+    //plane(카메라 화면 터치해서 ) anchor과 3D model 위치시키기
+    //Scene 터치할때마다 Anchor Hosting 시작시키기(현재 앵커와 상태 업데이트)
+    override fun onCreate(savedInstanceState: Bundle?){
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_camera)
+        arFragment = supportFragmentManager.findFragmentById(R.id.sceneform_fragment) as CloudAnchorFragment
+        arFragment.arSceneView.scene.addOnUpdateListener(this::onUpdateFrame)
+        arFragment.planeDiscoveryController.hide()
+        arFragment.planeDiscoveryController.setInstructionView(null)
+
+
+        arFragment.setOnTapArPlaneListener { hitResult, plane, _ ->
+            if (plane.type != Plane.Type.HORIZONTAL_UPWARD_FACING || appAnchorState != AppAnchorState.NONE) {
+                return@setOnTapArPlaneListener
+            }
+            val anchor = arFragment.arSceneView.session?.hostCloudAnchor(hitResult.createAnchor())
+            cloudAnchor(anchor)
+            appAnchorState = AppAnchorState.HOSTING
+            snackbarHelper.showMessage(this, "Hosting anchor")
+
+            placeObject(arFragment, cloudAnchor!!)
         }
 
-        if (event.sensor.type == Sensor.TYPE_ACCELEROMETER) {
-            System.arraycopy(event.values, 0, lastAccelerometer, 0, event.values.size)
-            lastAccelerometerSet = true
-        } else if (event.sensor.type == Sensor.TYPE_MAGNETIC_FIELD) {
-            System.arraycopy(event.values, 0, lastMagnetometer, 0, event.values.size)
-            lastMagnetometerSet = true
+     //버튼 동작 추가 1.cloudAnchor 초기화 2. anchor에서 메세지 작성 화면으로 이동
+        btn_clear.setOnClickListener{
+            cloudAnchor(null)
         }
-
-        if (lastAccelerometerSet && lastMagnetometerSet) {
-            SensorManager.getRotationMatrix(rMat, null, lastAccelerometer, lastMagnetometer)
-            SensorManager.getOrientation(rMat, orientation)
-            azimuth = (Math.toDegrees(SensorManager.getOrientation(rMat, orientation)[0].toDouble()) + 360).toInt() % 360
+        btn_message_edit.setOnClickListener{
+            //액티비티 이동시키기(arid 전달)
         }
-
-        if (!isArPlaced) {
-            isArPlaced = true
-            Handler().postDelayed({
-                SmartLocation.with(this).location().start {
-                    placeARByLocation(it, LatLng(35.757546, 51.410120), "Vanak")
-                    placeARByLocation(it, LatLng(35.777144, 51.409349), "Mellat")
-                    placeARByLocation(it, LatLng(35.765259, 51.419390), "Sattari")
-                }
-            }, 2000)
+        btn_resolve.setOnClickListener {
+            if (cloudAnchor != null) {
+                snackbarHelper.showMessageWithDismiss(this, "Please clear the anchor")
+                return@setOnClickListener
+            }
+            val dialog = ResolveDialogFragment()
+      //    dialog.setOkListener(this::onResolveOkPressed)
+            dialog.show(supportFragmentManager, "Resolve")
         }
     }
 
-    override
-    fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
-
+    private fun placeObject(fragment: ArFragment, anchor: Anchor) {
         ViewRenderable.builder()
-            .setView(fragment.context,R.layout.activity_camera)
-            .build().thenAccept{
+            .setView(fragment.context, R.layout.controls)
+            .build()
+            .thenAccept {
                 it.isShadowCaster = false
                 it.isShadowReceiver = false
                 it.view.findViewById<ImageButton>(R.id.info_button).setOnClickListener {
                     // TODO: do smth here
+                    // 버튼 클릭시 액티비티 이동
+                    val intent = Intent(this, FootDialog::class.java)
+                    startActivity(intent)
+
                 }
                 addControlsToScene(fragment, anchor, it)
             }
@@ -108,94 +105,29 @@ import kotlin.math.*
                 dialog.show()
                 return@exceptionally null
             }
-
-
-
-
-
-
-        sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        startSensor()
-        val arFragment = supportFragmentManager.findFragmentById(R.id.arFragment) as ArFragment
-        arFragment.planeDiscoveryController.hide()
-        arFragment.planeDiscoveryController.setInstructionView(null)
-        scene = arFragment.arSceneView.scene!!
-        camera = scene.camera
     }
-    //출처 : https://stackoverflow.com/questions/51888308/render-3d-objects-in-arcore-using-gps-location
-    private fun addPointByXYZ(x: Float, y: Float, z: Float, name: String) {
-        ViewRenderable.builder().setView(this, R.layout.sample_layout).build().thenAccept {
-            val imageView = it.view.findViewById<ImageView>(R.id.imageViewSample)
-            val textView = it.view.findViewById<TextView>(R.id.textViewSample)
+   /*  private fun placeObject(fragment: ArFragment, anchor: Anchor, model: Uri) {
+      ModelRenderable.Builder()
+          .setSource(fragment.context, model)
+          .build()
+          .thenAccept { renderable ->
+              addNodeToScene(fragment, anchor, renderable)
+          }
+          .exceptionally {
+              val builder = AlertDialog.Builder(this)
+              builder.setMessage(it.message).setTitle("Error!")
+              val dialog = builder.create()
+              dialog.show()
+              return@exceptionally null
+          }
+     }*/
 
-            textView.text = name
-
-            val node = AnchorNode()
-            node.renderable = it
-            scene.addChild(node)
-            node.worldPosition = Vector3(x, y, z)
-
-            val cameraPosition = scene.camera.worldPosition
-            val direction = Vector3.subtract(cameraPosition, node.worldPosition)
-            val lookRotation = Quaternion.lookRotation(direction, Vector3.up())
-            node.worldRotation = lookRotation
-        }
+    private fun cloudAnchor(newAnchor: Anchor?) {
+        cloudAnchor?.detach()
+        cloudAnchor = newAnchor
+        appAnchorState = AppAnchorState.NONE
+        snackbarHelper.hide(this)
     }
-
-    private fun bearing(locA: Location, locB: Location): Double {
-        val latA = locA.latitude * PI / 180
-        val lonA = locA.longitude * PI / 180
-        val latB = locB.latitude * PI / 180
-        val lonB = locB.longitude * PI / 180
-
-        val deltaOmega = ln(tan((latB / 2) + (PI / 4)) / tan((latA / 2) + (PI / 4)))
-        val deltaLongitude = abs(lonA - lonB)
-
-        return atan2(deltaLongitude, deltaOmega)
-    }
-
-    private fun placeARByLocation(myLocation: Location, targetLocation: LatLng, name: String) {
-        val tLocation = Location("")
-        tLocation.latitude = targetLocation.latitude
-        tLocation.longitude = targetLocation.longitude
-
-        val degree = (360 - (bearing(myLocation, tLocation) * 180 / PI))
-        val distant = 3.0
-
-        val y = 0.0
-        val x = distant * cos(PI * degree / 180)
-        val z = -1 * distant * sin(PI * degree / 180)
-        addPointByXYZ(x.toFloat(), y.toFloat(), z.toFloat(), name)
-
-        Log.i("ARCore_MyLat", myLocation.latitude.toString())
-        Log.i("ARCore_MyLon", myLocation.longitude.toString())
-        Log.i("ARCore_TargetLat", targetLocation.latitude.toString())
-        Log.i("ARCore_TargetLon", targetLocation.longitude.toString())
-        Log.i("ARCore_COMPASS", azimuth.toString())
-        Log.i("ARCore_Degree", degree.toString())
-        Log.i("ARCore_X", x.toString())
-        Log.i("ARCore_Y", y.toString())
-        Log.i("ARCore_Z", z.toString())
-    }
-
-    private fun startSensor() {
-        if (sensorManager!!.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR) == null) {
-            accelerometer = sensorManager!!.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
-            magnetometer = sensorManager!!.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD)
-            sensorManager!!.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI)
-            sensorManager!!.registerListener(this, magnetometer, SensorManager.SENSOR_DELAY_UI)
-        } else {
-            rotationV = sensorManager!!.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR)
-            sensorManager!!.registerListener(this, rotationV, SensorManager.SENSOR_DELAY_UI)
-        }
-    }
-
-    private fun stopSensor() {
-        sensorManager!!.unregisterListener(this, accelerometer)
-        sensorManager!!.unregisterListener(this, magnetometer)
-    }
-
-
 
     private fun addControlsToScene(fragment: ArFragment, anchor: Anchor, renderable: Renderable) {
         val anchorNode = AnchorNode(anchor)
@@ -205,15 +137,60 @@ import kotlin.math.*
         fragment.arSceneView.scene.addChild(anchorNode)
     }
 
+    private fun addNodeToScene(fragment: ArFragment, anchor: Anchor, renderable: ModelRenderable) {
+        val node = AnchorNode(anchor)
+        val transformableNode = TransformableNode(fragment.transformationSystem)
+        transformableNode.renderable = renderable
+        transformableNode.setParent(node)
+        fragment.arSceneView.scene.addChild(node)
+        transformableNode.select()
+    }
+    //Anchor가 클라우드에 성공적으로 호스팅되었는지 정기적으로 확인하는 함수
+    //onUpdateListener를 통해 성공여부 보여주기
+    fun onUpdateFrame(frameTime: FrameTime) {
+        checkUpdatedAnchor()
+    }
+    @Synchronized
+    //Cloud anchor의 Hosting/Resolving의 현재 상태 확인 후 호스팅 성공실패 여부 확인
+    private fun checkUpdatedAnchor() {
+        if (appAnchorState != AppAnchorState.HOSTING && appAnchorState != AppAnchorState.RESOLVING)
+            return
+        val cloudState: Anchor.CloudAnchorState = cloudAnchor?.cloudAnchorState!!
+        if (appAnchorState == AppAnchorState.HOSTING) {
+            if (cloudState.isError) {
+                snackbarHelper.showMessageWithDismiss(this, "Error hosting anchor...")
+                appAnchorState = AppAnchorState.NONE
+            } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
+                val shortCode = ModelAnchor.nextShortCode(this)
+                //cloudanchor 저장
+                ModelAnchor.storeUsingShortCode(this, shortCode, cloudAnchor!!.cloudAnchorId)
+                snackbarHelper.showMessageWithDismiss(this, "Anchor hosted: $shortCode")
+                appAnchorState = AppAnchorState.HOSTED
+            }
+        } else if (appAnchorState == AppAnchorState.RESOLVING) {
+            if (cloudState.isError) {
+                snackbarHelper.showMessageWithDismiss(this, "Error resolving anchor...")
+                appAnchorState = AppAnchorState.NONE
+            } else if (cloudState == Anchor.CloudAnchorState.SUCCESS) {
+                snackbarHelper.showMessageWithDismiss(this, "Anchor resolved...")
+                appAnchorState = AppAnchorState.RESOLVED
+            }
+        }
+    }
+    fun onResolveOkPressed(dialogVal: String) {
 
-    override fun onPause() {
-        super.onPause()
-        stopSensor()
+        val shortCode = dialogVal.toInt()
+        val cloudAnchorId = ModelAnchor.getCloudAnchorID(this, shortCode)
+        val resolvedAnchor = arFragment.arSceneView.session?.resolveCloudAnchor(cloudAnchorId)
+        cloudAnchor(resolvedAnchor)
+        placeObject(arFragment, cloudAnchor!!)
+        snackbarHelper.showMessage(this, "Now resolving anchor...")
+        appAnchorState = AppAnchorState.RESOLVING
     }
 
-    override fun onResume() {
-        super.onResume()
-        startSensor()
-    }
+
+
+
+
 
 }

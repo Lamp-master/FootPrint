@@ -81,6 +81,7 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     // ARCore 세션 제공 및 관련 리소스 제공
     implementation 'com.google.ar:core:1.19.0'
+
     // AR 프레그먼트 와 UX 디자인 소스 제공
     implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.17.1'
     // UX dependency 없이 ArsceneView 제공
@@ -90,4 +91,6 @@ dependencies {
     //database debug 용 나중에 지울것.
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     implementation 'io.nlopez.smartlocation:library:3.3.3'
+    implementation 'com.github.appoly:ARCore-Location:0.2.1'
+    implementation "com.google.android.material:material:1.1.0-alpha06"
 }
