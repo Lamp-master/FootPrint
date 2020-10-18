@@ -52,7 +52,6 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         val mapFragment = supportFragmentManager.findFragmentById(R.id.map) as SupportMapFragment?
         mapFragment!!.getMapAsync(this)
         auth = FirebaseAuth.getInstance()
-
         val mapbar = findViewById<Toolbar>(R.id.map_toolbar)
         setSupportActionBar(mapbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
@@ -71,7 +70,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.map_toolbar, menu)
         //맵 툴바를 가져옴
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -84,6 +83,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             R.id.my_location -> {
                 mMap?.moveCamera(CameraUpdateFactory.newLatLng(lat?.let { lon?.let { it1 -> LatLng(it, it1) } }))
                 mMap?.animateCamera(CameraUpdateFactory.zoomTo(16f))
+                //툴바의 아이콘이 눌리면 중괄호 안을 하겠다..
             }
         }
         return super.onOptionsItemSelected(item)
