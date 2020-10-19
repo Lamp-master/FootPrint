@@ -1,4 +1,5 @@
 package com.gachon.footprint
+
 import android.Manifest
 import android.app.Activity
 import android.content.ContentValues
@@ -10,11 +11,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.gachon.footprint.data.ModelFoot
@@ -37,13 +35,13 @@ class FootMsgActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private val db = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
-    var uid = user?.uid
     var lat: String? = null
     var lon: String? = null
 
     var footmsgInfo: ModelFoot? = ModelFoot()
 
     private val footMsgRef = db.collection("FootMsg")
+
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     val STORAGE_PERMISSION = arrayOf(
@@ -58,13 +56,6 @@ class FootMsgActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_footprint)
-
-        val fmbar = findViewById<Toolbar>(R.id.activity_footprint_toolbar)
-        setSupportActionBar(fmbar)
-        val ab: androidx.appcompat.app.ActionBar? = supportActionBar
-        ab?.setDisplayHomeAsUpEnabled(true)
-        ab?.title = "발자취 등록"
-
         Timber.plant(Timber.DebugTree())
         auth = FirebaseAuth.getInstance()
         getUserInfo()
@@ -93,28 +84,6 @@ class FootMsgActivity : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        //툴바를 가져옵니다
-        menuInflater.inflate(R.menu.footprint_toolbar, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            //뒤로가기 버튼
-            android.R.id.home -> {
-                finish()
-                return true
-            }
-            R.id.btn_save_footprint -> {
-                //저장하기 버튼
-                upLoadImageToCloud()
-
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     //이미지 저장소에서 불러오기
     private fun setViews() {

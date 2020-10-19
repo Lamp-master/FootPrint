@@ -29,20 +29,16 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-
             <ImageView
-                android:clickable="true"
                 android:id="@+id/pic_profile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:background="#cccccc"
-                tools:srcCompat="@drawable/ic_add_photo" />
+                tools:srcCompat="@tools:sample/avatars" />
 
                 <Button
                     android:id="@+id/btn_upload_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
                     android:text="이미지 업로드하기" />
             </LinearLayout>
 
@@ -109,6 +105,9 @@
                 android:textSize="14sp"
                 android:hint="비밀번호를 다시 한 번 입력하세요"
                 android:inputType="textPassword" />
+
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

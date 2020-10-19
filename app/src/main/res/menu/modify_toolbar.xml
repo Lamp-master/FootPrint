@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/btn_modify"
+    <item android:id="@+id/btn_sign_in"
         android:title="수정하기"
         app:showAsAction="always" />
 </menu>
