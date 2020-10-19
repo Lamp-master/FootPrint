@@ -92,8 +92,9 @@ class CameraActivity : AppCompatActivity() {
                 it.view.findViewById<ImageButton>(R.id.info_button).setOnClickListener {
                     // TODO: do smth here
                     // 버튼 클릭시 액티비티 이동
-                    val intent = Intent(this, FootDialog::class.java)
-                    startActivity(intent)
+                    supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragment, FootDialog())
+                        .commit()
 
                 }
                 addControlsToScene(fragment, anchor, it)
