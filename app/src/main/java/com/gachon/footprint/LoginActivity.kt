@@ -172,13 +172,13 @@ class LoginActivity : AppCompatActivity() {
 
     //endregion
     // start on_start_check_user 유저가 앱에 이미 구글 로그인을 했는지 확인
-    override fun onStart() {
+    /*override fun onStart() {
         super.onStart()
         val account = GoogleSignIn.getLastSignedInAccount(this)
         if (account !== null) { // 이미 로그인 되어있을시 바로 메인 액티비티 이동
             startActivity(Intent(this, MainActivity::class.java))
         }
-    }
+    }*/
 
     private fun moveMainPage(user: FirebaseUser?) {
         if (user != null) {
