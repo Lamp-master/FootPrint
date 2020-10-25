@@ -8,28 +8,33 @@ import android.location.Geocoder
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
+import com.bumptech.glide.Glide
 import com.gachon.footprint.data.ModelFoot
 import com.google.android.gms.location.LocationServices
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil
+import kotlinx.android.synthetic.main.activity_login.*
 import kotlinx.android.synthetic.main.activity_map.*
+import kotlinx.android.synthetic.main.s_modify_info.*
 import timber.log.Timber
 import java.io.IOException
 import java.util.*
-import kotlin.collections.ArrayList
 
-class MapActivity : AppCompatActivity(), OnMapReadyCallback {
+class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerClickListener,
+    GoogleMap.OnMapClickListener {
     private var mMap: GoogleMap? = null
     private var auth: FirebaseAuth? = null
     private val db = FirebaseFirestore.getInstance()
@@ -37,6 +42,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     var lon: Double? = 0.0
     var currentLocation: String = ""
     var sydney: LatLng? = null
+
     class LatLngData(
         val latLng: LatLng,
         val title: String
@@ -44,6 +50,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     var latlngdata: LatLngData? = null
     var distance: Double? = null
+    var footmsgInfo: ModelFoot? = ModelFoot()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Timber.plant(Timber.DebugTree())
@@ -58,13 +65,16 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         ab?.setDisplayHomeAsUpEnabled(true)
         ab?.title = "내 주변 발자취"
 
+        getFootMsgGps()
+
         btn_map_footprint.setOnClickListener {
             val intent = Intent(this, FootMsgRecyclerActivity::class.java)
             intent.putExtra("LAT", "$lat")
             intent.putExtra("LON", "$lon")
-            Timber.d("Test $lat $lon")
             startActivity(intent)
         }
+
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -81,7 +91,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 return true
             }
             R.id.my_location -> {
-                mMap?.moveCamera(CameraUpdateFactory.newLatLng(lat?.let { lon?.let { it1 -> LatLng(it, it1) } }))
+                mMap?.moveCamera(CameraUpdateFactory.newLatLng(lat?.let {
+                    lon?.let { it1 ->
+                        LatLng(it, it1)
+                    }
+                }))
+
                 mMap?.animateCamera(CameraUpdateFactory.zoomTo(16f))
                 //툴바의 아이콘이 눌리면 중괄호 안을 하겠다..
             }
@@ -93,6 +108,9 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         mMap = googleMap
         getLastLocationNewMethod()
         getFootMsgGps()
+
+        mMap!!.setOnMarkerClickListener(this)
+        mMap!!.setOnMapClickListener(this)
     }
 
     fun getLastLocationNewMethod() {
@@ -113,9 +131,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     val sydney = LatLng(this.latitude, this.longitude)
                     lat = latitude
                     lon = longitude
-                    /*Timber.d("Test $lat $lon")*/
                     getCurrentLoc()
-                    mMap?.addMarker(MarkerOptions().position(sydney).title(currentLocation))
+                    mMap?.addMarker(
+                        MarkerOptions().position(sydney).title(currentLocation)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_marker_black))
+                    )
+
                     mMap?.moveCamera(CameraUpdateFactory.newLatLng(sydney))
                     mMap?.animateCamera(CameraUpdateFactory.zoomTo(16f))
 
@@ -165,13 +186,31 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     // 두 좌표간 거리를 계산하여 1km 이내일시 마커 표시
     private fun addMarker(latlngdata: LatLngData): Marker {
         return mMap?.addMarker(MarkerOptions().position(latlngdata.latLng))!!
+    }
+
+    override fun onMarkerClick(marker: Marker?): Boolean {
+        db.collection("FootMsg").get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                var map: Map<String, Any> = document.data
+                if (map["latitude"].toString() == marker?.position?.latitude.toString() && map["longitude"].toString() == marker?.position?.longitude.toString()) {
+                    footmsgInfo = document.toObject(ModelFoot::class.java)
+                    setContent()
+                }
+            }
+        }
+        return true
+    }
+
+    private fun setContent() {
+        card_view.visibility = View.VISIBLE
+        map_title.setText(footmsgInfo?.title)
+        map_footmsg.setText(footmsgInfo?.msgText)
+        Glide.with(this).load(footmsgInfo?.imageUrl).into(map_footImg)
 
 
     }
 
+    override fun onMapClick(p0: LatLng?) {
+        card_view.visibility = View.INVISIBLE
+    }
 }
-
-
-
-
-

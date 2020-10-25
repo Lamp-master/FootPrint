@@ -97,4 +97,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-database-ktx:19.5.0'
     //database debug 용 나중에 지울것.
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
+    //원형 이미지
+    implementation 'de.hdodenhof:circleimageview:3.0.0'
 }

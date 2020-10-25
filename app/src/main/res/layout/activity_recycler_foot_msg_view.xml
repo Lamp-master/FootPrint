@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/map_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/map_toolbar"
+        android:orientation="vertical">
+
+        <ScrollView
+            android:id="@+id/footprint_scroll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:layout_weight="1"
+            android:padding="16dp"
+            android:background="@drawable/edittext_round">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/title_top"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="제목: "
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="20dp" />
+
+                <TextView
+                    android:id="@+id/msg_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="20dp"
+                    android:layout_toRightOf="@id/title_top" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="15dp"
+                    android:layout_toLeftOf="@id/msg_nickname"
+                    android:layout_below="@id/msg_title"
+                    android:text="작성자: "/>
+
+                <TextView
+                    android:id="@+id/msg_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="15dp"
+                    android:layout_below="@id/title_top"
+                    android:layout_alignParentRight="true"/>
+
+
+                <ImageView
+                    android:id="@+id/msg_img"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="10dp"
+                    android:background="#cccccc"
+                    app:srcCompat="@drawable/ic_add_photo"
+                    android:layout_below="@+id/msg_nickname"/>
+
+                <TextView
+                    android:id="@+id/content_mid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="13dp"
+                    android:text="내용"
+                    android:layout_below="@id/msg_img" />
+
+                <TextView
+                    android:id="@+id/msg_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="12dp"
+                    android:hint="내용"
+                    android:layout_below="@id/content_mid" />
+                <TextView
+                    android:id="@+id/text_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/colorNavIcon"
+                    android:textSize="15dp"
+                    android:text="댓글"
+
+                    android:layout_below="@id/msg_content" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerview_review"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/text_review"
+                    android:layout_marginTop="5dp"/>
+            </RelativeLayout>
+        </ScrollView>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/review_write"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+
+            app:layout_constraintTop_toBottomOf="@+id/footprint_scroll">
+
+            <TextView
+                android:id="@+id/edit_comment_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="댓글쓰기"
+                android:textColor="@color/colorNavIcon"
+                android:textSize="14sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <EditText
+                android:id="@+id/edit_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/edittext_round"
+                android:gravity="top"
+                android:hint="당신의 한 마디를 남겨주세요"
+                android:inputType="textImeMultiLine"
+                android:lines="1"
+                android:singleLine="false"
+                android:padding="8dp"
+                android:scrollbars="vertical"
+                android:scrollHorizontally="false"
+                android:textSize="14sp"
+                app:layout_constraintTop_toBottomOf="@+id/edit_comment_title"/>
+            <ImageButton
+                android:id="@+id/review_submit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:layout_constraintRight_toRightOf="@id/edit_comment"
+                app:layout_constraintBottom_toBottomOf="@id/edit_comment"
+                android:src="@drawable/ic_review_button"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</RelativeLayout>

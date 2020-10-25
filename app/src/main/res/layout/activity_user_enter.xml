@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,8 +10,8 @@
         android:id="@+id/user_in_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:elevation="4dp"
         android:background="?attr/colorPrimary"
+        android:elevation="4dp"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
 
@@ -25,90 +24,80 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
 
-            <ImageView
-                android:clickable="true"
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/pic_profile"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:background="#cccccc"
-                tools:srcCompat="@drawable/ic_add_photo" />
-
-                <Button
-                    android:id="@+id/btn_upload_image"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorWhite"
-                    android:text="이미지 업로드하기" />
-            </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="닉네임"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginTop="36sp"/>
-
-            <EditText
-                android:id="@+id/user_in_nickname"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="8자 이하의 닉네임을 입력하세요"
-                android:inputType="text" />
+                android:layout_height="150dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/ic_profile"
+                app:civ_border_color="#ff000000"
+                app:civ_border_width="2dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이메일"
-                android:textSize="14sp"
+                android:layout_marginTop="36sp"
                 android:gravity="center"
-                android:layout_marginTop="36sp"/>
+                android:text="이메일"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/user_in_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:hint="이메일을 입력하세요"
-                android:inputType="textEmailAddress" />
+                android:inputType="textEmailAddress"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="비밀번호"
-                android:textSize="14sp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:layout_marginTop="36sp"/>
+                android:text="닉네임"
+                android:textSize="14sp" />
+
+            <EditText
+                android:id="@+id/user_in_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="8자 이하의 닉네임을 입력하세요"
+                android:inputType="text"
+                android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36sp"
+                android:gravity="center"
+                android:text="비밀번호"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/user_in_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:hint="비밀번호를 입력하세요"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="비밀번호 재입력"
-                android:textSize="14sp"
+                android:layout_marginTop="36sp"
                 android:gravity="center"
-                android:layout_marginTop="36sp"/>
+                android:text="비밀번호 재입력"
+                android:textSize="14sp" />
 
             <EditText
                 android:id="@+id/user_in_password_again"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
                 android:hint="비밀번호를 다시 한 번 입력하세요"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textSize="14sp" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

@@ -15,7 +15,11 @@ class Contact : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.s_contact_us, container, false)
         val contactbar = view.findViewById(R.id.contact_us_toolbar) as Toolbar
         val activity = activity as AppCompatActivity?

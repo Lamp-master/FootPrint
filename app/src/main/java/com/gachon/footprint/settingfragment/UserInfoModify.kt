@@ -54,7 +54,6 @@ class UserInfoModify : Fragment() {
         activity?.supportActionBar?.title = "프로필 수정"
 
         getUserInfo()
-        Timber.d("Test1 ${footmsgInfo?.nickname}")
         return view
     }
 
@@ -81,6 +80,7 @@ class UserInfoModify : Fragment() {
             startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
         }
     }
+
     //프로필 수정에서 사진을 수정할시 호출
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -95,6 +95,7 @@ class UserInfoModify : Fragment() {
             }
         }
     }
+
     //사진이 업로드(수정)되었을 경우 storage에 업로드해줌
     fun contentUpload() {
         //Make filename
@@ -112,6 +113,7 @@ class UserInfoModify : Fragment() {
             }
         }
     }
+
     //파이어스토어에 업데이트된 정보 저장
     private fun addFireStore() {
         footmsgInfo?.uid = auth?.uid
@@ -139,11 +141,15 @@ class UserInfoModify : Fragment() {
                 }
         }
     }
+
     //레이아웃에 현재 유저 정보 보여줌
     private fun setContent() {
-        Timber.d("Test4 ${footmsgInfo?.nickname}")
         user_in_email.setText(footmsgInfo?.email)
         user_in_nickname.setText(footmsgInfo?.nickname)
-        this.context?.let { Glide.with(it).load(footmsgInfo?.imageUrl).into(pic_profile) }
+        if (footmsgInfo?.imageUrl != null) {
+            this.context?.let {
+                Glide.with(it).load(footmsgInfo?.imageUrl).override(300, 225).into(pic_profile)
+            }
+        }
     }
 }

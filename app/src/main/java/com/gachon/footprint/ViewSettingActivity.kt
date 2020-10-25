@@ -3,7 +3,6 @@ package com.gachon.footprint
 import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import com.gachon.footprint.settingfragment.*
 
 class ViewSettingActivity : AppCompatActivity() {
@@ -64,7 +63,7 @@ class ViewSettingActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when(item.itemId) {
+        when (item.itemId) {
             android.R.id.home -> {
                 finish()
                 return true

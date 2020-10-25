@@ -43,6 +43,7 @@
             android:theme="@style/IntroTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -53,8 +54,9 @@
         <activity android:name=".UserEnterActivity" />
         <activity android:name=".ViewSettingActivity" />
         <activity android:name=".SettingActivity" />
-        <activity android:name=".DiaryActivity"/>
-        <activity android:name=".FootMsgRecyclerActivity"/>
+        <activity android:name=".DiaryActivity" />
+        <activity android:name=".FootMsgRecyclerActivity" />
+        <activity android:name=".RecyclerFootMsgView"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
