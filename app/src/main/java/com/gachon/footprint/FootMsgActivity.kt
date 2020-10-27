@@ -11,8 +11,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.gachon.footprint.data.ModelFoot
@@ -20,7 +23,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_footprint.*
-import timber.log.Timber
 import java.io.FileOutputStream
 import java.text.SimpleDateFormat
 import java.util.*
@@ -35,13 +37,13 @@ class FootMsgActivity : AppCompatActivity() {
     private var auth: FirebaseAuth? = null
     private val db = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
+    var uid = user?.uid
     var lat: String? = null
     var lon: String? = null
 
     var footmsgInfo: ModelFoot? = ModelFoot()
 
     private val footMsgRef = db.collection("FootMsg")
-
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     val STORAGE_PERMISSION = arrayOf(
@@ -56,13 +58,18 @@ class FootMsgActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_footprint)
-        Timber.plant(Timber.DebugTree())
+
+        val fmbar = findViewById<Toolbar>(R.id.activity_footprint_toolbar)
+        setSupportActionBar(fmbar)
+        val ab: androidx.appcompat.app.ActionBar? = supportActionBar
+        ab?.setDisplayHomeAsUpEnabled(true)
+        ab?.title = "발자취 등록"
+
         auth = FirebaseAuth.getInstance()
         getUserInfo()
         if (intent.hasExtra("LAT") && intent.hasExtra("LON")) {
             lat = intent.getStringExtra("LAT")
             lon = intent.getStringExtra("LON")
-            Timber.d("TestGps $lat $lon")
             footmsgInfo?.latitude = lat?.toDouble()
             footmsgInfo?.longitude = lon?.toDouble()
         }
@@ -79,11 +86,30 @@ class FootMsgActivity : AppCompatActivity() {
         }
 
         //modeldata access후, firestore에 upload
-        confirm_button.setOnClickListener {
-            upLoadImageToCloud()
-        }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        //툴바를 가져옵니다
+        menuInflater.inflate(R.menu.footprint_toolbar, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            //뒤로가기 버튼
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+            R.id.btn_save_footprint -> {
+                //저장하기 버튼
+                upLoadImageToCloud()
+
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     //이미지 저장소에서 불러오기
     private fun setViews() {
@@ -180,7 +206,6 @@ class FootMsgActivity : AppCompatActivity() {
         //Make filename
         var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         var imageFileName = "IMAGE_" + timestamp + "_.png"
-        Timber.d("Testuid ${footmsgInfo?.uid}")
         var storageRef = FirebaseStorage.getInstance().getReference("/FootMsgImage/${footmsgInfo?.uid}/$imageFileName")
         //FileUpload
         photoUri?.let {
@@ -195,19 +220,17 @@ class FootMsgActivity : AppCompatActivity() {
     }
 
     fun addFireStore() {
-        Timber.d("Test GPS $lat $lon")
         if (lat != null && lon != null) {
             footmsgInfo?.title = add_footprint_title.text.toString()
             //사용자 이미지 업로드
             footmsgInfo?.msgText = add_footprint_context.text.toString()
             footmsgInfo?.timestamp = System.currentTimeMillis()
-            Timber.d("Testinbtn ${footmsgInfo?.nickname.toString()}")
             //firestore에 push
             footmsgInfo?.let { it1 ->
                 db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
-                    Log.d("Put", "발자취 등록 성공")
                 }
             }
+            Toast.makeText(this, "발자취 등록에 성공했습니다", Toast.LENGTH_LONG).show()
             startActivity(Intent(this, MainActivity::class.java))
         }
         setResult(Activity.RESULT_OK)
@@ -219,7 +242,6 @@ class FootMsgActivity : AppCompatActivity() {
             db.collection("User").document(user!!.uid).get()
                 .addOnSuccessListener { documentSnapshot ->
                     footmsgInfo = documentSnapshot.toObject(ModelFoot::class.java)
-                    Timber.d("Testuserinfo ${footmsgInfo?.nickname.toString()}")
                 }
         }
     }
