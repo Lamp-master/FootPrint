@@ -15,7 +15,11 @@ class SetLocationInfo : Fragment() {
         super.onCreate(savedInstanceState)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.s_set_location_info, container, false)
         val sllbar = view.findViewById(R.id.set_location_toolbar) as Toolbar
         val activity = activity as AppCompatActivity?

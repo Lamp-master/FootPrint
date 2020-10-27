@@ -48,6 +48,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
     var fusedLocationClient: FusedLocationProviderClient? = null
     var locationCallback: LocationCallback? = null
 
+    var sydney: LatLng? = null
+
     class LatLngData(
         val latLng: LatLng,
         val title: String
@@ -115,6 +117,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
             lat = intent.getStringExtra("LAT")?.toDouble()
             lon = intent.getStringExtra("LON")?.toDouble()
         }
+
+        getFootMsgGps()
 
         btn_map_footprint.setOnClickListener {
             val intent = Intent(this, FootMsgRecyclerActivity::class.java)

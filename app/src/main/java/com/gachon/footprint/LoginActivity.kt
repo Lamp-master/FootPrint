@@ -1,11 +1,7 @@
 package com.gachon.footprint
 
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.opengl.Visibility
 import android.os.Bundle
-import android.util.Base64
-import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -27,8 +23,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_login.*
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 import java.util.*
 
 class LoginActivity : AppCompatActivity() {
@@ -55,8 +49,8 @@ class LoginActivity : AppCompatActivity() {
             loginEmail()
         }
         other_email_login_button.setOnClickListener {
-            google_sign_in_button.visibility=View.VISIBLE
-            facebook_login_button.visibility=View.VISIBLE
+            google_sign_in_button.visibility = View.VISIBLE
+            facebook_login_button.visibility = View.VISIBLE
         }
 
         sign_up_bun.setOnClickListener {
@@ -81,7 +75,8 @@ class LoginActivity : AppCompatActivity() {
         userInfo.email = auth?.currentUser?.email
         db.collection("User").document(auth?.uid.toString()).set(userInfo)
             .addOnSuccessListener { void: Void? ->
-                Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_LONG).show() }
+                Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_LONG).show()
+            }
     }
 
     //이메일 로그인
@@ -125,12 +120,10 @@ class LoginActivity : AppCompatActivity() {
         auth?.signInWithCredential(credential)
             ?.addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    addFireStore()
                     moveMainPage(task.result?.user)
                 } else {
                     //에러 메세지
                     Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
-
                 }
             }
     }
@@ -176,15 +169,17 @@ class LoginActivity : AppCompatActivity() {
                 }
             }
     }
+
     //endregion
     // start on_start_check_user 유저가 앱에 이미 구글 로그인을 했는지 확인
-    /* override fun onStart() {
-         super.onStart()
-         val account = GoogleSignIn.getLastSignedInAccount(this)
-         if(account !==null){ // 이미 로그인 되어있을시 바로 메인 액티비티 이동
-             startActivity(Intent(this, MainActivity::class.java))
-         }
-     }*/
+    /*override fun onStart() {
+        super.onStart()
+        val account = GoogleSignIn.getLastSignedInAccount(this)
+        if (account !== null) { // 이미 로그인 되어있을시 바로 메인 액티비티 이동
+            startActivity(Intent(this, MainActivity::class.java))
+        }
+    }*/
+
     private fun moveMainPage(user: FirebaseUser?) {
         if (user != null) {
             startActivity(Intent(this, MainActivity::class.java))

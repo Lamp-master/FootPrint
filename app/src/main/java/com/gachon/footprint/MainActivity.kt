@@ -23,6 +23,9 @@ class MainActivity : AppCompatActivity() {
         var sydney: LatLng? = null
     }
 
+    var lat: Double? = 0.0
+    var lon: Double? = 0.0
+
     private val db = FirebaseFirestore.getInstance()
     private var auth: FirebaseAuth? = null
     var locationRequset: LocationRequest? = null
@@ -142,8 +145,6 @@ class MainActivity : AppCompatActivity() {
         my_diary.setOnClickListener {
             val intent = Intent(this, DiaryActivity::class.java)
             startActivity(intent)
-
-
         }
         //상품 구매하기
         /*buy_goods.setOnClickListener {
@@ -185,6 +186,7 @@ class MainActivity : AppCompatActivity() {
             }
         }
             ?.addOnFailureListener {
+                Log.e("Test", "에러")
             }
 
     }
@@ -197,3 +199,50 @@ class MainActivity : AppCompatActivity() {
 }
 
 
+
+
+
+
+
+/*
+  db.collection("User").document(auth?.uid.toString()).set(userInfo)
+  .addOnSuccessListener { void: Void? ->
+*/
+// firestore 로부터 유저 정보 받아옴. 이 Activity에선 필요없음
+/*
+private fun getUserInfo(){
+    var cuser = FirebaseAuth.getInstance().currentUser
+    if(cuser!=null) {
+        user.uid = cuser.uid
+        db.collection("User").document(user.uid!!).get().addOnSuccessListener { documentSnapshot ->
+            var map: Map<String, Any> = documentSnapshot.data as Map<String, Any>
+            user.nickname = map["nickname"].toString()
+            user.email = map["userEmail"].toString()
+            user.password = map["password"].toString()
+            user.Img = map["userImg"].toString()
+        }
+    }
+}
+*/
+/*
+fun getLastLocationNewMethod() {
+    val mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
+    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+        ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+        return
+    }
+    mFusedLocationClient.lastLocation
+        .addOnSuccessListener { location ->
+            location?.apply {
+                sydney = LatLng(this.latitude, this.longitude)
+                lat = latitude
+                lon = longitude
+                db.collection("User").document(auth?.uid.toString()).set(sydney!!, SetOptions.merge())
+                    .addOnSuccessListener { void: Void? ->
+                    }
+            }
+        }
+        .addOnFailureListener { e ->
+            e.printStackTrace()
+        }
+}*/

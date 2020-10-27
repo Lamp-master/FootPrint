@@ -16,12 +16,17 @@ public class ResolveDialogFragment extends DialogFragment {
     interface OkListener {
         void onOkPressed(String dialogValue);
     }
+
     private OkListener okListener;
     private EditText shortCodeField;
-    /** Sets a listener that is invoked when the OK button on this dialog is pressed. */
+
+    /**
+     * Sets a listener that is invoked when the OK button on this dialog is pressed.
+     */
     void setOkListener(OkListener okListener) {
         this.okListener = okListener;
     }
+
     /**
      * Creates a simple layout for the dialog. This contains a single user-editable text field whose
      * input type is retricted to numbers only, for simplicity.
@@ -38,6 +43,7 @@ public class ResolveDialogFragment extends DialogFragment {
         layout.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
         return layout;
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -53,7 +59,8 @@ public class ResolveDialogFragment extends DialogFragment {
                                 okListener.onOkPressed(shortCodeText.toString());
                             }
                         })
-                .setNegativeButton("Cancel", (dialog, which) -> {});
+                .setNegativeButton("Cancel", (dialog, which) -> {
+                });
         return builder.create();
     }
 }
