@@ -100,30 +100,6 @@
                 android:background="#cccccc"
                 app:srcCompat="@drawable/ic_add_photo" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:text="아이콘 선택"
-                android:textColor="@color/colorNavIcon"
-                android:textSize="14sp" />
-
-
-            <TableLayout
-                android:id="@+id/ic_table"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TableRow>
-
-                    <include
-                        android:id="@+id/main_screen_icon"
-                        layout="@layout/fragment_icon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"></include>
-                </TableRow>
-            </TableLayout>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

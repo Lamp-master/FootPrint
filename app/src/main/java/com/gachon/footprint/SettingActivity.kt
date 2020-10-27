@@ -36,6 +36,9 @@ class SettingActivity : AppCompatActivity() {
             startActivity(intent)
         }
         change_account.setOnClickListener {
+            val alertdialog = AlertCustomDialog()
+            alertdialog.setAlertDialog("로그아웃", "정말 로그아웃 하시겠습니까?", "확인", "닫기")
+
             loggedOut()
             Toast.makeText(this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
 
