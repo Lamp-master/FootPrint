@@ -15,10 +15,9 @@ import com.gachon.footprint.reviewRecyclerView.ReviewRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_recycler_foot_msg_view.*
-import java.util.*
+import java.util.ArrayList
 
-class RecyclerFootMsgView : AppCompatActivity() {
-
+class RecyclerDiaryViewActivity : AppCompatActivity() {
     var timestamp: String? = null
     var db: FirebaseFirestore? = null
     var footmsgInfo: ModelFoot? = ModelFoot()
@@ -44,17 +43,13 @@ class RecyclerFootMsgView : AppCompatActivity() {
         review_submit.setOnClickListener {
             addfirestore()
         }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
         //맵 툴바를 가져옴
         return super.onCreateOptionsMenu(menu)
-    }
-
-    fun hideKeyboard() {
-        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(edit_comment.windowToken, 0)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -67,7 +62,6 @@ class RecyclerFootMsgView : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
-
     //해당 게시글 댓글 가져오기
     fun getReviewMsg() {
         db?.collection("Review")?.document(document_id.toString())?.collection("Comment")
@@ -92,7 +86,7 @@ class RecyclerFootMsgView : AppCompatActivity() {
                             recyclerview_review.apply {
                                 layoutManager =
                                     LinearLayoutManager(
-                                        this@RecyclerFootMsgView,
+                                        this@RecyclerDiaryViewActivity,
                                         LinearLayoutManager.VERTICAL,
                                         false
                                     )
@@ -119,6 +113,11 @@ class RecyclerFootMsgView : AppCompatActivity() {
                 }
             }
         }
+    }
+
+    fun hideKeyboard() {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(edit_comment.windowToken, 0)
     }
 
     //해당 게시글 정보 가져와서 뿌리기
@@ -154,5 +153,3 @@ class RecyclerFootMsgView : AppCompatActivity() {
         }
     }
 }
-
-

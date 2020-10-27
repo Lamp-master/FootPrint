@@ -57,6 +57,7 @@
         <activity android:name=".DiaryActivity" />
         <activity android:name=".FootMsgRecyclerActivity" />
         <activity android:name=".RecyclerFootMsgView"/>
+        <activity android:name=".RecyclerDiaryViewActivity"/>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"

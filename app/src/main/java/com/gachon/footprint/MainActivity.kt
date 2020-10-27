@@ -23,8 +23,6 @@ class MainActivity : AppCompatActivity() {
         var sydney: LatLng? = null
     }
 
-    var lat: Double? = 0.0
-    var lon: Double? = 0.0
     private val db = FirebaseFirestore.getInstance()
     private var auth: FirebaseAuth? = null
     var locationRequset: LocationRequest? = null
@@ -56,14 +54,6 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             ) != PackageManager.PERMISSION_GRANTED
         ) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return
         }
         fusedLocationClient?.requestLocationUpdates(
             locationRequset,
@@ -136,11 +126,15 @@ class MainActivity : AppCompatActivity() {
         //근처 발자취 보기 (Google map)
         near_footprint.setOnClickListener {
             val intent = Intent(this, MapActivity::class.java)
+            intent.putExtra("LAT", "${sydney?.latitude}")
+            intent.putExtra("LON", "${sydney?.longitude}")
             startActivity(intent)
         }
         // 다이어리 보기
-        /*my_diary.setOnClickListener {
-        }*/
+        my_diary.setOnClickListener {
+            val intent = Intent(this, DiaryActivity::class.java)
+            startActivity(intent)
+        }
         //상품 구매하기
         /*buy_goods.setOnClickListener {
             val intent = Intent(this, CameraActivity::class.java)
