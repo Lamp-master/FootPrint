@@ -66,6 +66,8 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:1.1.0"
     implementation 'androidx.cardview:cardview:1.0.0'
 
+    // Add the annotation processor if you are using Epoxy's annotations (recommended)
+
     //구글 맵 API
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-location:17.1.0'

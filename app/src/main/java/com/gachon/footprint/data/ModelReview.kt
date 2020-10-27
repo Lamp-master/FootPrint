@@ -5,5 +5,4 @@ data class ModelReview(
     var nickname: String? = null,
     var reviewtxt: String? = null,
     var imageUrl: String? = null
-
 )

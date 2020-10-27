@@ -19,4 +19,12 @@
     <color name="colorEmailSignIn">#009688</color>
     <color name="colorEmailSignInPressed">#004D40</color>
     <color name="colorComplementary">#FD9788</color>
+
+    <color name="colorSeaToolbar">#A0BFBD</color>
+    <color name="colorSeabar">#80AAA6</color>
+    <color name="colorSeaLight">#D2E2E0</color>
+    <color name="colorSeaSand">#D7CDC2</color>
+    <color name="colorSeaSandDark">#B5A89B</color>
+    <color name="colorBackup">#7edeea</color>
+
 </resources>

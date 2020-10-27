@@ -3,7 +3,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
+<<<<<<< HEAD
     android:layout_height="200dp">
+=======
+    android:layout_height="match_parent">
+>>>>>>> 8c26e49d6e5b8512a5e537fed085aff5b490749b
 
     <androidx.cardview.widget.CardView
         android:clickable="true"
@@ -16,7 +20,11 @@
 
         <LinearLayout
             android:layout_width="wrap_content"
+<<<<<<< HEAD
             android:layout_height="150dp"
+=======
+            android:layout_height="wrap_content"
+>>>>>>> 8c26e49d6e5b8512a5e537fed085aff5b490749b
             android:orientation="vertical"
             android:gravity="center"
             android:layout_gravity="center_vertical|center_horizontal">
@@ -33,9 +41,30 @@
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:textSize="18sp"
+<<<<<<< HEAD
                 android:textAlignment="center"
 
                 />
+=======
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/diary_context"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="center"/>
+
+            <TextView
+                android:id="@+id/diary_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:textAlignment="center"/>
+
+>>>>>>> 8c26e49d6e5b8512a5e537fed085aff5b490749b
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 

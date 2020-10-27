@@ -11,7 +11,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_diary"
         android:layout_width="match_parent"
+<<<<<<< HEAD
         android:layout_height="match_parent"
+=======
+        android:layout_height="wrap_content"
+>>>>>>> 8c26e49d6e5b8512a5e537fed085aff5b490749b
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="5dp"/>
 

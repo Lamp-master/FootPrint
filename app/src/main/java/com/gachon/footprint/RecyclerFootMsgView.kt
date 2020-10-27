@@ -70,6 +70,7 @@ class RecyclerFootMsgView : AppCompatActivity() {
 
     //해당 게시글 댓글 가져오기
     fun getReviewMsg() {
+
         db?.collection("Review")?.document(document_id.toString())?.collection("Comment")
             ?.addSnapshotListener { querySnapshot, firebaseFirestoreException ->
                 reviewList.clear()
@@ -87,6 +88,7 @@ class RecyclerFootMsgView : AppCompatActivity() {
                             item?.imageUrl = user?.imageUrl
                             reviewList.add(item!!)
                             // 어댑터 인스턴스 생성
+
                             reviewRecyclerAdapter = ReviewRecyclerAdapter()
                             reviewRecyclerAdapter.submitList(this.reviewList)
                             recyclerview_review.apply {
