@@ -1,5 +1,6 @@
 package com.gachon.footprint
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -8,8 +9,9 @@ import com.gachon.footprint.diaryRecyclerView.DiaryRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_diary.*
+import timber.log.Timber
 
-class DiaryActivity : AppCompatActivity() {
+class DiaryActivity : AppCompatActivity(), RecyclerInterface {
 
     var diaryInfo: ArrayList<ModelFoot> = arrayListOf()
     var db: FirebaseFirestore? = null
@@ -27,8 +29,7 @@ class DiaryActivity : AppCompatActivity() {
                 val item = snapshot.toObject(ModelFoot::class.java)
                 if (item?.uid == user?.uid) {
                     diaryInfo.add(item!!)
-
-                    diaryRecyclerAdapter = DiaryRecyclerAdapter()
+                    diaryRecyclerAdapter = DiaryRecyclerAdapter(this)
                     diaryRecyclerAdapter.submitList(this.diaryInfo)
                     recycler_diary.apply {
                         layoutManager =
@@ -39,8 +40,18 @@ class DiaryActivity : AppCompatActivity() {
                             )
                         adapter = diaryRecyclerAdapter
                     }
+
                 }
             }
         }
     }
+
+    override fun onItemClicked(position: Int) {
+        Timber.d("Test checked diaryactivity")
+        val intent = Intent(this, RecyclerDiaryViewActivity::class.java)
+        intent.putExtra("timestamp", "${diaryInfo[position].timestamp}")
+        startActivity(intent)
+    }
+
+
 }
