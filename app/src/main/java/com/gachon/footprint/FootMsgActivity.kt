@@ -307,4 +307,3 @@ class FootMsgActivity : AppCompatActivity() {
         val date = sdf.format(netDate).toString()
         Log.d("TAG170", date)
     }*/
-
