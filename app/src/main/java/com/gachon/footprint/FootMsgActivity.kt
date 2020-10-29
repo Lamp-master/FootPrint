@@ -105,6 +105,8 @@ class FootMsgActivity : AppCompatActivity() {
             R.id.btn_save_footprint -> {
                 //저장하기 버튼
                 upLoadImageToCloud()
+                finish()
+                return true
 
             }
         }
@@ -231,7 +233,7 @@ class FootMsgActivity : AppCompatActivity() {
                 }
             }
             Toast.makeText(this, "발자취 등록에 성공했습니다", Toast.LENGTH_LONG).show()
-            startActivity(Intent(this, MainActivity::class.java))
+            /*startActivity(Intent(this, MainActivity::class.java))*/
         }
         setResult(Activity.RESULT_OK)
     }

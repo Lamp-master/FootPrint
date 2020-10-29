@@ -43,23 +43,53 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/dialog_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="제목: "/>
+            <EditText
+                android:id="@+id/dialog_title_comment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+
+        </LinearLayout>
+
             <ImageView
                 android:id="@+id/dialog_image"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:id="@+id/dialog_title"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_diary"/>
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+            <TextView
+                android:id="@+id/dialog_writer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/dialog_image"
                 android:gravity="start"
+                android:text="작성자: "
                 android:textColor="@color/colorNavIcon"
                 android:textSize="14sp"/>
-
             <TextView
+                android:id="@+id/dialog_nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/dialog_image"/>
+            </LinearLayout>
+
+
+            <EditText
                 android:id="@+id/dialog_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -80,56 +110,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/footprint_scroll"
-        android:padding="16dp">
-
-        <ImageView
-            android:id="@+id/dialog_profilepic"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/dialog_comment"
-            android:layout_width="70dp"
-            android:layout_height="70dp" />
-
-        <TextView
-            android:id="@+id/dialog_nickname"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:textSize="12sp"
-            android:textColor="@color/colorNavIcon"
-            tools:text="sdfasdfasdf"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintLeft_toRightOf="@+id/dialog_profilepic"/>
-
-        <Button
-            android:id="@+id/dialog_comment"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_nickname"
-            app:layout_constraintLeft_toRightOf="@+id/dialog_profilepic"
-            tools:text="댓글(5)"
-            android:background="@drawable/edittext_round"/>
-
-        <Button
-            android:id="@+id/dialog_recommend"
-            android:layout_width="wrap_content"
-            android:layout_height="44dp"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintLeft_toRightOf="@+id/dialog_comment"
-            app:layout_constraintTop_toBottomOf="@+id/dialog_nickname"
-            android:layout_marginTop="8dp"
-            tools:text="추천(7)"
-            android:background="@drawable/edittext_round"/>
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
