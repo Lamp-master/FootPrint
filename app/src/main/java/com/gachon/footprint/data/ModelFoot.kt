@@ -15,7 +15,8 @@ data class ModelFoot(
     //이미지 및 동영상 uri 경로 저장
     var imageUrl: String? = null,
     var msgMedia: String? = null,
-    var arMarker: String? = null
+    var arMarker: String? = null,
+    var footMsgId: String? = null
 ) {
 
     data class Review(

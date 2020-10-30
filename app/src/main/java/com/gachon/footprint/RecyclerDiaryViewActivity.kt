@@ -62,6 +62,7 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
         }
         return super.onOptionsItemSelected(item)
     }
+
     //해당 게시글 댓글 가져오기
     fun getReviewMsg() {
         db?.collection("Review")?.document(document_id.toString())?.collection("Comment")
@@ -99,20 +100,14 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
 
     //해당 게시글 정보 가져오기
     private fun getFootMsg() {
-        timestamp = intent.getStringExtra("timestamp")
-        db?.collection("FootMsg")?.get()?.addOnSuccessListener { documents ->
-            for (document in documents) {
-                var map: Map<String, Any> = document.data
-                if (map["timestamp"].toString() == timestamp) {
-                    footmsgInfo = document.toObject(ModelFoot::class.java)
-                    document_id = document.id
-                    getReviewMsg()
-
-                    setContent()
-                    break
-                }
+        var footMsgId = intent.getStringExtra("FootMsgId")
+        db?.collection("FootMsg")?.document(footMsgId.toString())?.get()
+            ?.addOnSuccessListener { document ->
+                footmsgInfo = document.toObject(ModelFoot::class.java)
+                document_id = document.id
+                getReviewMsg()
+                setContent()
             }
-        }
     }
 
     fun hideKeyboard() {

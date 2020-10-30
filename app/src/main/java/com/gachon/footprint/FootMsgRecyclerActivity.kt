@@ -72,6 +72,7 @@ class FootMsgRecyclerActivity : AppCompatActivity(), RecyclerInterface {
                     var distance = SphericalUtil.computeDistanceBetween(curGps, tempGps) / 1000
                     if (distance < 1) {
                         item?.distance = distance
+                        item?.footMsgId = snapshot.id
                         footmsgInfo.add(item!!)
                     }
                 }
@@ -92,7 +93,7 @@ class FootMsgRecyclerActivity : AppCompatActivity(), RecyclerInterface {
     // 아이템 클릭시 포지션값 여기로 넘어옴
     override fun onItemClicked(position: Int) {
         val intent = Intent(this, RecyclerFootMsgView::class.java)
-        intent.putExtra("timestamp", "${footmsgInfo[position].timestamp}")
+        intent.putExtra("FootMsgId", "${footmsgInfo[position].footMsgId}")
         startActivity(intent)
     }
 }

@@ -3,14 +3,15 @@ package com.gachon.footprint.model
 import com.google.gson.annotations.SerializedName
 
 data class Venue(
-    @SerializedName("name")
-    val name: String,
-    @SerializedName("address")
-    val address: String,
+    @SerializedName("title")
+    val title: String? = null,
     @SerializedName("lat")
-    val lat: String,
+    var latitude: Double? = null,
     @SerializedName("long")
-    val long: String,
-    @SerializedName("icon")
-    val iconURL: String
+    var longitude: Double? = null,
+    @SerializedName("imageUrl")
+    val imageUrl: String? = null,
+    var timestamp: Long? = null,
+    var distance: Double? = null,
+    var footmsgid: String? = null
 )
