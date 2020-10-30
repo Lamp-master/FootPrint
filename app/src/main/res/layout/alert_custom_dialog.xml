@@ -51,17 +51,17 @@
 
         <Button
             android:id="@+id/dialog_alert_negative"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="5"
             tools:text="negative"
             android:background="@color/colorAccentLightDark"/>
 
         <Button
             android:id="@+id/dialog_alert_positive"
-            android:layout_height="wrap_content"
-            android:layout_width="0dp"
-            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:layout_width="wrap_content"
+            android:layout_weight="5"
             tools:text="positive"
             android:background="#00FFFFFF"/>
 

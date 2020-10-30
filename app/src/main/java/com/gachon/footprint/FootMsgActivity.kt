@@ -63,7 +63,7 @@ class FootMsgActivity : AppCompatActivity() {
         setSupportActionBar(fmbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
-        ab?.title = "발자취 등록"
+        ab?.title = ""
 
         auth = FirebaseAuth.getInstance()
         getUserInfo()

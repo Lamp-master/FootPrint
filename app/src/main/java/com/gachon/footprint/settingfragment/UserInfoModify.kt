@@ -51,7 +51,7 @@ class UserInfoModify : Fragment() {
         val activity = activity as AppCompatActivity?
         activity?.setSupportActionBar(uimbar)
         activity?.supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        activity?.supportActionBar?.title = "프로필 수정"
+        activity?.supportActionBar?.title = ""
 
         getUserInfo()
         return view

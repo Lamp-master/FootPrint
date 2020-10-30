@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#c7c7c7</color>
     <color name="colorLightGray">#f1f1f1</color>
     //Accent 컬러 바꿨음
-    <color name="colorAccent">#7edeea</color>
+    <color name="colorAccent">#8c92ff</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorDivision">#e0e0e0</color>
     <color name="colorNavIcon">#1d1d1d</color>
@@ -26,5 +26,8 @@
     <color name="colorSeaSand">#D7CDC2</color>
     <color name="colorSeaSandDark">#B5A89B</color>
     <color name="colorBackup">#7edeea</color>
+    <color name="colorAccentimsi">#4DC6E2</color>
+
+    <color name="transparent">#00000000</color>
 
 </resources>

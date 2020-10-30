@@ -6,101 +6,135 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/activity_footprint_toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:background="@drawable/home_background">
 
-    <ScrollView
-        android:id="@+id/scroll_footprint"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/activity_footprint_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16sp"
-            android:orientation="vertical">
+            android:minHeight="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:layout_gravity="center"
+            android:background="#00FFFFFF" />
 
-            <TextView
+        <TextView
+            android:id="@+id/add_foot_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="48dp"
+            android:text="ADD FOOTPRINT"
+            android:textSize="28sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_below="@id/add_foot_text"
+            android:layout_marginTop="30dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
+
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24sp"
-                android:text="제목"
-                android:textColor="@color/colorNavIcon"
-                android:textSize="14sp" />
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="16dp">
 
-            <EditText
-                android:id="@+id/add_footprint_title"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_round"
-                android:hint="제목을 입력하세요"
-                android:inputType="text"
-                android:padding="8dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24sp"
-                android:text="위치"
-                android:textColor="@color/colorNavIcon"
-                android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="40dp"
+                        android:text="사진"
+                        android:textColor="@color/colorNavIcon"
+                        android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/add_footprint_location"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_round"
-                android:enabled="false"
-                android:hint="위치는 자동으로 등록됩니다"
-                android:inputType="text"
-                android:padding="8dp" />
+                    <ImageView
+                        android:id="@+id/footprintImg"
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:scaleType="centerCrop"
+                        android:layout_marginTop="10dp"
+                        android:background="#cccccc"
+                        app:srcCompat="@drawable/ic_add_photo" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:text="내용"
-                android:textColor="@color/colorNavIcon"
-                android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="36dp"
+                        android:text="제목"
+                        android:textColor="@color/colorNavIcon"
+                        android:textSize="14sp" />
 
-            <EditText
-                android:id="@+id/add_footprint_context"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/edittext_round"
-                android:gravity="top"
-                android:hint="남길 발자취의 내용을 입력하세요"
-                android:inputType="textMultiLine"
-                android:lines="6"
-                android:padding="8dp" />
+                    <EditText
+                        android:id="@+id/add_footprint_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_round"
+                        android:hint="제목을 입력하세요"
+                        android:inputType="text"
+                        android:padding="8dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20sp"
-                android:text="사진/동영상"
-                android:textColor="@color/colorNavIcon"
-                android:textSize="14sp" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="36dp"
+                        android:text="내용"
+                        android:textColor="@color/colorNavIcon"
+                        android:textSize="14sp" />
 
-            <!--일단 형태 때문에 이미지 넣었음-->
+                    <EditText
+                        android:id="@+id/add_footprint_context"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/edittext_round"
+                        android:gravity="top"
+                        android:hint="남길 발자취의 내용을 입력하세요"
+                        android:inputType="textMultiLine"
+                        android:lines="6"
+                        android:padding="8dp" />
 
-            <ImageView
-                android:id="@+id/footprintImg"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
-                android:layout_marginTop="10dp"
-                android:background="#cccccc"
-                app:srcCompat="@drawable/ic_add_photo" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="36dp"
+                        android:text="위치"
+                        android:textColor="@color/colorNavIcon"
+                        android:textSize="14sp" />
 
-        </LinearLayout>
-    </ScrollView>
+                    <EditText
+                        android:id="@+id/add_footprint_location"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="40dp"
+                        android:background="@drawable/edittext_round"
+                        android:enabled="false"
+                        android:hint="위치는 자동으로 등록됩니다"
+                        android:inputType="text"
+                        android:padding="8dp" />
+
+                </LinearLayout>
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
 </LinearLayout>
 

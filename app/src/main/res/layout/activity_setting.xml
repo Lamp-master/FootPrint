@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -28,84 +26,131 @@
 
             <Button
                 android:id="@+id/app_info"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="앱 정보"
+                android:text="@string/setting_footprint_appinfo"
                 android:gravity="start|center_vertical" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#000000" />
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/modify_info"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="프로필 수정"
+                android:text="@string/setting_footprint_modifyinfo"
                 android:gravity="start|center_vertical" />
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#000000" />
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/change_account"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="계정 변경"
+                android:text="@string/setting_footprint_change"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/set_location_info"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="위치 정보 설정"
+                android:text="@string/setting_footprint_location"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/account_report"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="계정 신고"
+                android:text="@string/setting_footprint_report"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/licence"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="라이선스"
+                android:text="@string/setting_footprint_licence"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/contact_us"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
-                android:layout_height="52dp"
+                android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="문의하기"
+                android:text="@string/setting_footprint_contact"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/log_out"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="로그아웃"
+                android:text="@string/setting_footprint_logout"
                 android:gravity="start|center_vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minHeight="1dp"
+                android:background="@color/colorLightGray" />
 
             <Button
                 android:id="@+id/withdraw_account"
+                android:foreground="?attr/selectableItemBackground"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:background="#00FF0000"
-                android:text="계정 탈퇴"
+                android:text="@string/setting_footprint_withdraw"
                 android:gravity="start|center_vertical" />
         </LinearLayout>
     </ScrollView>

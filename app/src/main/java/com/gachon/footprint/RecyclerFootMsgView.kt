@@ -1,5 +1,6 @@
 package com.gachon.footprint
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.Menu
@@ -17,7 +18,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_recycler_foot_msg_view.*
 import java.util.*
 
-class RecyclerFootMsgView : AppCompatActivity() {
+class RecyclerFootMsgView : Activity() {
 
     var footMsgId: String? = null
     var db: FirebaseFirestore? = null
@@ -33,11 +34,12 @@ class RecyclerFootMsgView : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_recycler_foot_msg_view)
         db = FirebaseFirestore.getInstance()
-        val mapbar = findViewById<Toolbar>(R.id.map_toolbar)
+        /*val mapbar = findViewById<Toolbar>(R.id.map_toolbar)
+        actionBar(mapbar)
         setSupportActionBar(mapbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
-        ab?.title = "내 주변 발자취"
+        ab?.title = "내 주변 발자취"*/
         getUserInfo()
         getFootMsg()
 
@@ -46,18 +48,20 @@ class RecyclerFootMsgView : AppCompatActivity() {
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+   /* override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
         //맵 툴바를 가져옴
         return super.onCreateOptionsMenu(menu)
     }
+*/
 
     fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(edit_comment.windowToken, 0)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+/*     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item?.itemId) {
             //뒤로가기 버튼
             android.R.id.home -> {
@@ -66,8 +70,7 @@ class RecyclerFootMsgView : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-
+    }*/
     //해당 게시글 댓글 가져오기
     fun getReviewMsg() {
 

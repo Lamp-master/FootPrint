@@ -13,6 +13,7 @@ class DiaryHolder(itemView: View, recyclerInterface: RecyclerInterface) : Recycl
 
     private val title = itemView.diary_title
     private val contextImg = itemView.diary_img
+    private val context = itemView.diary_context
     private var recyclerInterface: RecyclerInterface? = null
 
     init {
@@ -22,6 +23,7 @@ class DiaryHolder(itemView: View, recyclerInterface: RecyclerInterface) : Recycl
 
     fun bind(diaries: ModelFoot) {
         title.text = diaries.title
+        context.text = diaries.msgText
         if (diaries.imageUrl != null) {
             Glide.with(App.instance).load(diaries.imageUrl).override(300, 225).into(contextImg)
         }

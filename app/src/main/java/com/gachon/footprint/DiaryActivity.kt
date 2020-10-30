@@ -3,12 +3,16 @@ package com.gachon.footprint
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.view.View
+import android.widget.Button
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gachon.footprint.data.ModelFoot
 import com.gachon.footprint.diaryRecyclerView.DiaryRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_diary.*
+import kotlinx.android.synthetic.main.diary_detail.*
 import timber.log.Timber
 
 class DiaryActivity : AppCompatActivity(), RecyclerInterface {
