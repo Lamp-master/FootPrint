@@ -1,10 +1,9 @@
 package com.gachon.footprint.api
 
-import android.telecom.Call
 import com.gachon.footprint.model.VenueWrapper
+import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.QueryMap
-
 
 interface FoursquareAPI {
 
@@ -13,6 +12,5 @@ interface FoursquareAPI {
     }
 
     @GET("search")
-
     fun searchVenues(@QueryMap params: Map<String, String>): Call<VenueWrapper>
 }

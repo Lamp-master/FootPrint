@@ -17,21 +17,25 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import com.facebook.internal.Mutable
 import com.gachon.footprint.api.FoursquareAPI
 import com.gachon.footprint.model.Geolocation
 import com.gachon.footprint.model.VenueWrapper
 import com.gachon.footprint.model.converter.VenueTypeConverter
 import com.gachon.footprint.utils.AugmentedRealityLocationUtils
 import com.gachon.footprint.data.ModelFoot
+import com.gachon.footprint.data.ModelReview
 import com.gachon.footprint.model.Venue
 import com.gachon.footprint.utils.AugmentedRealityLocationUtils.INITIAL_MARKER_SCALE_MODIFIER
 import com.gachon.footprint.utils.AugmentedRealityLocationUtils.INVALID_MARKER_SCALE_MODIFIER
 import com.gachon.footprint.utils.PermissionUtils
+import com.google.android.gms.maps.model.LatLng
 import com.google.ar.core.*
 import com.google.ar.core.ArCoreApk.InstallStatus
 import com.google.ar.core.exceptions.CameraNotAvailableException
 import com.google.ar.core.exceptions.UnavailableException
 import com.google.ar.sceneform.AnchorNode
+import com.google.ar.sceneform.ArSceneView
 import com.google.ar.sceneform.Node
 import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
@@ -40,6 +44,8 @@ import com.google.ar.sceneform.ux.TransformableNode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.GsonBuilder
+import com.google.maps.android.SphericalUtil
+
 import kotlinx.android.synthetic.main.activity_camera.*
 import kotlinx.android.synthetic.main.activity_footprint.*
 import kotlinx.android.synthetic.main.activity_footprint.add_footprint_context
@@ -49,6 +55,7 @@ import kotlinx.android.synthetic.main.location_layout_renderable.view.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.distance
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -56,35 +63,33 @@ import timber.log.Timber
 import uk.co.appoly.arcorelocation.LocationMarker
 import uk.co.appoly.arcorelocation.LocationScene
 import java.lang.ref.WeakReference
+import java.util.ArrayList
 import java.util.concurrent.CompletableFuture
 
 //AR실행 순서 ARCore와 호환되는지 검사->GPS/Camera권한획득->Sceneform및LocationScene SDK 설정
 //LocationScene(장비위치요청/wait)->FoursquareAPI에서 장소를 가져오기
 //arSceneView에 장소 추가->LocationMarker(장소레이아웃생성/렌더링)설정 및 마커 조정
 //장면에 장소 추가(이전단계 반복)
-class CameraActivity : AppCompatActivity(){
-    //파이어베이스
+class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
+
     var photoUri: Uri? = null
     private var auth: FirebaseAuth? = null
     private val db = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
     var uid = user?.uid
     var footmsgInfo: ModelFoot? = ModelFoot()
-    //Main의 GPS
+
+    var reviewList = ArrayList<ModelReview>()
+
+    var footmsgList: Venue? = Venue()
+    var distance: Double? = null
     var lat: String? = null
     var lon: String? = null
     var dlat: Double? = null
     var dlon: Double? = null
     var flat: Double =0.0
     var flon: Double =0.0
-    //ARScene을 그릴 뷰
-    lateinit var mSession: Session
-    private var mUserRequestInstall: Boolean = true
-    private val MIN_OPENGL_VERSION = 3.0
 
-    lateinit var arFragment: ArFragment
-    lateinit var locationMarker: LocationMarker
-    //firebase에서 Footmsg에서 각 위도 경도 가져와서 배열에 저장
     private var arCoreInstallRequested = false
 
     // Our ARCore-Location scene
@@ -98,45 +103,25 @@ class CameraActivity : AppCompatActivity(){
         locationScene?.resume()
         arSceneView.resume()
     }
-
     lateinit var foursquareAPI: FoursquareAPI
     private var apiQueryParams = mutableMapOf<String, String>()
-
     private var userGeolocation = Geolocation.EMPTY_GEOLOCATION
 
+    private var footMsgList: MutableSet<Venue> = mutableSetOf()
     private var venuesSet: MutableSet<Venue> = mutableSetOf()
     private var areAllMarkersLoaded = false
 
 
-    //AR 레이아웃과 연결
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.plant(Timber.DebugTree())
-        Timber.d("Test checked camera")
-        //버전 체크
-        if (!checkSupported(this)) {
-            return;
-        }
-        setContentView(R.layout.activity_camera)
-        //ARCORE-Location 라이브러리사용을 위해 중복 사용
-        locationScene= LocationScene(this,arSceneView)
-        arFragment = sceneform_fragment as ArFragment
-        auth = FirebaseAuth.getInstance()
+        setContentView(R.layout.activity_augmented_reality_location)
         getUserInfo()
-        getLocationFromMain()
-
-        //탭이벤트 발생시 탭한 곳의 GPS를 보여주고, arobject를 anchor한다.
-        arFragment.setOnTapArPlaneListener { hitResult: HitResult, plane: Plane, motionEvent: MotionEvent ->
-            Timber.d("Test checked TapClick")
-            if (plane.type != Plane.Type.HORIZONTAL_UPWARD_FACING) {
-                return@setOnTapArPlaneListener
-            }
-            //탭한 위치에 앵커를 설치한다.+*GPS를 받는다
-            val anchor = hitResult.createAnchor()
-            placeObject(arFragment, anchor)
-        }
-
-    }//onCreate
+        getFootMsgGps()
+        setupRetrofit()
+        setupLoadingDialog()
+        fetchVenues(37.5118, 126.8518)
+    }
 
     override fun onResume() {
         super.onResume()
@@ -149,105 +134,6 @@ class CameraActivity : AppCompatActivity(){
             locationScene?.pause()
             arSceneView?.pause()
         }
-    }
-
-    fun addFireStore() {
-        //사용자 이미지 업로드
-
-        footmsgInfo?.let { it1 ->
-            db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
-            }
-        }
-        Toast.makeText(this, "발자취 등록에 성공했습니다", Toast.LENGTH_LONG).show()
-    }
-
-    private fun getUserInfo() {
-        if (user != null) {
-            db.collection("User").document(user!!.uid).get()
-                .addOnSuccessListener { documentSnapshot ->
-                    footmsgInfo = documentSnapshot.toObject(ModelFoot::class.java)
-                }
-        }
-    }
-
-    //메인에서 사용자 gps 넘겨받음
-    private fun getLocationFromMain(){
-        Timber.d("Test checked in getLocationFromMain")
-        //메인에서 GPS 데이터 가져오기
-        if (intent.hasExtra("LAT") && intent.hasExtra("LON")) {
-            lat = intent.getStringExtra("LAT")
-            lon = intent.getStringExtra("LON")
-            dlat = lat?.toDouble()
-            dlon = lon?.toDouble()
-            footmsgInfo?.latitude = dlat
-            footmsgInfo?.longitude = dlon
-            Timber.d("Test checked location ${footmsgInfo?.latitude} ${footmsgInfo?.longitude}")
-
-
-        }
-    }
-
-
-
-
-
-
-    //보여주는 것은 어떻게 할 까?
-
-    private fun placeObject(fragment: ArFragment, anchor: Anchor) {
-        ViewRenderable.builder()
-            .setView(fragment.context, R.layout.controls)
-            .build()
-            .thenAccept {
-                it.isShadowCaster = false
-                it.isShadowReceiver = false
-                it.view.findViewById<ImageButton>(R.id.info_button).setOnClickListener {
-                    val intent = Intent(this, FootMsgActivity::class.java)
-                    intent.putExtra("LAT", "$dlat")
-                    intent.putExtra("LON", "$dlon")
-                    startActivity(intent)
-
-                }
-                addControlsToScene(fragment, anchor, it)
-            }
-            .exceptionally {
-                val builder = AlertDialog.Builder(this)
-                builder.setMessage(it.message).setTitle("Error")
-                val dialog = builder.create()
-                dialog.show()
-                return@exceptionally null
-            }
-    }
-
-    private fun addControlsToScene(fragment: ArFragment, anchor: Anchor, renderable: Renderable) {
-        val anchorNode = AnchorNode(anchor)
-        val node = TransformableNode(fragment.transformationSystem)
-        node.renderable = renderable
-        node.setParent(anchorNode)
-        fragment.arSceneView.scene.addChild(anchorNode)
-    }
-
-
-    // 버전 체크 자바 1.8이상, OpenGL3.0이상이 안될시 off
-    fun checkSupported(activity: Activity): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
-            Log.e("VersionError", "Sceneform 은 안드로이드 N이상에서 동작합니다")
-            Toast.makeText(activity, "Sceneform 은 안드로이드 N이상에서 동작합니다", Toast.LENGTH_SHORT).show()
-            activity.finish()
-            return false
-        }
-        val openGlVersionString =
-            (activity.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager)
-                .deviceConfigurationInfo
-                .glEsVersion
-
-        if (openGlVersionString.toDouble() < MIN_OPENGL_VERSION) {
-            Log.e("VersionError", "Sceneform은 OpenGL ES 3.0이상에서 작동합니다")
-            Toast.makeText(activity, "Sceneform은 OpenGL ES 3.0이상에서 작동합니다", Toast.LENGTH_LONG).show()
-            activity.finish()
-            return false
-        }
-        return true
     }
 
     private fun setupRetrofit() {
@@ -272,7 +158,14 @@ class CameraActivity : AppCompatActivity(){
         foursquareAPI = retrofit.create(FoursquareAPI::class.java)
     }
 
-
+    private fun setupLoadingDialog() {
+        val alertDialogBuilder = AlertDialog.Builder(this)
+        val dialogHintMainView =
+            LayoutInflater.from(this).inflate(R.layout.loading_dialog, null) as LinearLayout
+        alertDialogBuilder.setView(dialogHintMainView)
+        loadingDialog = alertDialogBuilder.create()
+        loadingDialog.setCanceledOnTouchOutside(false)
+    }
 
     private fun setupSession() {
         if (arSceneView == null) {
@@ -287,7 +180,6 @@ class CameraActivity : AppCompatActivity(){
                     return
                 } else {
                     arSceneView.setupSession(session)
-
                 }
             } catch (e: UnavailableException) {
                 AugmentedRealityLocationUtils.handleSessionException(this, e)
@@ -295,7 +187,7 @@ class CameraActivity : AppCompatActivity(){
         }
 
         if (locationScene == null) {
-            locationScene= LocationScene(this,arSceneView)
+            locationScene = LocationScene(this, arSceneView)
             locationScene!!.setMinimalRefreshing(true)
             locationScene!!.setOffsetOverlapping(true)
 //            locationScene!!.setRemoveOverlapping(true)
@@ -316,22 +208,23 @@ class CameraActivity : AppCompatActivity(){
     }
 
     private fun fetchVenues(deviceLatitude: Double, deviceLongitude: Double) {
+
         loadingDialog.dismiss()
         userGeolocation = Geolocation(deviceLatitude.toString(), deviceLongitude.toString())
         apiQueryParams["ll"] = "$deviceLatitude,$deviceLongitude"
         foursquareAPI.searchVenues(apiQueryParams).enqueue(this)
     }
 
-    fun onResponse(call: Call<VenueWrapper>, response: Response<VenueWrapper>) {
+    override fun onResponse(call: Call<VenueWrapper>, response: Response<VenueWrapper>) {
         val venueWrapper = response.body() ?: VenueWrapper(listOf())
         venuesSet.clear()
-        venuesSet.addAll(venueWrapper.venueList)
+        venuesSet.addAll(footMsgList)
         areAllMarkersLoaded = false
         locationScene!!.clearMarkers()
         renderVenues()
     }
 
-    fun onFailure(call: Call<VenueWrapper>, t: Throwable) {
+    override fun onFailure(call: Call<VenueWrapper>, t: Throwable) {
         //handle api call failure
     }
 
@@ -339,14 +232,12 @@ class CameraActivity : AppCompatActivity(){
         setupAndRenderVenuesMarkers()
         updateVenuesMarkers()
     }
-    //AR마커 설정 및 렌더링 함수
+
     private fun setupAndRenderVenuesMarkers() {
         venuesSet.forEach { venue ->
-            //렌더링할 레이아웃 설정
             val completableFutureViewRenderable = ViewRenderable.builder()
-                .setView(this, R.layout.activity_camera)
+                .setView(this, R.layout.location_layout_renderable)
                 .build()
-            //completableFuture 객체 생성
             CompletableFuture.anyOf(completableFutureViewRenderable)
                 .handle<Any> { _, throwable ->
                     //here we know the renderable was built or not
@@ -355,16 +246,22 @@ class CameraActivity : AppCompatActivity(){
                         return@handle null
                     }
                     try {
-                        val venueMarker = LocationMarker(
-                            venue.long.toDouble(),
-                            venue.lat.toDouble(),
-                            setVenueNode(venue, completableFutureViewRenderable)
-                        )
+                        val venueMarker = venue.longitude?.toDouble()?.let {
+                            venue.latitude?.toDouble()?.let { it1 ->
+                                LocationMarker(
+                                    it,
+                                    it1,
+                                    setVenueNode(venue, completableFutureViewRenderable)
+                                )
+                            }
+                        }
                         arHandler.postDelayed({
-                            attachMarkerToScene(
-                                venueMarker,
-                                completableFutureViewRenderable.get().view
-                            )
+                            if (venueMarker != null) {
+                                attachMarkerToScene(
+                                    venueMarker,
+                                    completableFutureViewRenderable.get().view
+                                )
+                            }
                             if (venuesSet.indexOf(venue) == venuesSet.size - 1) {
                                 areAllMarkersLoaded = true
                             }
@@ -401,7 +298,6 @@ class CameraActivity : AppCompatActivity(){
         }
     }
 
-
     private fun attachMarkerToScene(
         locationMarker: LocationMarker,
         layoutRendarable: View
@@ -413,12 +309,12 @@ class CameraActivity : AppCompatActivity(){
             locationScene?.mLocationMarkers?.add(locationMarker)
             locationMarker.anchorNode?.isEnabled = true
 
+
             arHandler.post {
                 locationScene?.refreshAnchors()
                 layoutRendarable.pinContainer.visibility = View.VISIBLE
             }
         }
-        //setRenderEvent->프레임마다 호출/노드 업데이트
         locationMarker.setRenderEvent { locationNode ->
             layoutRendarable.distance.text = AugmentedRealityLocationUtils.showDistance(locationNode.distance)
             resumeArElementsTask.run {
@@ -442,7 +338,7 @@ class CameraActivity : AppCompatActivity(){
         locationMarker.anchorNode = null
     }
 
-    //특정장소에 대응하는 locationMarker 생성+Click이벤트
+
     private fun setVenueNode(venue: Venue, completableFuture: CompletableFuture<ViewRenderable>): Node {
         val node = Node()
         node.renderable = completableFuture.get()
@@ -450,16 +346,18 @@ class CameraActivity : AppCompatActivity(){
         val nodeLayout = completableFuture.get().view
         val venueName = nodeLayout.name
         val markerLayoutContainer = nodeLayout.pinContainer
-        venueName.text = venue.name
+        venueName.text = venue.title
         markerLayoutContainer.visibility = View.GONE
-        //클릭이벤트
         nodeLayout.setOnTouchListener { _, _ ->
-            Toast.makeText(this, venue.address, Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, RecyclerFootMsgView::class.java)
+            intent.putExtra("FootMsgId", "${venue.footmsgid}")
+            startActivity(intent)
             false
         }
 
+        Timber.d("Test checked image url ${venue.imageUrl}")
         Glide.with(this)
-            .load(venue.iconURL)
+            .load(venue.imageUrl)
             .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
             .into(nodeLayout.categoryIcon)
 
@@ -512,11 +410,50 @@ class CameraActivity : AppCompatActivity(){
             super.onPostExecute(geolocation)
         }
     }
-    private fun detachMarkerFromScene(locationMarker: LocationMarker) {
-        locationMarker.anchorNode?.anchor?.detach()
-        locationMarker.anchorNode?.isEnabled = false
-        locationMarker.anchorNode = null
+
+    private fun getUserInfo() {
+        if (user != null) {
+            db.collection("User").document(user!!.uid).get()
+                .addOnSuccessListener { documentSnapshot ->
+                    footmsgInfo = documentSnapshot.toObject(ModelFoot::class.java)
+                }
+        }
     }
 
+    //메인에서 사용자 gps 넘겨받음
+    private fun getLocationFromMain(){
+        //메인에서 GPS 데이터 가져오기
+        if (intent.hasExtra("LAT") && intent.hasExtra("LON")) {
+            lat = intent.getStringExtra("LAT")
+            lon = intent.getStringExtra("LON")
+            dlat = lat?.toDouble()
+            dlon = lon?.toDouble()
+            footmsgInfo?.latitude = dlat
+            footmsgInfo?.longitude = dlon
+        }
+    }
 
+    //주변 메시지 위치 받아옴
+    private fun getFootMsgGps() {
+        db.collection("FootMsg").get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                var item = document.toObject(Venue::class.java)
+                item.footmsgid = document.id
+
+                var map: Map<String, Any> = document.data
+                var tempLat = map["latitude"].toString()
+                var tempLon = map["longitude"].toString()
+                val cur = footmsgInfo?.latitude?.toDouble()?.let { footmsgInfo?.longitude?.toDouble()?.let { it1 ->
+                    LatLng(it,
+                        it1
+                    )
+                } }
+                val tempGps = LatLng(tempLat.toDouble(), tempLon.toDouble())
+                distance = SphericalUtil.computeDistanceBetween(cur, tempGps) / 1000
+                if (distance!! < 1) {
+                    footMsgList.add(item)
+                }
+            }
+        }
+    }
 }

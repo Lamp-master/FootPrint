@@ -101,6 +101,7 @@ dependencies {
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.6'
     //원형 이미지
     implementation 'de.hdodenhof:circleimageview:3.0.0'
+    //ARCORE 시작하기
     implementation 'com.github.appoly:ARCore-Location:1.2'
     //Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'

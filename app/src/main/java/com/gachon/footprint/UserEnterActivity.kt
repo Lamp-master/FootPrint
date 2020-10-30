@@ -50,6 +50,7 @@ class UserEnterActivity : AppCompatActivity() {
             startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)
         }
 
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {

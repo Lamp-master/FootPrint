@@ -29,17 +29,16 @@ class VenueTypeConverter : JsonDeserializer<VenueWrapper> {
     @Throws(AssertionError::class)
     private fun getVenue(rawVenue: JsonObject): Venue {
 
-        val name = rawVenue.getAsJsonPrimitive("name").asString
+        val title = rawVenue.getAsJsonPrimitive("title").asString
         val location = rawVenue.getAsJsonObject("location")
 
-        val address = location.getAsJsonPrimitive("address")?.asString ?: "not set"
-        val lat = location.getAsJsonPrimitive("lat").asString
-        val long = location.getAsJsonPrimitive("lng").asString
+        val latitude = location.getAsJsonPrimitive("lat").asDouble
+        val longitude = location.getAsJsonPrimitive("lng").asDouble
 
         val categories = rawVenue.getAsJsonArray("categories").get(0).asJsonObject
 
-        val iconURL = categories.getAsJsonObject("icon").getAsJsonPrimitive("prefix").asString + "64.png"
+        val imageUrl = categories.getAsJsonObject("imageUrl").getAsJsonPrimitive("prefix").asString + "64.png"
 
-        return Venue(name, address, lat, long, iconURL)
+        return Venue(title, latitude, longitude, imageUrl)
     }
 }

@@ -1,3 +1,4 @@
+/*
 package com.gachon.footprint
 
 import android.os.Bundle
@@ -32,13 +33,21 @@ class FootDialog : DialogFragment() {
         super.onActivityCreated(savedInstanceState)
 
         view?.apply {
-            /*findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title*/
+            */
+/*findViewById<TextView>(R.id.footprint_dialog)?.text = main_Title*//*
+
             footprint_dialog.text = main_Title
-            /*dialog_image.text = contentPic*/
+            */
+/*dialog_image.text = contentPic*//*
+
             dialog_title.text = title
-            dialog_content.text = content
+            */
+/*dialog_content.text = content*//*
+
             dialog_location.text = location
-            /*dialog_profilepic.text = profilePic*/
+            */
+/*dialog_profilepic.text = profilePic*//*
+
             dialog_nickname.text = nickname
 
             dialog_recommend.text = btnRecommend
@@ -104,4 +113,4 @@ class FootDialog : DialogFragment() {
             return dialog
         }
     }
-}
+}*/

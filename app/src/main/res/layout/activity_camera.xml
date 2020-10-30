@@ -4,111 +4,103 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <com.google.ar.sceneform.ArSceneView
         android:id="@+id/arSceneView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"/>
-
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".CameraActivity"
-    android:orientation="vertical"
-    android:paddingTop="8dp">
-
-    <!--이 텍뷰는 액티비티에서 출력할 텍뷰입니다
-        예시문 : 가장 가까운 발자취 여기서 ( ) m-->
-
-    <TextView
-        android:id="@+id/camera_show_meters"
+<!--    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="4dp"
-        android:padding="8dp"
-        android:gravity="end"/>
+        tools:context=".CameraActivity"
+        android:orientation="vertical"
+        android:paddingTop="8dp"
+        >
 
-    <fragment
-        android:id="@+id/sceneform_fragment"
-        android:name="com.gachon.footprint.settingfragment.CloudAnchorFragment"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </fragment>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_see_footprint"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="보기"
-            android:background="@color/colorPrimary"
-            android:layout_weight="1"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_leave_footprint"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="발자취 남기기"
-            android:background="@color/colorAccent"
-            android:layout_weight="1"
-            android:textSize="16sp" />
-
-        <Button
-            android:id="@+id/btn_report_footprint"
-            android:visibility="gone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
-            android:text="신고"
-            android:layout_weight="1"
-            android:textSize="16sp" />
+        &lt;!&ndash;이 텍뷰는 액티비티에서 출력할 텍뷰입니다
+            예시문 : 가장 가까운 발자취 여기서 ( ) m&ndash;&gt;
 
 
+
+        &lt;!&ndash;    <fragment
+
+                android:id="@+id/sceneform_fragment"
+                android:name="com.gachon.footprint.settingfragment.CloudAnchorFragment"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1">
+            </fragment>&ndash;&gt;
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_clear"
+                android:id="@+id/btn_see_footprint"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="발자취 초기화" />
-
-            <Button
-                android:id="@+id/btn_resolve"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="발자취 확인" />
-
-            <Button
-                android:id="@+id/btn_message_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:text="보기"
                 android:background="@color/colorPrimary"
-                android:clickable="false"
-                android:text="발자취 등록"
+                android:layout_weight="1"
                 android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_leave_footprint"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="발자취 남기기"
+                android:background="@color/colorAccent"
+                android:layout_weight="1"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/btn_report_footprint"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@color/colorPrimary"
+                android:text="신고"
+                android:layout_weight="1"
+                android:textSize="16sp" />
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_clear"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="발자취 초기화" />
+
+                <Button
+                    android:id="@+id/btn_resolve"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="발자취 확인" />
+
+                <Button
+                    android:id="@+id/btn_message_edit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@color/colorPrimary"
+                    android:clickable="false"
+                    android:text="발자취 등록"
+                    android:textSize="16sp" />
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</LinearLayout>
+    </LinearLayout>-->
 </FrameLayout>

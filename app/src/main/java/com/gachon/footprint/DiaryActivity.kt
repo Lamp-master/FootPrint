@@ -28,6 +28,7 @@ class DiaryActivity : AppCompatActivity(), RecyclerInterface {
             for (snapshot in querySnapshot!!.documents) {
                 val item = snapshot.toObject(ModelFoot::class.java)
                 if (item?.uid == user?.uid) {
+                    item?.footMsgId = snapshot.id
                     diaryInfo.add(item!!)
                     diaryRecyclerAdapter = DiaryRecyclerAdapter(this)
                     diaryRecyclerAdapter.submitList(this.diaryInfo)
@@ -49,7 +50,7 @@ class DiaryActivity : AppCompatActivity(), RecyclerInterface {
     override fun onItemClicked(position: Int) {
         Timber.d("Test checked diaryactivity")
         val intent = Intent(this, RecyclerDiaryViewActivity::class.java)
-        intent.putExtra("timestamp", "${diaryInfo[position].timestamp}")
+        intent.putExtra("FootMsgId", "${diaryInfo[position].footMsgId}")
         startActivity(intent)
     }
 

@@ -19,7 +19,7 @@ import java.util.*
 
 class RecyclerFootMsgView : AppCompatActivity() {
 
-    var timestamp: String? = null
+    var footMsgId: String? = null
     var db: FirebaseFirestore? = null
     var footmsgInfo: ModelFoot? = ModelFoot()
     var footrvInfo: ModelReview? = ModelReview()
@@ -107,6 +107,18 @@ class RecyclerFootMsgView : AppCompatActivity() {
 
     //해당 게시글 정보 가져오기
     private fun getFootMsg() {
+        footMsgId = intent.getStringExtra("FootMsgId")
+        db?.collection("FootMsg")?.document(footMsgId.toString())?.get()
+            ?.addOnSuccessListener { document ->
+                footmsgInfo = document.toObject(ModelFoot::class.java)
+                document_id = document.id
+                getReviewMsg()
+                setContent()
+            }
+    }
+
+/*
+    private fun getFootMsg() {
         timestamp = intent.getStringExtra("timestamp")
         db?.collection("FootMsg")?.get()?.addOnSuccessListener { documents ->
             for (document in documents) {
@@ -122,6 +134,7 @@ class RecyclerFootMsgView : AppCompatActivity() {
             }
         }
     }
+*/
 
     //해당 게시글 정보 가져와서 뿌리기
     private fun setContent() {
