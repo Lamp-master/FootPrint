@@ -107,7 +107,6 @@ class FootMsgActivity : AppCompatActivity() {
                 upLoadImageToCloud()
                 finish()
                 return true
-
             }
         }
         return super.onOptionsItemSelected(item)
@@ -115,7 +114,7 @@ class FootMsgActivity : AppCompatActivity() {
 
     //이미지 저장소에서 불러오기
     private fun setViews() {
-        footprintImg.setOnClickListener {
+        camerabutton.setOnClickListener {
             openCamera()
         }
         footprintImg.setOnClickListener {
