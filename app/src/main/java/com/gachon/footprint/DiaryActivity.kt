@@ -48,7 +48,6 @@ class DiaryActivity : AppCompatActivity(), RecyclerInterface {
     }
 
     override fun onItemClicked(position: Int) {
-        Timber.d("Test checked diaryactivity")
         val intent = Intent(this, RecyclerDiaryViewActivity::class.java)
         intent.putExtra("FootMsgId", "${diaryInfo[position].footMsgId}")
         startActivity(intent)
