@@ -5,7 +5,7 @@
 
     <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyAmyaioAZEltlE2iSreIZSDnCcGAyYdLPg" />
+        android:value="AIzaSyBYwKS_-Xt_K5UrV1SLTexE8HsWqSyL81g" />
     <meta-data
         android:name="com.google.android.ar.API_KEY"
         android:value="AIzaSyAmyaioAZEltlE2iSreIZSDnCcGAyYdLPg" />
@@ -38,7 +38,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyBYwKS_-Xt_K5UrV1SLTexE8HsWqSyL81g" />
 
         <activity
             android:name=".LoginActivity"
