@@ -48,10 +48,10 @@ class LoginActivity : AppCompatActivity() {
         email_login_button.setOnClickListener {
             loginEmail()
         }
-        other_email_login_button.setOnClickListener {
+/*        other_email_login_button.setOnClickListener {
             google_sign_in_button.visibility = View.VISIBLE
             facebook_login_button.visibility = View.VISIBLE
-        }
+        }*/
 
         sign_up_bun.setOnClickListener {
             startActivity(Intent(this, UserEnterActivity::class.java))

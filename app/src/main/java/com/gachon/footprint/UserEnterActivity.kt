@@ -44,7 +44,7 @@ class UserEnterActivity : AppCompatActivity() {
         setSupportActionBar(userinbar)
         val ab: ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
-        ab?.title = "회원가입"
+        ab?.title = ""
         //이미지 버튼 클릭 리스너
         pic_profile.setOnClickListener() {
             startActivityForResult(photoPickerIntent, PICK_IMAGE_FROM_ALBUM)

@@ -5,8 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/home_background"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <TextView
@@ -14,250 +13,230 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="16dp"
-        android:text="MENU HOME"
+        app:layout_constraintBottom_toTopOf="@+id/menu_text_welcome"
+        android:layout_marginTop="32dp"
+        android:layout_marginStart="20dp"
+        android:text="@string/main_foortprint_menu_home"
         android:textStyle="bold"
-        android:textSize="28sp" />
+        android:textSize="28sp"/>
 
     <TextView
         android:id="@+id/menu_text_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/menu_text"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         android:layout_marginTop="8dp"
-        android:text="Welcome to Footprint"
+        android:layout_marginStart="20dp"
+        android:text="@string/main_footprint_welcome"
         android:textSize="16sp" />
 
-    <!--id : addfootprint-->
     <GridLayout
+        android:id="@+id/main_grid"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/menu_text_welcome"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
         android:orientation="horizontal"
         android:columnCount="2"
-        android:layout_margin="24dp">
+        android:layout_margin="16dp">
 
         <androidx.cardview.widget.CardView
             android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/add_footprint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingTop="16dp"
-            android:paddingBottom="16dp"
             app:layout_column="0"
             app:layout_row="0"
+            android:layout_margin="4dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="8dp">
+            android:layout_columnWeight="6">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
+                android:padding="16dp"
                 android:layout_gravity="center_vertical|center_horizontal">
 
                 <ImageView
-                    android:clickable="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_postadd" />
+                    android:id="@+id/ic_menu_addfoot"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/ic_menu_addfoot" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="발자취 등록"
+                    android:layout_below="@id/ic_menu_addfoot"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_footprint_addfoot"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
 
-        <!--id: find_footprint -->
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/find_footprint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="0"
             app:layout_row="1"
-            android:layout_gravity="fill"
+            android:layout_rowSpan="2"
+            android:layout_margin="4dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="8dp">
+            android:layout_columnWeight="2"
+            android:layout_rowWeight="10">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
+                android:padding="16dp"
                 android:layout_gravity="center_vertical|center_horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_search" />
+                    android:id="@+id/ic_menu_findfoot"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/ic_menu_findfoot" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="발자취 찾기"
+                    android:layout_below="@id/ic_menu_findfoot"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_footprint_findfoot"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
-        <!--id : near_footprint-->
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/near_footprint"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="1"
             app:layout_row="0"
-            android:layout_gravity="fill"
+            android:layout_margin="4dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="8dp">
+            android:layout_columnWeight="6">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
+                android:padding="16dp"
                 android:layout_gravity="center_vertical|center_horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_near_footprint" />
+                    android:id="@+id/ic_menu_nearfoot"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/ic_menu_aroundfoot" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="내 주변 발자취"
+                    android:layout_below="@id/ic_menu_nearfoot"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_footprint_nearfoot"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
-            </LinearLayout>
+                    android:layout_centerInParent="true" />
+            </RelativeLayout>
         </androidx.cardview.widget.CardView>
-        <!--id : my_diary-->
+
         <androidx.cardview.widget.CardView
             android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/my_diary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="1"
             app:layout_row="1"
-            android:layout_gravity="fill"
+            android:layout_margin="4dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="8dp">
+            android:layout_columnWeight="6">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_gravity="center_vertical|center_horizontal">
+                android:padding="16dp"
+                android:layout_gravity="center_horizontal|center_vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_diary" />
+                    android:id="@+id/ic_menu_diary"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/ic_menu_diary" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="다이어리"
+                    android:layout_below="@id/ic_menu_diary"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_footprint_diary"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
+                    android:layout_centerInParent="true"/>
+            </RelativeLayout>
 
-        <!-- id : buy_goods-->
+        </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:clickable="true"
-            android:id="@+id/buy_goods"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_column="2"
-            app:layout_row="0"
-            android:layout_gravity="fill"
-            app:cardElevation="4dp"
-            app:cardCornerRadius="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="8dp">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
-                android:layout_gravity="center_vertical|center_horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_star" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="구매하기"
-                    android:textStyle="bold"
-                    android:textAlignment="center"/>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-        <!--id : setting-->
-        <androidx.cardview.widget.CardView
-            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/setting"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_column="0"
             app:layout_row="2"
-            android:layout_gravity="fill"
+            android:layout_margin="4dp"
             app:cardElevation="4dp"
             app:cardCornerRadius="8dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1"
-            android:layout_margin="8dp">
+            android:layout_columnWeight="2">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:gravity="center"
+                android:padding="16dp"
                 android:layout_gravity="center_vertical|center_horizontal">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:srcCompat="@drawable/ic_setting" />
+                    android:id="@+id/ic_menu_setting"
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:layout_centerHorizontal="true"
+                    app:srcCompat="@drawable/ic_menu_setting" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="설정"
+                    android:layout_below="@id/ic_menu_setting"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/main_footprint_setting"
                     android:textStyle="bold"
-                    android:textAlignment="center"/>
-            </LinearLayout>
+                    android:layout_centerInParent="true"
+/>
+            </RelativeLayout>
+
         </androidx.cardview.widget.CardView>
+
     </GridLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -1,23 +1,12 @@
 /*
 package com.gachon.footprint
 
-import android.app.AlertDialog
-import android.app.Dialog
-import android.content.Context
-import android.content.DialogInterface
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.DialogFragment
-import com.google.firebase.auth.FirebaseAuth
-import kotlinx.android.synthetic.main.footprint_dialog.*
 import kotlinx.android.synthetic.main.footprint_dialog.view.*
-import org.w3c.dom.Text
 
 class FootDialog : DialogFragment() {
 
@@ -33,11 +22,11 @@ class FootDialog : DialogFragment() {
     var recommendCount : Int = 0
     var btnComment : String? = null
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         super.onCreateView(inflater, container, savedInstanceState)
         val view = inflater.inflate(R.layout.footprint_dialog, container, false)
         return view.rootView
-
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {

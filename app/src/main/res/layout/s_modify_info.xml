@@ -1,102 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/modify_info_toolbar"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:elevation="4dp"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@drawable/home_background"
+        android:backgroundTint="#4CAF50">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp">
-
-        <LinearLayout
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/modify_info_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:minHeight="?attr/actionBarSize"
+            android:elevation="4dp"
+            android:layout_gravity="center"
+            android:background="#00FFFFFF" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/pic_profile"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center_vertical"
-                android:src="@drawable/ic_profile"
-                app:civ_border_color="#ff000000"
-                app:civ_border_width="2dp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="닉네임"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginTop="36sp"/>
-
-            <EditText
-                android:id="@+id/user_in_nickname"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:inputType="text"
-                android:hint="닉네임을 입력하여 주세요."/>
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
+            android:layout_below="@+id/modify_info_toolbar"
+            android:layout_marginTop="50dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="이메일"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginTop="36sp"/>
+                android:layout_gravity="top|center"
+                android:layout_marginTop="50dp"
+                android:text="MODIFY USERINFO"
+                android:textSize="28sp"
+                android:textColor="@color/colorComplementary"/>
 
-            <EditText
-                android:id="@+id/user_in_email"
+            <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:inputType="textEmailAddress" />
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="16dp">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="비밀번호"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginTop="36sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/user_in_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="비밀번호를 입력하세요 "
-                android:inputType="textPassword" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="비밀번호 재입력"
-                android:textSize="14sp"
-                android:gravity="center"
-                android:layout_marginTop="36sp"/>
+                        <EditText
+                            android:id="@+id/user_in_nickname"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="8dp"
+                            android:hint="@string/userenter_footprint_nickname_edit"
+                            android:inputType="text"
+                            android:textSize="14sp"
+                            android:background="@drawable/text_background_white_round"/>
 
-            <EditText
-                android:id="@+id/user_in_password_again"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                android:hint="비빌번호를 재입력하세요 "
-                android:inputType="textPassword" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp">
+
+                        <EditText
+                            android:id="@+id/user_in_email"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="8dp"
+                            android:hint="@string/userenter_footprint_email_edit"
+                            android:inputType="textEmailAddress"
+                            android:textSize="14sp"
+                            android:background="@drawable/text_background_white_round"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp">
+
+                        <EditText
+                            android:id="@+id/user_in_password"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="8dp"
+                            android:hint="@string/userenter_footprint_password_edit"
+                            android:inputType="textPassword"
+                            android:textSize="14sp"
+                            android:background="@drawable/text_background_white_round"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="28dp">
+
+                        <EditText
+                            android:id="@+id/user_in_password_again"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:padding="8dp"
+                            android:hint="@string/userenter_footprint_password_again"
+                            android:inputType="textPassword"
+                            android:textSize="14sp"
+                            android:background="@drawable/text_background_white_round"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                </LinearLayout>
+            </ScrollView>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/pic_profile"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center_vertical|top"
+        android:src="@drawable/ic_profile"
+        app:civ_border_color="@color/colorComplementary"
+        app:civ_border_width="2dp" />
+
+</FrameLayout>
+

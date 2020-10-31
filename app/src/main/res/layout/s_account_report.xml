@@ -46,6 +46,7 @@
             android:text="닉네임"
             android:layout_marginTop="36dp"
             android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="@color/colorNavIcon"/>
 
         <EditText
@@ -65,6 +66,7 @@
             android:layout_marginTop="36dp"
             android:text="사유"
             android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="@color/colorNavIcon"/>
 
         <EditText
@@ -86,6 +88,7 @@
             android:id="@+id/account_report_report"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:foreground="?attr/selectableItemBackground"
             android:padding="8dp"
             android:layout_marginTop="16dp"
             android:layout_gravity="center"

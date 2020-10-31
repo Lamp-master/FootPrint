@@ -36,12 +36,27 @@ class SettingActivity : AppCompatActivity() {
             startActivity(intent)
         }
         change_account.setOnClickListener {
-            loggedOut()
-            Toast.makeText(this, "로그아웃 되었습니다", Toast.LENGTH_SHORT).show()
+            val alertdialogs = AlertCustomDialog.AlertCustomDialogBuild()
 
-            //로그인 화면으로
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
+                .setTitle("계정 변경")
+                .setAlertContext("로그인 화면으로 이동합니다.\n계정을 변경하시겠습니까?")
+                .setPositive("닫기")
+                .setNegative("확인")
+                .setButtonClick(object : AlertCustomDialog.AlertCustomDialogListener {
+                    override fun clickPositive() {
+                    }
+
+                    override fun clickNegative() {
+                        loggedOut()
+                        //로그인 화면으로
+                        Toast.makeText(this@SettingActivity, "로그아웃 되었습니다", Toast.LENGTH_SHORT)
+                            .show()
+                        val intent = Intent(this@SettingActivity, LoginActivity::class.java)
+                        finish()
+                        startActivity(intent)
+                    }
+                }).create()
+            alertdialogs.show(supportFragmentManager, alertdialogs.tag)
         }
         set_location_info.setOnClickListener {
             val intent = Intent(this, ViewSettingActivity::class.java)
@@ -74,6 +89,7 @@ class SettingActivity : AppCompatActivity() {
         withdraw_account.setOnClickListener {
             withdraw()
             Toast.makeText(this, "계정 탈퇴 되었습니다", Toast.LENGTH_SHORT).show()
+
             //로그인 화면으로
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
@@ -83,7 +99,8 @@ class SettingActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                startActivity(Intent(this, MainActivity::class.java))
+                finish()
+                return true
             }
         }
         return super.onOptionsItemSelected(item)

@@ -11,6 +11,7 @@
         android:id="@+id/licence_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:elevation="4dp"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme" />
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="라이선스"
             android:textSize="14sp"
+            android:textStyle="bold"
             android:textColor="@color/colorNavIcon"/>
 
         <TextView

@@ -46,6 +46,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -58,7 +59,8 @@
         <activity android:name=".SettingActivity" />
         <activity android:name=".DiaryActivity" />
         <activity android:name=".FootMsgRecyclerActivity" />
-        <activity android:name=".RecyclerFootMsgView"/>
+        <activity android:name=".RecyclerFootMsgView"
+            android:theme="@android:style/Theme.Dialog"/>
         <activity android:name=".RecyclerDiaryViewActivity"/>
 
         <meta-data

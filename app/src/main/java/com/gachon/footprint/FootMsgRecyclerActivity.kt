@@ -30,7 +30,7 @@ class FootMsgRecyclerActivity : AppCompatActivity(), RecyclerInterface {
         setSupportActionBar(mapbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
-        ab?.title = "내 주변 발자취"
+        ab?.title = "발자취 리스트"
 
     }
 
