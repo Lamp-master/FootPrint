@@ -7,9 +7,13 @@ import com.gachon.footprint.App
 import com.gachon.footprint.RecyclerInterface
 import com.gachon.footprint.data.ModelFoot
 import kotlinx.android.synthetic.main.diary_detail.view.*
+import timber.log.Timber
 
-class DiaryHolder(itemView: View, recyclerInterface: RecyclerInterface) : RecyclerView.ViewHolder(itemView),
-    View.OnClickListener {
+class DiaryHolder(
+    itemView: View,
+    recyclerInterface: RecyclerInterface
+) :
+    RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
     private val title = itemView.diary_title
     private val contextImg = itemView.diary_img
@@ -30,6 +34,7 @@ class DiaryHolder(itemView: View, recyclerInterface: RecyclerInterface) : Recycl
     }
 
     override fun onClick(v: View?) {
+        Timber.d("Test click")
         this.recyclerInterface?.onItemClicked(adapterPosition)
     }
 

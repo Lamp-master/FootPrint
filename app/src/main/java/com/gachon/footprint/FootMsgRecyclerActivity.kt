@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gachon.footprint.data.ModelFoot
+import com.gachon.footprint.footMsgRecyclerView.FootMsgRecyclerAdapter
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.maps.android.SphericalUtil

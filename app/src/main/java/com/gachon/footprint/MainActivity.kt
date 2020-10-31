@@ -123,6 +123,7 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, CameraActivity::class.java)
             intent.putExtra("LAT", "${sydney?.latitude}")
             intent.putExtra("LON", "${sydney?.longitude}")
+            Timber.d("Test checked in main gps ${sydney?.latitude} ${sydney?.longitude}")
             startActivity(intent)
         }
         //근처 발자취 보기 (Google map)

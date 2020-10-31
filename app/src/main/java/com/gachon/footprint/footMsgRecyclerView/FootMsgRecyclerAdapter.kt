@@ -1,8 +1,10 @@
-package com.gachon.footprint
+package com.gachon.footprint.footMsgRecyclerView
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.gachon.footprint.R
+import com.gachon.footprint.RecyclerInterface
 import com.gachon.footprint.data.ModelFoot
 
 class FootMsgRecyclerAdapter(recyclerInterface: RecyclerInterface) :

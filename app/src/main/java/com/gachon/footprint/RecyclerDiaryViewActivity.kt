@@ -1,10 +1,12 @@
 package com.gachon.footprint
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,10 +16,11 @@ import com.gachon.footprint.data.ModelReview
 import com.gachon.footprint.reviewRecyclerView.ReviewRecyclerAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import kotlinx.android.synthetic.main.activity_recycler_foot_msg_view.*
+import kotlinx.android.synthetic.main.activity_recycler_diary_msg_view.*
 import java.util.ArrayList
 
 class RecyclerDiaryViewActivity : AppCompatActivity() {
+    var footMsgId: String? = null
     var timestamp: String? = null
     var db: FirebaseFirestore? = null
     var footmsgInfo: ModelFoot? = ModelFoot()
@@ -30,13 +33,14 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_recycler_foot_msg_view)
+        setContentView(R.layout.activity_recycler_diary_msg_view)
+
         db = FirebaseFirestore.getInstance()
-        val mapbar = findViewById<Toolbar>(R.id.map_toolbar)
+        val mapbar = findViewById<Toolbar>(R.id.diary_detail_toolbar)
         setSupportActionBar(mapbar)
         val ab: androidx.appcompat.app.ActionBar? = supportActionBar
         ab?.setDisplayHomeAsUpEnabled(true)
-        ab?.title = "내 주변 발자취"
+        ab?.title = "내 메시지"
         getUserInfo()
         getFootMsg()
 
@@ -47,7 +51,7 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_toolbar, menu)
+        menuInflater.inflate(R.menu.diray_detail_toolbar, menu)
         //맵 툴바를 가져옴
         return super.onCreateOptionsMenu(menu)
     }
@@ -58,6 +62,14 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
             android.R.id.home -> {
                 finish()
                 return true
+            }
+
+            R.id.btn_delete_footprint -> {
+                deleteFootMsg()
+                val intent = Intent(this, DiaryActivity::class.java)
+                startActivity(intent)
+                return true
+
             }
         }
         return super.onOptionsItemSelected(item)
@@ -100,8 +112,9 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
 
     //해당 게시글 정보 가져오기
     private fun getFootMsg() {
-        var footMsgId = intent.getStringExtra("FootMsgId")
-        db?.collection("FootMsg")?.document(footMsgId.toString())?.get()
+        footMsgId = intent.getStringExtra("FootMsgId")
+        db?.collection("User")?.document(user?.uid.toString())?.collection("Diary")
+            ?.document(footMsgId.toString())?.get()
             ?.addOnSuccessListener { document ->
                 footmsgInfo = document.toObject(ModelFoot::class.java)
                 document_id = document.id
@@ -141,10 +154,19 @@ class RecyclerDiaryViewActivity : AppCompatActivity() {
     //지금 사용자 유저 정보 가져옴
     private fun getUserInfo() {
         if (user != null) {
-            db?.collection("User")?.document(user!!.uid)?.get()
+            db?.collection("User")?.document(user?.uid.toString())?.get()
                 ?.addOnSuccessListener { documentSnapshot ->
                     curUser = documentSnapshot.toObject(ModelFoot::class.java)
                 }
+        }
+    }
+
+    private fun deleteFootMsg() {
+        db?.collection("User")?.document(user?.uid.toString())?.collection("Diary")
+            ?.document(footMsgId.toString())?.delete()?.addOnSuccessListener {
+            }
+        db?.collection("FootMsg")?.document(footMsgId.toString())?.delete()?.addOnSuccessListener {
+            Toast.makeText(this, "발자취 삭제에 성공했습니다", Toast.LENGTH_LONG).show()
         }
     }
 }

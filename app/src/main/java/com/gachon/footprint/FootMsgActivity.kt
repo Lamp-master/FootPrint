@@ -44,6 +44,7 @@ class FootMsgActivity : AppCompatActivity() {
     var footmsgInfo: ModelFoot? = ModelFoot()
 
     private val footMsgRef = db.collection("FootMsg")
+
     //저장소 R/W을 받는 권한설정()
     val CAMERA_PERMISSION = arrayOf(Manifest.permission.CAMERA)
     val STORAGE_PERMISSION = arrayOf(
@@ -204,11 +205,12 @@ class FootMsgActivity : AppCompatActivity() {
 
     //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.(나중에 timestamp형식으로 고치기)
     private fun upLoadImageToCloud() {
-        if(photoUri == null) addFireStore()
+        if (photoUri == null) addFireStore()
         //Make filename
         var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         var imageFileName = "IMAGE_" + timestamp + "_.png"
-        var storageRef = FirebaseStorage.getInstance().getReference("/FootMsgImage/${footmsgInfo?.uid}/$imageFileName")
+        var storageRef = FirebaseStorage.getInstance()
+            .getReference("/FootMsgImage/${footmsgInfo?.uid}/$imageFileName")
         //FileUpload
         photoUri?.let {
             storageRef?.putFile(it)?.addOnSuccessListener {
@@ -229,10 +231,16 @@ class FootMsgActivity : AppCompatActivity() {
             footmsgInfo?.timestamp = System.currentTimeMillis()
             //firestore에 push
             footmsgInfo?.let { it1 ->
-                db.collection("FootMsg").add(it1).addOnSuccessListener { documentReference ->
+                db.collection("FootMsg").add(it1).addOnSuccessListener { document ->
+                    footmsgInfo?.let {
+                        db.collection("User").document(auth?.uid.toString()).collection("Diary")
+                            .document(document.id).set(it)
+                            .addOnSuccessListener { documentReference ->
+                                Toast.makeText(this, "발자취 등록에 성공했습니다", Toast.LENGTH_LONG).show()
+                            }
+                    }
                 }
             }
-            Toast.makeText(this, "발자취 등록에 성공했습니다", Toast.LENGTH_LONG).show()
             /*startActivity(Intent(this, MainActivity::class.java))*/
         }
         setResult(Activity.RESULT_OK)
@@ -244,6 +252,7 @@ class FootMsgActivity : AppCompatActivity() {
             db.collection("User").document(user!!.uid).get()
                 .addOnSuccessListener { documentSnapshot ->
                     footmsgInfo = documentSnapshot.toObject(ModelFoot::class.java)
+                    footmsgInfo?.imageUrl = null
                 }
         }
     }

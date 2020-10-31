@@ -49,28 +49,28 @@ class RecyclerFootMsgView : Activity() {
     }
 
 
-   /* override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_toolbar, menu)
-        //맵 툴바를 가져옴
-        return super.onCreateOptionsMenu(menu)
-    }
-*/
+    /* override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+         menuInflater.inflate(R.menu.main_toolbar, menu)
+         //맵 툴바를 가져옴
+         return super.onCreateOptionsMenu(menu)
+     }
+ */
 
     fun hideKeyboard() {
         val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(edit_comment.windowToken, 0)
     }
 
-/*     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item?.itemId) {
-            //뒤로가기 버튼
-            android.R.id.home -> {
-                finish()
-                return true
+    /*     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+            when (item?.itemId) {
+                //뒤로가기 버튼
+                android.R.id.home -> {
+                    finish()
+                    return true
+                }
             }
-        }
-        return super.onOptionsItemSelected(item)
-    }*/
+            return super.onOptionsItemSelected(item)
+        }*/
     //해당 게시글 댓글 가져오기
     fun getReviewMsg() {
 
@@ -119,25 +119,6 @@ class RecyclerFootMsgView : Activity() {
                 setContent()
             }
     }
-
-/*
-    private fun getFootMsg() {
-        timestamp = intent.getStringExtra("timestamp")
-        db?.collection("FootMsg")?.get()?.addOnSuccessListener { documents ->
-            for (document in documents) {
-                var map: Map<String, Any> = document.data
-                if (map["timestamp"].toString() == timestamp) {
-                    footmsgInfo = document.toObject(ModelFoot::class.java)
-                    document_id = document.id
-                    getReviewMsg()
-
-                    setContent()
-                    break
-                }
-            }
-        }
-    }
-*/
 
     //해당 게시글 정보 가져와서 뿌리기
     private fun setContent() {

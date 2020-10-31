@@ -1,8 +1,11 @@
-package com.gachon.footprint
+package com.gachon.footprint.footMsgRecyclerView
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.gachon.footprint.App
+import com.gachon.footprint.R
+import com.gachon.footprint.RecyclerInterface
 import com.gachon.footprint.data.ModelFoot
 import kotlinx.android.synthetic.main.recyclerview_item.view.*
 
