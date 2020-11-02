@@ -71,7 +71,7 @@ class FootMsgRecyclerActivity : AppCompatActivity(), RecyclerInterface {
                     val tempGps =
                         item?.latitude?.let { item.longitude?.let { it1 -> LatLng(it, it1) } }
                     var distance = SphericalUtil.computeDistanceBetween(curGps, tempGps) / 1000
-                    if (distance < 1) {
+                    if (distance < 20) {
                         item?.distance = distance
                         item?.footMsgId = snapshot.id
                         footmsgInfo.add(item!!)

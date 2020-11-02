@@ -6,6 +6,8 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.location.Address
+import android.location.Geocoder
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,6 +26,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.android.synthetic.main.activity_footprint.*
 import java.io.FileOutputStream
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -40,6 +43,7 @@ class FootMsgActivity : AppCompatActivity() {
     var uid = user?.uid
     var lat: String? = null
     var lon: String? = null
+    var currentLocation: String = ""
 
     var footmsgInfo: ModelFoot? = ModelFoot()
 
@@ -67,13 +71,14 @@ class FootMsgActivity : AppCompatActivity() {
         ab?.title = ""
 
         auth = FirebaseAuth.getInstance()
-        getUserInfo()
         if (intent.hasExtra("LAT") && intent.hasExtra("LON")) {
             lat = intent.getStringExtra("LAT")
             lon = intent.getStringExtra("LON")
             footmsgInfo?.latitude = lat?.toDouble()
             footmsgInfo?.longitude = lon?.toDouble()
         }
+        getUserInfo()
+
 
 
         //제목 : add_footprint_title -Title, 사진 : footprintImg - FootMedia,
@@ -254,6 +259,7 @@ class FootMsgActivity : AppCompatActivity() {
                     footmsgInfo?.imageUrl = null
                 }
         }
+        getCurrentLoc()
     }
 
     //권한 처리 함수
@@ -271,6 +277,21 @@ class FootMsgActivity : AppCompatActivity() {
             }
         }
         return true
+    }
+
+    fun getCurrentLoc() {
+        val mGeoCoder = Geocoder(applicationContext, Locale.KOREAN)
+        var mResultList: List<Address>? = null
+        try {
+            mResultList = mGeoCoder.getFromLocation(lat?.toDouble()!!, lon?.toDouble()!!, 1)
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+        if (mResultList != null) {
+            currentLocation = mResultList[0].getAddressLine(0)
+            currentLocation = currentLocation.substring(11)
+        }
+        add_footprint_location.setText(currentLocation)
     }
 
     //스토리지/카메라 퍼미션

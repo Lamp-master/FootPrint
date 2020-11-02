@@ -137,6 +137,7 @@
                         android:background="@drawable/edittext_round"
                         android:enabled="false"
                         android:hint="위치는 자동으로 등록됩니다"
+                        android:textColor="@color/colorNavIcon"
                         android:inputType="text"
                         android:padding="8dp" />
 

@@ -193,7 +193,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback, GoogleMap.OnMarkerC
         val cur = this.lat?.let { this.lon?.let { it1 -> LatLng(it, it1) } }
         val tempGps = LatLng(tempLat.toDouble(), tempLon.toDouble())
         distance = SphericalUtil.computeDistanceBetween(cur, tempGps) / 1000
-        if (distance!! < 1) {
+        if (distance!! < 20) {
             latlngdata = LatLngData(LatLng(tempLat.toDouble(), tempLon.toDouble()), "")
             addMarker(latlngdata!!)
         }

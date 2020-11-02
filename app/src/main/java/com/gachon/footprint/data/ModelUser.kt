@@ -8,6 +8,6 @@ data class ModelUser(
     var uid: String? = null,
     var nickname: String? = null,
     var imageUrl: String? = null,
-    var latitude : String? = null,
-    var longitude: String? = null
+    var latitude : Double? = null,
+    var longitude: Double? = null
 )

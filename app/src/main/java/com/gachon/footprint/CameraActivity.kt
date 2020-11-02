@@ -83,7 +83,7 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
     private var userGeolocation = Geolocation.EMPTY_GEOLOCATION
 
     private var footMsgList: MutableSet<Venue> = mutableSetOf()
-    private var venuesSet: MutableSet<Venue> = mutableSetOf()
+    private var footMsgSet: MutableSet<Venue> = mutableSetOf()
     private var areAllMarkersLoaded = false
 
 
@@ -192,8 +192,8 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
 
     override fun onResponse(call: Call<VenueWrapper>, response: Response<VenueWrapper>) {
         val venueWrapper = response.body() ?: VenueWrapper(listOf())
-        venuesSet.clear()
-        venuesSet.addAll(footMsgList)
+        footMsgSet.clear()
+        footMsgSet.addAll(footMsgList)
         areAllMarkersLoaded = false
         locationScene!!.clearMarkers()
         renderVenues()
@@ -209,7 +209,7 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
     }
 
     private fun setupAndRenderVenuesMarkers() {
-        venuesSet.forEach { venue ->
+        footMsgSet.forEach { venue ->
             val completableFutureViewRenderable = ViewRenderable.builder()
                 .setView(this, R.layout.location_layout_renderable)
                 .build()
@@ -237,7 +237,7 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
                                     completableFutureViewRenderable.get().view
                                 )
                             }
-                            if (venuesSet.indexOf(venue) == venuesSet.size - 1) {
+                            if (footMsgSet.indexOf(venue) == footMsgSet.size - 1) {
                                 areAllMarkersLoaded = true
                             }
                         }, 200)

@@ -2,7 +2,6 @@ package com.gachon.footprint
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.facebook.AccessToken
@@ -46,7 +45,13 @@ class LoginActivity : AppCompatActivity() {
         googleSignInClient = GoogleSignIn.getClient(this, gso)
 
         email_login_button.setOnClickListener {
-            loginEmail()
+            if (email_edittext.text.toString().isNotEmpty() && password_edittext.text.toString()
+                    .isNotEmpty()
+            ) {
+                loginEmail()
+            } else {
+                Toast.makeText(this, "아이디와 비밀번호를 확인하여 주세요.", Toast.LENGTH_SHORT).show()
+            }
         }
 /*        other_email_login_button.setOnClickListener {
             google_sign_in_button.visibility = View.VISIBLE
