@@ -38,6 +38,7 @@
         android:layout_height="wrap_content"
         android:textSize="12sp"
         android:textStyle="bold"
+        android:textColor="@color/colorNavIcon"
         app:layout_constraintBottom_toBottomOf="@+id/review_profile"
         app:layout_constraintStart_toStartOf="@+id/review_nickname"/>
 

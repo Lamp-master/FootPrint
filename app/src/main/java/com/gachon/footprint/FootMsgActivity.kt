@@ -201,15 +201,14 @@ class FootMsgActivity : AppCompatActivity() {
         return "$filename.jpg"
     }
 
-
-    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.(나중에 timestamp형식으로 고치기)
+    //현재 사용자의 uid를 받아 storage 폴더에 이미지를 업로드한다.
     private fun upLoadImageToCloud() {
         if (photoUri == null) addFireStore()
         //Make filename
         var timestamp = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
         var imageFileName = "IMAGE_" + timestamp + "_.png"
         var storageRef = FirebaseStorage.getInstance()
-            .getReference("/FootMsgImage/${footmsgInfo?.uid}/$imageFileName")
+            .getReference("/FootMsgImage/${footmsgInfo?.timestamp}/$imageFileName")
         //FileUpload
         photoUri?.let {
             storageRef?.putFile(it)?.addOnSuccessListener {
@@ -231,6 +230,7 @@ class FootMsgActivity : AppCompatActivity() {
             //firestore에 push
             footmsgInfo?.let { it1 ->
                 db.collection("FootMsg").add(it1).addOnSuccessListener { document ->
+                    footmsgInfo?.footMsgId = document.id
                     footmsgInfo?.let {
                         db.collection("User").document(auth?.uid.toString()).collection("Diary")
                             .document(document.id).set(it)

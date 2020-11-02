@@ -1,58 +1,41 @@
 package com.gachon.footprint
 
 
-import android.app.Activity
-import android.app.ActivityManager
-import android.content.Context
 import android.content.Intent
-import android.media.Image
-import android.net.Uri
-import android.os.*
-import android.util.Log
-import android.view.MotionEvent
+import android.os.AsyncTask
+import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.*
+import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
-import com.facebook.internal.Mutable
 import com.gachon.footprint.api.FoursquareAPI
+import com.gachon.footprint.data.ModelFoot
 import com.gachon.footprint.model.Geolocation
+import com.gachon.footprint.model.Venue
 import com.gachon.footprint.model.VenueWrapper
 import com.gachon.footprint.model.converter.VenueTypeConverter
 import com.gachon.footprint.utils.AugmentedRealityLocationUtils
-import com.gachon.footprint.data.ModelFoot
-import com.gachon.footprint.data.ModelReview
-import com.gachon.footprint.model.Venue
 import com.gachon.footprint.utils.AugmentedRealityLocationUtils.INITIAL_MARKER_SCALE_MODIFIER
 import com.gachon.footprint.utils.AugmentedRealityLocationUtils.INVALID_MARKER_SCALE_MODIFIER
 import com.gachon.footprint.utils.PermissionUtils
 import com.google.android.gms.maps.model.LatLng
-import com.google.ar.core.*
-import com.google.ar.core.ArCoreApk.InstallStatus
+import com.google.ar.core.TrackingState
 import com.google.ar.core.exceptions.CameraNotAvailableException
 import com.google.ar.core.exceptions.UnavailableException
-import com.google.ar.sceneform.AnchorNode
-import com.google.ar.sceneform.ArSceneView
 import com.google.ar.sceneform.Node
-import com.google.ar.sceneform.rendering.Renderable
 import com.google.ar.sceneform.rendering.ViewRenderable
-import com.google.ar.sceneform.ux.ArFragment
-import com.google.ar.sceneform.ux.TransformableNode
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.gson.GsonBuilder
 import com.google.maps.android.SphericalUtil
-
 import kotlinx.android.synthetic.main.activity_camera.*
-import kotlinx.android.synthetic.main.activity_footprint.*
-import kotlinx.android.synthetic.main.activity_footprint.add_footprint_context
-import kotlinx.android.synthetic.main.activity_user_enter.*
-import kotlinx.android.synthetic.main.footprint_dialog.*
 import kotlinx.android.synthetic.main.location_layout_renderable.view.*
-import kotlinx.android.synthetic.main.recyclerview_item.view.*
 import kotlinx.android.synthetic.main.recyclerview_item.view.distance
 import retrofit2.Call
 import retrofit2.Callback
@@ -63,7 +46,6 @@ import timber.log.Timber
 import uk.co.appoly.arcorelocation.LocationMarker
 import uk.co.appoly.arcorelocation.LocationScene
 import java.lang.ref.WeakReference
-import java.util.ArrayList
 import java.util.concurrent.CompletableFuture
 
 //AR실행 순서 ARCore와 호환되는지 검사->GPS/Camera권한획득->Sceneform및LocationScene SDK 설정
@@ -72,23 +54,16 @@ import java.util.concurrent.CompletableFuture
 //장면에 장소 추가(이전단계 반복)
 class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
 
-    var photoUri: Uri? = null
     private var auth: FirebaseAuth? = null
     private val db = FirebaseFirestore.getInstance()
     var user = FirebaseAuth.getInstance().currentUser
     var uid = user?.uid
     var footmsgInfo: ModelFoot? = ModelFoot()
-
-    var reviewList = ArrayList<ModelReview>()
-
-    var footmsgList: Venue? = Venue()
     var distance: Double? = null
     var lat: String? = null
     var lon: String? = null
     var dlat: Double? = null
     var dlon: Double? = null
-    var flat: Double =0.0
-    var flon: Double =0.0
 
     private var arCoreInstallRequested = false
 
@@ -120,11 +95,11 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
         getFootMsgGps()
         setupRetrofit()
         setupLoadingDialog()
-        fetchVenues(37.5118, 126.8518)
     }
 
     override fun onResume() {
         super.onResume()
+
         checkAndRequestPermissions()
     }
 
@@ -174,7 +149,8 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
 
         if (arSceneView.session == null) {
             try {
-                val session = AugmentedRealityLocationUtils.setupSession(this, arCoreInstallRequested)
+                val session =
+                    AugmentedRealityLocationUtils.setupSession(this, arCoreInstallRequested)
                 if (session == null) {
                     arCoreInstallRequested = true
                     return
@@ -190,7 +166,6 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
             locationScene = LocationScene(this, arSceneView)
             locationScene!!.setMinimalRefreshing(true)
             locationScene!!.setOffsetOverlapping(true)
-//            locationScene!!.setRemoveOverlapping(true)
             locationScene!!.anchorRefreshInterval = 2000
         }
 
@@ -316,15 +291,20 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
             }
         }
         locationMarker.setRenderEvent { locationNode ->
-            layoutRendarable.distance.text = AugmentedRealityLocationUtils.showDistance(locationNode.distance)
+            layoutRendarable.distance.text =
+                AugmentedRealityLocationUtils.showDistance(locationNode.distance)
             resumeArElementsTask.run {
                 computeNewScaleModifierBasedOnDistance(locationMarker, locationNode.distance)
             }
         }
     }
 
-    private fun computeNewScaleModifierBasedOnDistance(locationMarker: LocationMarker, distance: Int) {
-        val scaleModifier = AugmentedRealityLocationUtils.getScaleModifierBasedOnRealDistance(distance)
+    private fun computeNewScaleModifierBasedOnDistance(
+        locationMarker: LocationMarker,
+        distance: Int
+    ) {
+        val scaleModifier =
+            AugmentedRealityLocationUtils.getScaleModifierBasedOnRealDistance(distance)
         return if (scaleModifier == INVALID_MARKER_SCALE_MODIFIER) {
             detachMarker(locationMarker)
         } else {
@@ -339,7 +319,10 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
     }
 
 
-    private fun setVenueNode(venue: Venue, completableFuture: CompletableFuture<ViewRenderable>): Node {
+    private fun setVenueNode(
+        venue: Venue,
+        completableFuture: CompletableFuture<ViewRenderable>
+    ): Node {
         val node = Node()
         node.renderable = completableFuture.get()
 
@@ -372,7 +355,11 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
         }
     }
 
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, results: IntArray) {
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        results: IntArray
+    ) {
         if (!PermissionUtils.hasLocationAndCameraPermissions(this)) {
             Toast.makeText(
                 this, R.string.camera_and_location_permission_request, Toast.LENGTH_LONG
@@ -405,7 +392,8 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
         }
 
         override fun onPostExecute(geolocation: List<Double>) {
-            activityWeakReference.get()!!.fetchVenues(deviceLatitude = geolocation[0], deviceLongitude = geolocation[1])
+            activityWeakReference.get()!!
+                .fetchVenues(deviceLatitude = geolocation[0], deviceLongitude = geolocation[1])
             super.onPostExecute(geolocation)
         }
     }
@@ -420,7 +408,7 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
     }
 
     //메인에서 사용자 gps 넘겨받음
-    private fun getLocationFromMain(){
+    private fun getLocationFromMain() {
         //메인에서 GPS 데이터 가져오기
         if (intent.hasExtra("LAT") && intent.hasExtra("LON")) {
             lat = intent.getStringExtra("LAT")
@@ -442,11 +430,14 @@ class CameraActivity : AppCompatActivity(), Callback<VenueWrapper> {
                 var map: Map<String, Any> = document.data
                 var tempLat = map["latitude"].toString()
                 var tempLon = map["longitude"].toString()
-                val cur = footmsgInfo?.latitude?.toDouble()?.let { footmsgInfo?.longitude?.toDouble()?.let { it1 ->
-                    LatLng(it,
-                        it1
-                    )
-                } }
+                val cur = footmsgInfo?.latitude?.toDouble()?.let {
+                    footmsgInfo?.longitude?.toDouble()?.let { it1 ->
+                        LatLng(
+                            it,
+                            it1
+                        )
+                    }
+                }
                 val tempGps = LatLng(tempLat.toDouble(), tempLon.toDouble())
                 distance = SphericalUtil.computeDistanceBetween(cur, tempGps) / 1000
                 if (distance!! < 1) {

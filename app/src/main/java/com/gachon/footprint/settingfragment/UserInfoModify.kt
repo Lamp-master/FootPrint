@@ -13,6 +13,7 @@ import com.bumptech.glide.Glide
 import com.gachon.footprint.R
 import com.gachon.footprint.SettingActivity
 import com.gachon.footprint.data.ModelFoot
+import com.gachon.footprint.data.ModelUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
@@ -32,7 +33,7 @@ class UserInfoModify : Fragment() {
     private var cnt: Int = 0
 
     var user = FirebaseAuth.getInstance().currentUser
-    var footmsgInfo: ModelFoot? = ModelFoot()
+    var footmsgInfo: ModelUser? = ModelUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -117,6 +118,7 @@ class UserInfoModify : Fragment() {
     //파이어스토어에 업데이트된 정보 저장
     private fun addFireStore() {
         footmsgInfo?.uid = auth?.uid
+        footmsgInfo?.email = user_in_email.text.toString()
         footmsgInfo?.nickname = user_in_nickname.text.toString()
         footmsgInfo?.let {
             db.collection("User").document(auth?.uid.toString()).set(it, SetOptions.merge())
@@ -136,7 +138,7 @@ class UserInfoModify : Fragment() {
         if (user != null) {
             db.collection("User").document(user!!.uid).get()
                 .addOnSuccessListener { documentSnapshot ->
-                    footmsgInfo = documentSnapshot.toObject(ModelFoot::class.java)
+                    footmsgInfo = documentSnapshot.toObject(ModelUser::class.java)
                     setContent()
                 }
         }

@@ -11,6 +11,7 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import com.gachon.footprint.data.ModelFoot
+import com.gachon.footprint.data.ModelUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -27,7 +28,7 @@ class UserEnterActivity : AppCompatActivity() {
     private val db = FirebaseFirestore.getInstance()
     private var cnt: Int = 0
     var uid = auth?.uid
-    var userInfo = ModelFoot()
+    var userInfo = ModelUser()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

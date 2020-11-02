@@ -42,8 +42,6 @@ class DiaryActivity : AppCompatActivity(), RecyclerInterface {
         db?.collection("User")?.document(user?.uid.toString())?.collection("Diary")?.get()?.addOnSuccessListener { querySnapshot ->
             for (snapshot in querySnapshot!!.documents) {
                 val item = snapshot.toObject(ModelFoot::class.java)
-                if (item?.uid == user?.uid) {
-                    item?.footMsgId = snapshot.id
                     Timber.d("Test checked document uid ${snapshot.id}")
                     diaryInfo.add(item!!)
                     diaryRecyclerAdapter = DiaryRecyclerAdapter(this)
@@ -57,14 +55,11 @@ class DiaryActivity : AppCompatActivity(), RecyclerInterface {
                             )
                         adapter = diaryRecyclerAdapter
                     }
-
-                }
             }
         }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.main_toolbar, menu)
-        //맵 툴바를 가져옴
         return super.onCreateOptionsMenu(menu)
     }
 
